@@ -5,7 +5,7 @@ import StarBackground from './StarBackground'
 
 const HeroSection = () => {
 	return (
-		<div className='relative bg-transparent flex flex-col items-center text-center pt-16 pb-24 overflow-hidden'>
+		<div className='relative bg-transparent  z-0 flex-col items-center text-center pt-16 pb-24 overflow-hidden'>
 			<StarBackground />
 
 			<div className='framer-content-wrapper flex flex-col items-center text-center pt-16 pb-24'>

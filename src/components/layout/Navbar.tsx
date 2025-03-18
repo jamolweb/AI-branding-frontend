@@ -1,73 +1,58 @@
 'use client'
 
+import { homePageNavbar } from '@/data/siteData'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import BurgerMenu from './BurgerMenu'
 
 const Navbar = () => {
 	return (
-		<nav
-			className='fixed top-0 left-0 right-0 z-50 bg-transparent backdrop-blur-md border-b border-white/10'
-			style={{
-				borderRadius: '16px',
-				boxShadow: `rgba(0, 0, 0, 0.192) 0px 0.6px 0.84px -1.33px, rgba(0, 0, 0, 0.165) 
-				0px 2.29px 3.2px -2.67px, rgba(0, 0, 0, 0.05) 0px 10px 14px -4px',
-			backdropFilter: 'blur(15px)',
-			WebkitBackdropFilter: 'blur(15px)',
-			borderTop: '1px solid rgba(255, 255, 255, 0.15)`,
-			}}
+		<motion.nav
+			initial={{ opacity: 0, y: -20 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 0.5 }}
+			className='fixed top-0 left-0 right-0 z-50 mx-4 mt-4'
 		>
-			<div className='container mx-auto px-4 py-4 flex justify-between items-center'>
-				{/* Logo */}
-				<Link href='/' className='text-2xl font-semibold text-white'>
+			<div
+				className='flex items-center justify-between px-6 py-4 rounded-2xl backdrop-blur-[25px] bg-white/[0.06] shadow-lg border border-white/[0.08]'
+				style={{
+					backdropFilter: 'blur(25px)',
+					WebkitBackdropFilter: 'blur(25px)',
+					boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+					background:
+						'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
+				}}
+			>
+				<Link
+					href='/'
+					className='text-2xl font-bold text-white tracking-tight hover:text-[rgb(239,252,118)] transition-colors duration-300'
+				>
 					Fluctus
 				</Link>
 
-				{/* Desktop Navigation - Hidden on mobile/tablet */}
-				<div className='hidden lg:flex gap-8'>
-					<Link
-						href='/#services'
-						className='text-gray-200 hover:text-white transition-colors'
-					>
-						Services
-					</Link>
-					<Link
-						href='/#process'
-						className='text-gray-200 hover:text-white transition-colors'
-					>
-						Process
-					</Link>
-					<Link
-						href='/#pricing'
-						className='text-gray-200 hover:text-white transition-colors'
-					>
-						Pricing
-					</Link>
-					<Link
-						href='/#faq'
-						className='text-gray-200 hover:text-white transition-colors'
-					>
-						FAQ
-					</Link>
-					<Link
-						href='/#contact'
-						className='text-gray-200 hover:text-white transition-colors'
-					>
-						Contact
-					</Link>
+				<div className='hidden lg:flex items-center gap-8'>
+					{homePageNavbar.map(item => (
+						<Link
+							key={item.href}
+							href={`/#${item.href.toLowerCase()}`}
+							className='relative text-sm font-medium text-gray-200 hover:text-white transition-colors duration-300 group'
+						>
+							{item.label}
+							<span className='absolute -bottom-1 left-0 w-0 h-[2px] bg-[rgb(239,252,118)] transition-all duration-300 group-hover:w-full'></span>
+						</Link>
+					))}
 				</div>
 
-				{/* Get Template Button - Hidden on mobile/tablet */}
 				<Link
-					href='/#get-template'
-					className='hidden lg:block bg-[rgb(239,252,118)] hover:bg-[rgb(220,232,99)] text-black px-6 py-2 rounded-xl font-medium transition-colors'
+					href='/auth/signin'
+					className='hidden lg:flex items-center px-6 py-2.5 text-sm font-semibold text-black bg-[rgb(239,252,118)] rounded-xl hover:bg-[rgb(220,232,99)] transition-all duration-300 hover:scale-105 active:scale-95'
 				>
-					Get Template
+					Sigin
 				</Link>
 
-				{/* Burger Menu - Shown only on mobile/tablet */}
 				<BurgerMenu className='lg:hidden' />
 			</div>
-		</nav>
+		</motion.nav>
 	)
 }
 

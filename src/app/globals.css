@@ -1,5 +1,26 @@
 @import 'tailwindcss';
 
+/* Add proper backdrop filter support */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+	.backdrop-blur {
+		-webkit-backdrop-filter: blur(12px);
+		backdrop-filter: blur(12px);
+	}
+}
+
+/* Fix for Safari and other browsers */
+.glass-effect {
+	-webkit-backdrop-filter: blur(16px) saturate(180%);
+	backdrop-filter: blur(16px) saturate(180%);
+	background-color: rgba(17, 25, 40, 0.75);
+}
+
+.glass-light {
+	-webkit-backdrop-filter: blur(16px) saturate(180%);
+	backdrop-filter: blur(16px) saturate(180%);
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
 :root {
 	--background: #ffffff;
 	--foreground: #171717;
@@ -25,6 +46,13 @@ body {
 	color: var(--foreground);
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: var(--token-c73f38a2-6347-4370-b65b-f2031925a1e9);
+	color: rgb(var(--foreground-rgb));
+	background: linear-gradient(
+			to bottom,
+			transparent,
+			rgb(var(--background-end-rgb))
+		)
+		rgb(var(--background-start-rgb));
 }
 
 @keyframes floatStar0 {

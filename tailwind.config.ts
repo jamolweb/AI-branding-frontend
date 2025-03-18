@@ -18,9 +18,21 @@ const config: Config = {
 					400: '#facc15',
 				},
 			},
+			backdropBlur: {
+				xs: '2px',
+				sm: '4px',
+				md: '8px',
+				lg: '12px',
+				xl: '16px',
+				'2xl': '24px',
+				'3xl': '32px',
+			},
 		},
 	},
 	plugins: [],
+	future: {
+		hoverOnlyWhenSupported: true,
+	},
 }
 
 export default config

@@ -1,141 +1,170 @@
 'use client'
 
+import { homePageNavbar } from '@/data/siteData'
+import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface BurgerMenuProps {
 	className?: string
+	theme?: 'light' | 'dark'
 }
 
-const BurgerMenu = ({ className = '' }: BurgerMenuProps) => {
-	const [isOpen, setIsOpen] = useState(false)
-
-	const menuItemStyle = {
-		backdropFilter: 'blur(25px)',
-		WebkitBackdropFilter: 'blur(25px)',
-		backgroundColor: 'rgba(255, 255, 255, 0.05)',
-		borderRadius: '16px',
-		boxShadow: 'rgba(255, 255, 255, 0.15) 0px -1px 0px 0px inset',
-		transform: 'none',
-		transformOrigin: '50% 50% 0px',
+const menuVariants = {
+	closed: {
+		opacity: 0,
+		y: -20,
+	},
+	open: {
 		opacity: 1,
-	}
+		y: 0,
+		transition: {
+			duration: 0.4,
+			staggerChildren: 0.1,
+			delayChildren: 0.2,
+		},
+	},
+}
+
+const itemVariants = {
+	closed: { opacity: 0, x: -20 },
+	open: { opacity: 1, x: 0 },
+}
+
+const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
+	const [isOpen, setIsOpen] = useState(false)
+	const [scrolled, setScrolled] = useState(false)
+
+	useEffect(() => {
+		const handleScroll = () => {
+			setScrolled(window.scrollY > 20)
+		}
+
+		window.addEventListener('scroll', handleScroll)
+		return () => window.removeEventListener('scroll', handleScroll)
+	}, [])
+
+	useEffect(() => {
+		if (isOpen) {
+			document.body.style.overflow = 'hidden'
+		} else {
+			document.body.style.overflow = ''
+		}
+
+		return () => {
+			document.body.style.overflow = ''
+		}
+	}, [isOpen])
+
+	const textColor = theme === 'light' ? 'text-black/90' : 'text-white/90'
+	const textHoverColor = theme === 'light' ? 'text-black' : 'text-white'
+	const lineColor = theme === 'light' ? 'bg-black' : 'bg-white'
+	const hoverBgColor =
+		theme === 'light' ? 'hover:bg-black/[0.05]' : 'hover:bg-white/[0.03]'
 
 	return (
 		<div className={`lg:hidden ${className}`}>
-			{/* Burger Button */}
-			<button
+			<motion.button
 				className='relative z-50 p-2 group'
 				onClick={() => setIsOpen(!isOpen)}
 				aria-label='Toggle Menu'
+				whileTap={{ scale: 0.95 }}
 			>
-				<div className='flex flex-col gap-1.5 w-6'>
-					<span
-						className={`block h-0.5 w-full bg-white transition-all duration-300 ease-in-out origin-center ${
-							isOpen ? 'rotate-45 translate-y-2' : 'group-hover:w-4'
-						}`}
-					/>
-					<span
-						className={`block h-0.5 bg-white transition-all duration-300 ease-in-out ${
-							isOpen ? 'opacity-0 w-0' : 'w-full group-hover:w-5'
-						}`}
-					/>
-					<span
-						className={`block h-0.5 w-full bg-white transition-all duration-300 ease-in-out origin-center ${
-							isOpen ? '-rotate-45 -translate-y-2' : 'group-hover:w-3'
-						}`}
-					/>
-				</div>
-			</button>
-
-			{/* Menu Overlay */}
-			<div
-				className={`fixed inset-0 z-40 transition-all duration-500 ease-in-out ${
-					isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-				}`}
-				style={{
-					background: 'rgba(16, 16, 16, 0.9)',
-					...menuItemStyle,
-				}}
-			>
-				<div className='relative flex flex-col h-full px-6 py-4'>
-					{/* Top Bar */}
-					<div className='flex justify-between items-center py-4 mb-10'>
-						{/* Logo */}
-						<Link
-							href='/'
-							className='text-[22px] font-medium text-white hover:opacity-80 transition-opacity'
-							onClick={() => setIsOpen(false)}
-						>
-							Fluctus
-						</Link>
-
-						{/* Close button */}
-						<button
-							onClick={() => setIsOpen(false)}
-							className='text-white/60 hover:text-white transition-all duration-300 p-2 hover:rotate-90'
-							aria-label='Close Menu'
-						>
-							<svg
-								width='20'
-								height='20'
-								viewBox='0 0 24 24'
-								fill='none'
-								stroke='currentColor'
-								strokeWidth='2'
-								className='transition-transform duration-300'
-							>
-								<path d='M18 6L6 18M6 6l12 12' />
-							</svg>
-						</button>
-					</div>
-
-					{/* Navigation Links Container */}
-					<div className='relative rounded-2xl' style={menuItemStyle}>
-						<nav className='flex flex-col p-4'>
-							{[
-								{ href: '/#services', label: 'Services' },
-								{ href: '/#process', label: 'Process' },
-								{ href: '/#pricing', label: 'Pricing' },
-								{ href: '/#faq', label: 'FAQ' },
-								{ href: '/#contact', label: 'Contact' },
-							].map((item, index) => (
-								<Link
-									key={item.href}
-									href={item.href}
-									className={`text-[17px] text-white/60 hover:text-white transition-all duration-300 py-4 px-4 rounded-xl hover:bg-white/5 ${
-										index !== 4 ? 'border-b border-white/5' : ''
-									}`}
-									onClick={() => setIsOpen(false)}
-									style={{
-										transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
-										opacity: isOpen ? 1 : 0,
-										transitionDelay: `${index * 100}ms`,
-									}}
-								>
-									{item.label}
-								</Link>
-							))}
-						</nav>
-					</div>
-
-					{/* Get Template Button */}
-					<Link
-						href='/#get-template'
-						className='mt-auto mb-6 w-full py-4 bg-[rgb(239,252,118)] text-black text-center font-medium rounded-xl hover:bg-[rgb(220,232,99)] transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0'
-						onClick={() => setIsOpen(false)}
-						style={{
-							fontSize: '17px',
-							borderRadius: '12px',
-							transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
-							opacity: isOpen ? 1 : 0,
-							transitionDelay: '500ms',
+				<div className='flex flex-col gap-1.5 w-7'>
+					<motion.span
+						animate={{
+							rotate: isOpen ? 45 : 0,
+							y: isOpen ? 8 : 0,
+							width: isOpen ? '100%' : '100%',
 						}}
-					>
-						Get Template
-					</Link>
+						className={`block h-[2px] ${lineColor} origin-center transition-all duration-300 ease-out ${
+							!isOpen && 'group-hover:w-5'
+						}`}
+					/>
+					<motion.span
+						animate={{
+							opacity: isOpen ? 0 : 1,
+							width: isOpen ? '0%' : '100%',
+						}}
+						className={`block h-[2px] ${lineColor} origin-center transition-all duration-300 ease-out ${
+							!isOpen && 'group-hover:w-6'
+						}`}
+					/>
+					<motion.span
+						animate={{
+							rotate: isOpen ? -45 : 0,
+							y: isOpen ? -8 : 0,
+							width: isOpen ? '100%' : '100%',
+						}}
+						className={`block h-[2px] ${lineColor} origin-center transition-all duration-300 ease-out ${
+							!isOpen && 'group-hover:w-4'
+						}`}
+					/>
 				</div>
-			</div>
+			</motion.button>
+
+			<AnimatePresence>
+				{isOpen && (
+					<>
+						{/* Backdrop overlay */}
+						<motion.div
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: 0.3 }}
+							className='fixed inset-0 z-40'
+							onClick={() => setIsOpen(false)}
+						/>
+
+						<motion.div
+							variants={menuVariants}
+							initial='closed'
+							animate='open'
+							exit='closed'
+							className='fixed z-50 top-20 left-4 right-4'
+							onClick={e => e.stopPropagation()}
+						>
+							<div className='rounded-2xl overflow-hidden glass-light shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]'>
+								<div className='p-6'>
+									<nav className='flex flex-col space-y-3'>
+										{homePageNavbar.map((item, index) => (
+											<motion.div
+												key={item.href}
+												variants={itemVariants}
+												custom={index}
+											>
+												<Link
+													href={item.href}
+													className={`block px-4 py-3.5 text-[17px] font-medium ${textColor} ${textHoverColor} rounded-xl transition-all duration-300 ${hoverBgColor} flex items-center`}
+													onClick={() => setIsOpen(false)}
+												>
+													{item.icon && (
+														<span className='mr-3'>{item.icon}</span>
+													)}
+													{item.label}
+												</Link>
+											</motion.div>
+										))}
+									</nav>
+
+									<motion.div variants={itemVariants} className='mt-6'>
+										<Link
+											href='/#get-template'
+											className='block w-full py-4 bg-[rgb(239,252,118)] text-black text-center font-medium rounded-xl hover:bg-[rgb(220,232,99)] active:scale-95 transition-all duration-300'
+											onClick={() => setIsOpen(false)}
+											style={{
+												fontSize: '17px',
+											}}
+										>
+											Get Template
+										</Link>
+									</motion.div>
+								</div>
+							</div>
+						</motion.div>
+					</>
+				)}
+			</AnimatePresence>
 		</div>
 	)
 }
