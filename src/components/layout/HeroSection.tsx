@@ -5,59 +5,10 @@ import StarBackground from './StarBackground'
 
 const HeroSection = () => {
 	return (
-		<div className='relative flex flex-col items-center text-center pt-16 pb-24 overflow-hidden'>
+		<div className='relative bg-transparent flex flex-col items-center text-center pt-16 pb-24 overflow-hidden'>
 			<StarBackground />
 
 			<div className='framer-content-wrapper flex flex-col items-center text-center pt-16 pb-24'>
-				{/* Top icon */}
-				<div
-					className='framer-1pei8m9 opacity-100 will-change-transform mb-12'
-					style={{ transform: 'none' }}
-				>
-					<div
-						className='framer-138gn0k'
-						style={{
-							imageRendering: 'pixelated',
-							flexShrink: 0,
-							width: '80px',
-							height: '80px',
-						}}
-						aria-hidden='true'
-					>
-						<div
-							className='svgContainer'
-							style={{
-								width: '100%',
-								height: '100%',
-								aspectRatio: 'inherit',
-								background: 'rgba(24, 24, 27, 0.8)',
-								borderRadius: '16px',
-								padding: '14px',
-								boxShadow:
-									'rgba(0, 0, 0, 0.3) 0px 4px 10px, rgba(0, 0, 0, 0.2) 0px 10px 20px -5px',
-								backdropFilter: 'blur(10px)',
-								WebkitBackdropFilter: 'blur(10px)',
-								border: '1px solid rgba(255, 255, 255, 0.1)',
-							}}
-						>
-							<svg
-								style={{ width: '100%', height: '100%' }}
-								viewBox='0 0 24 24'
-								fill='none'
-							>
-								<path
-									d='M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z'
-									fill='rgb(239, 252, 118)'
-									stroke='rgb(239, 252, 118)'
-									strokeWidth='2'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-								/>
-							</svg>
-						</div>
-					</div>
-				</div>
-
 				<div className='framer-heading-wrapper'>
 					<div className='framer-text-wrapper flex flex-col gap-5'>
 						{/* Main heading */}
@@ -76,8 +27,8 @@ const HeroSection = () => {
 						</div>
 					</div>
 
-					{/* CTA buttons */}
-					<div className='framer-ctas flex gap-4 justify-center mt-12 opacity-100 will-change-transform'>
+					{/* CTA buttons - hidden on mobile/tablet */}
+					<div className='hidden lg:flex gap-4 justify-center mt-12 opacity-100 will-change-transform'>
 						<Link
 							href='/#services'
 							className='bg-yellow-300 hover:bg-yellow-400 text-black px-6 py-3 rounded-xl font-medium transition-colors'

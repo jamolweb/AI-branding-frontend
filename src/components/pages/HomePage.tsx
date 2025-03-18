@@ -6,18 +6,8 @@ const HomePage = () => {
 	return (
 		<div
 			className='min-h-screen text-white overflow-hidden'
-			style={{
-				background:
-					'linear-gradient(180deg, rgba(24, 24, 27, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%)',
-				backgroundImage: `
-					radial-gradient(circle at 20% 35%, rgba(76, 29, 149, 0.25) 0%, transparent 50%),
-					radial-gradient(circle at 75% 60%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-					linear-gradient(180deg, rgba(24, 24, 27, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%)
-				`,
-				position: 'relative',
-			}}
+			style={{ backgroundColor: 'rgb(16, 16, 16)' }}
 		>
-			{/* Noise texture overlay */}
 			<div
 				className='absolute inset-0 z-0 opacity-20 pointer-events-none'
 				style={{
@@ -28,7 +18,7 @@ const HomePage = () => {
 				}}
 			/>
 
-			<div className='container mx-auto px-4 max-w-6xl relative z-10'>
+			<div className='container mx-auto px-4 max-w-6xl relative z-10 bg-transparent'>
 				<Navbar />
 				<HeroSection />
 				<TrustedBySection />

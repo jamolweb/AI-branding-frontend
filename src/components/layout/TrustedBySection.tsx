@@ -10,7 +10,7 @@ const TrustedBySection = () => {
 	]
 
 	return (
-		<div className='pt-24 pb-16'>
+		<div className='pt-24 pb-16 bg-transparent'>
 			<p className='text-white text-center mb-12 text-xl font-medium opacity-90'>
 				Trusted by specialists at
 			</p>
