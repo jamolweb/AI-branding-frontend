@@ -63,7 +63,7 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 		theme === 'light' ? 'hover:bg-black/[0.05]' : 'hover:bg-white/[0.03]'
 
 	return (
-		<div className={`lg:hidden ${className}`}>
+		<div className={`lg:hidden ${className} ${scrolled ? 'shadow-sm' : ''}`}>
 			<motion.button
 				className='relative z-50 p-2 group'
 				onClick={() => setIsOpen(!isOpen)}
