@@ -95,8 +95,8 @@ export default function ProcessSteps() {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5, delay: 0.2 }}
 				>
-					We've simplified AI transformation into three clear steps that take
-					you <br /> from concept to real-world results.
+					We&apos;ve simplified AI transformation into three clear steps that
+					take you <br /> from concept to real-world results.
 				</motion.p>
 
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8'>
