@@ -1,6 +1,7 @@
 import FeaturesSection from '@/components/layout/FeaturesSection'
 import HeroSection from '@/components/layout/HeroSection'
 import Navbar from '@/components/layout/Navbar'
+import PlansSection from '@/components/layout/PlansSection'
 import ProcessSection from '@/components/layout/ProcessSection'
 import TrustedBySection from '@/components/layout/TrustedBySection'
 
@@ -29,6 +30,7 @@ const HomePage = () => {
 					<TrustedBySection />
 					<FeaturesSection />
 					<ProcessSection />
+					<PlansSection />
 				</div>
 			</div>
 		</div>

@@ -36,7 +36,7 @@ export default function ProcessSteps() {
 	if (!isMounted) return null
 
 	return (
-		<div className='bg-transparent min-h-screen text-white p-4 md:p-8'>
+		<div className='bg-transparent text-white mb-14 md:p-8'>
 			<div className='max-w-7xl mx-auto'>
 				<motion.div
 					className='flex items-center gap-2 bg-zinc-900/80 w-fit px-4 py-2 rounded-full mb-6'
