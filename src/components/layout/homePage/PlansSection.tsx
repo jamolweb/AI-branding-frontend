@@ -1,7 +1,7 @@
 'use client'
 
+import SectionName from '@/components/ui/homePage/SectionName'
 import { motion } from 'framer-motion'
-import { StarIcon } from 'lucide-react'
 import { useState } from 'react'
 import StarBackground from './StarBackground'
 
@@ -54,17 +54,7 @@ const PlansSection = () => {
 				fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
 			}}
 		>
-			<motion.div
-				className='flex items-center gap-2 bg-zinc-900/80 w-fit px-4 py-2 rounded-full mb-6'
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5 }}
-			>
-				<div className='w-6 h-6 rounded-full flex items-center justify-center'>
-					<StarIcon className='w-6 h-6 text-[#E2FF3F]' />
-				</div>
-				<span className='text-sm font-medium'>Our process</span>
-			</motion.div>
+			<SectionName name='plans' title='Our plans' />
 			<motion.h1
 				className='text-4xl md:text-[44px] lg:text-[50px] font-semibold mb-4'
 				style={{ fontFamily: 'Manrope, sans-serif' }}

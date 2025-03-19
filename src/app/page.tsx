@@ -1,10 +1,10 @@
-import FaqSection from '@/components/layout/FaqSection'
-import FeaturesSection from '@/components/layout/FeaturesSection'
-import HeroSection from '@/components/layout/HeroSection'
-import Navbar from '@/components/layout/Navbar'
-import PlansSection from '@/components/layout/PlansSection'
-import ProcessSection from '@/components/layout/ProcessSection'
-import TrustedBySection from '@/components/layout/TrustedBySection'
+import FaqSection from '@/components/layout/homePage/FaqSection'
+import FeaturesSection from '@/components/layout/homePage/FeaturesSection'
+import HeroSection from '@/components/layout/homePage/HeroSection'
+import Navbar from '@/components/layout/homePage/Navbar'
+import PlansSection from '@/components/layout/homePage/PlansSection'
+import ProcessSection from '@/components/layout/homePage/ProcessSection'
+import TrustedBySection from '@/components/layout/homePage/TrustedBySection'
 
 const HomePage = () => {
 	return (

@@ -1,5 +1,6 @@
 'use client'
 
+import SectionName from '@/components/ui/homePage/SectionName'
 import { useMobile } from '@/hooks/use-mobile'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
@@ -38,46 +39,7 @@ export default function ProcessSteps() {
 	return (
 		<div className='bg-transparent text-white mb- md:p-8'>
 			<div className='max-w-7xl mx-auto'>
-				<motion.div
-					className='flex items-center gap-2 bg-zinc-900/80 w-fit px-4 py-2 rounded-full mb-6'
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5 }}
-				>
-					<div className='w-6 h-6 rounded-full flex items-center justify-center'>
-						<svg
-							width='24'
-							height='24'
-							viewBox='0 0 24 24'
-							fill='none'
-							xmlns='http://www.w3.org/2000/svg'
-						>
-							<path
-								d='M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z'
-								fill='#EFFC76'
-								fillOpacity='0.8'
-							/>
-							<path
-								d='M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z'
-								fill='#EFFC76'
-								fillOpacity='0.8'
-							/>
-							<path
-								d='M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z'
-								fill='#EFFC76'
-								fillOpacity='0.8'
-							/>
-							<path
-								d='M21.17 8.24C21.8 9.41 22.15 10.8 21.96 12.36C21.27 18.08 15.54 21.55 9.82 20.86C4.1 20.17 0.63 14.44 1.32 8.72C2.01 3 7.74 -0.47 13.46 0.22C16.22 0.55 18.53 1.85 20.2 3.79C21.87 5.74 22.65 8.24 22.31 11C21.97 13.76 20.67 16.07 18.73 17.74C16.78 19.41 14.28 20.19 11.52 19.85C8.76 19.51 6.45 18.21 4.78 16.27C3.11 14.32 2.33 11.82 2.67 9.06'
-								stroke='#EFFC76'
-								strokeWidth='1.5'
-								strokeLinecap='round'
-								strokeLinejoin='round'
-							/>
-						</svg>
-					</div>
-					<span className='text-sm font-medium'>Our process</span>
-				</motion.div>
+				<SectionName name='process' title='Our process' />
 
 				<motion.h1
 					className='text-4xl md:text-[44px] lg:text-[50px] font-semibold mb-4'
