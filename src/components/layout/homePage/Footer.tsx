@@ -181,7 +181,6 @@ const Footer = () => {
 								color: 'rgb(0, 153, 255)',
 								textShadow:
 									'rgba(214, 214, 214, 0.15) -1px -1px 0px, rgba(213, 213, 213, 0.15) 0px -1px 0px, rgba(213, 213, 213, 0.15) 1px -1px 0px, rgba(213, 213, 213, 0.15) 1px 0px 0px, rgba(213, 213, 213, 0.15) 1px 1px 0px, rgba(213, 213, 213, 0.15) 0px 1px 0px, rgba(213, 213, 213, 0.15) -1px 1px 0px, rgba(213, 213, 213, 0.15) -1px 0px 0px',
-								opacity: 1,
 							}}
 						>
 							<foreignObject
@@ -200,8 +199,9 @@ const Footer = () => {
 										fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
 										fontSize: '330px',
 										fontWeight: 600,
-										lineHeight: '0.8em',
+										lineHeight: '0.3em',
 										color: 'rgb(38, 38, 38)',
+										transform: 'translateY(100px)',
 									}}
 								>
 									Fluctus
