@@ -1,3 +1,4 @@
+import ContactSection from '@/components/layout/homePage/ContactSection'
 import FaqSection from '@/components/layout/homePage/FaqSection'
 import FeaturesSection from '@/components/layout/homePage/FeaturesSection'
 import HeroSection from '@/components/layout/homePage/HeroSection'
@@ -33,6 +34,7 @@ const HomePage = () => {
 					<ProcessSection />
 					<PlansSection />
 					<FaqSection />
+					<ContactSection />
 				</div>
 			</div>
 		</div>
