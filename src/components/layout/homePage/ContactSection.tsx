@@ -32,7 +32,7 @@ const ContactSection = () => {
 	}
 
 	return (
-		<section className='py-20'>
+		<section className='py-20' id='contact'>
 			<div className='flex flex-col lg:flex-row gap-12 lg:gap-20'>
 				<div className='lg:w-1/3'>
 					<SectionName name='contact' title='Contact us' />
