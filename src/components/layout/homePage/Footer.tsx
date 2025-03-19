@@ -4,6 +4,51 @@ const Footer = () => {
 	return (
 		<footer className='bg-transparent text-white pt-12 px-6'>
 			<div className='max-w-6xl mx-auto'>
+				{/* CTA Section */}
+				<div className='mb-24'>
+					<div
+						className='w-full p-16 rounded-3xl relative overflow-hidden'
+						style={{ backgroundColor: 'rgb(239, 252, 118)' }}
+					>
+						<div className='flex flex-col max-w-2xl gap-6'>
+							<h2
+								className='text-5xl font-medium leading-tight'
+								style={{ color: 'rgb(0, 0, 0)' }}
+							>
+								Ready to unlock the <br /> power of AI?
+							</h2>
+							<p className='text-xl' style={{ color: 'rgba(0, 0, 0, 0.6)' }}>
+								Transform your business with cutting-edge solutions <br />{' '}
+								tailored to your unique challenges.
+							</p>
+							<div className='mt-4'>
+								<a
+									href='#contact'
+									className='inline-flex px-6 py-3 text-white rounded-xl font-medium text-lg transition-transform hover:scale-105'
+									style={{
+										backgroundColor: 'rgb(45, 45, 45)',
+										boxShadow: `
+											rgba(0, 0, 0, 0.29) 0px 2px 4px 0px,
+											rgba(0, 0, 0, 0.26) 0px 8px 8px 0px,
+											rgba(0, 0, 0, 0.15) 0px 17px 10px 0px,
+											rgba(0, 0, 0, 0.04) 0px 31px 12px 0px,
+											rgba(0, 0, 0, 0.01) 0px 48px 13px 0px,
+											rgba(0, 0, 0, 0.2) 0px -3px 7px 0px inset,
+											rgba(0, 0, 0, 0.17) 1px -14px 14px 0px inset,
+											rgba(0, 0, 0, 0.1) 3px -30px 18px 0px inset,
+											rgba(0, 0, 0, 0.03) 5px -54px 22px 0px inset,
+											rgba(0, 0, 0, 0) 7px -84px 24px 0px inset
+										`,
+									}}
+								>
+									Start Today
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Rest of the footer content */}
 				{/* Top section with logo and tagline */}
 				<div className='flex flex-col md:flex-row justify-between items-start mb-8'>
 					<div className='mb-6 md:mb-0'>
@@ -153,7 +198,7 @@ const Footer = () => {
 									className='framer-text'
 									style={{
 										fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
-										fontSize: '360px',
+										fontSize: '330px',
 										fontWeight: 600,
 										lineHeight: '0.8em',
 										color: 'rgb(38, 38, 38)',
