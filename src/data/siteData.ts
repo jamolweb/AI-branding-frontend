@@ -5,11 +5,11 @@ interface NavItem {
 }
 
 const homePageNavbar: NavItem[] = [
-	{ href: '#services', label: 'Services' },
-	{ href: '#process', label: 'Process' },
-	{ href: '#pricing', label: 'Pricing' },
-	{ href: '#faq', label: 'FAQ' },
-	{ href: '#contact', label: 'Contact' },
+	{ href: 'services', label: 'Services' },
+	{ href: 'process', label: 'Process' },
+	{ href: 'pricing', label: 'Pricing' },
+	{ href: 'faq', label: 'FAQ' },
+	{ href: 'contact', label: 'Contact' },
 ]
 
 export { homePageNavbar }

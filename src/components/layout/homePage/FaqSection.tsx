@@ -62,7 +62,7 @@ const FaqSection = () => {
 	}
 
 	return (
-		<section className='py-20'>
+		<section id='faq' className='py-20'>
 			<SectionName name='faq' title='FAQ' />
 			<SectionTitle
 				title='What You need to know'
@@ -90,7 +90,7 @@ const FaqSection = () => {
 							>
 								<div className='flex justify-between items-start'>
 									<h3
-										className={`text-xl font-medium transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+										className={`text-lg font-medium transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
 											openQuestions.includes(index)
 												? 'text-[#effc76]'
 												: 'text-[#d5d5d5]'
@@ -184,7 +184,7 @@ const FaqSection = () => {
 													ease: [0.23, 1, 0.32, 1],
 												},
 											}}
-											className='text-gray-300 leading-relaxed text-[18px] font-medium'
+											className='text-gray-300 leading-relaxed text-base font-medium'
 										>
 											{faq.answer}
 										</motion.p>

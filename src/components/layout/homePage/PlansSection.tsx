@@ -50,6 +50,7 @@ const PlansSection = () => {
 
 	return (
 		<section
+			id='pricing'
 			className='py-20'
 			style={{
 				fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
@@ -119,6 +120,18 @@ const PlansSection = () => {
 								? 'bg-[#1A1F1A] border border-[#E2FF3F]/20'
 								: 'bg-[#141414]'
 						}`}
+						style={
+							index === 1
+								? {
+										background:
+											'radial-gradient(110.05833075471149% 94.07658768529376% at 50.000003279993855% 5.923412314706233%, rgba(239, 252, 118, 0.3) 0%, rgb(16, 16, 16) 100%)',
+										borderRadius: '16px',
+										boxShadow:
+											'rgba(0, 0, 0, 0.29) 0px 2px 4px 0px, rgba(0, 0, 0, 0.26) 0px 8px 8px 0px, rgba(0, 0, 0, 0.15) 0px 17px 10px 0px, rgba(0, 0, 0, 0.04) 0px 31px 12px 0px, rgba(0, 0, 0, 0.01) 0px 48px 13px 0px, rgba(0, 0, 0, 0.2) 0px -3px 7px 0px inset, rgba(0, 0, 0, 0.17) 1px -14px 14px 0px inset, rgba(0, 0, 0, 0.1) 3px -30px 18px 0px inset, rgba(0, 0, 0, 0.03) 5px -54px 22px 0px inset, rgba(0, 0, 0, 0) 7px -84px 24px 0px inset, rgba(255, 255, 255, 0.15) 0px 1px 0px 1px inset',
+										opacity: 1,
+								  }
+								: {}
+						}
 					>
 						{index === 1 && <StarBackground />}
 						<div className='relative z-10'>

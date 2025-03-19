@@ -6,6 +6,17 @@ import Link from 'next/link'
 import BurgerMenu from './BurgerMenu'
 
 const Navbar = () => {
+	const handleScroll = (
+		e: React.MouseEvent<HTMLAnchorElement>,
+		sectionId: string
+	) => {
+		e.preventDefault()
+		const element = document.getElementById(sectionId)
+		if (element) {
+			element.scrollIntoView({ behavior: 'smooth' })
+		}
+	}
+
 	return (
 		<motion.nav
 			initial={{ opacity: 0, y: -20 }}
@@ -33,14 +44,15 @@ const Navbar = () => {
 
 				<div className='hidden lg:flex items-center gap-8'>
 					{homePageNavbar.map(item => (
-						<Link
+						<a
 							key={item.href}
-							href={`/#${item.href.toLowerCase()}`}
-							className='relative text-sm font-medium text-[rgb(213, 213, 213)] hover:text-white transition-colors duration-300 group'
+							href={`#${item.href.toLowerCase()}`}
+							onClick={e => handleScroll(e, item.href.toLowerCase())}
+							className='relative text-sm font-medium text-[rgb(213, 213, 213)] hover:text-white transition-colors duration-300 group cursor-pointer'
 						>
 							{item.label}
 							<span className='absolute -bottom-1 left-0 w-0 h-[2px] bg-[rgb(239,252,118)] transition-all duration-300 group-hover:w-full'></span>
-						</Link>
+						</a>
 					))}
 				</div>
 
@@ -48,7 +60,7 @@ const Navbar = () => {
 					href='/auth/signin'
 					className='hidden lg:flex items-center px-5 py-2.5 text-sm font-semibold text-black bg-[rgb(239,252,118)] rounded-xl hover:bg-[rgb(220,232,99)] transition-all duration-300 hover:scale-105 active:scale-95'
 				>
-					Sigin
+					Sign In
 				</Link>
 
 				<BurgerMenu className='lg:hidden' />

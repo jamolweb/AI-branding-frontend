@@ -38,7 +38,7 @@ export default function ProcessSteps() {
 	if (!isMounted) return null
 
 	return (
-		<div className='bg-transparent text-white mb- md:p-8'>
+		<div id='process' className='bg-transparent text-white mb- md:p-8'>
 			<div className='max-w-7xl mx-auto'>
 				<SectionName name='process' title='Our process' />
 				<SectionTitle
