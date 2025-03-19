@@ -11,10 +11,10 @@ const Navbar = () => {
 			initial={{ opacity: 0, y: -20 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5 }}
-			className='fixed top-0 left-0 right-0 z-50 mx-4 mt-4'
+			className='fixed top-0 left-0 right-0 z-50 px-4 pt-4'
 		>
 			<div
-				className='flex items-center justify-between px-6 py-4 rounded-2xl backdrop-blur-[25px] bg-white/[0.06] shadow-lg border border-white/[0.08]'
+				className='flex items-center h-[53px] justify-between pr-2 pl-4 rounded-2xl backdrop-blur-[25px] bg-white/[0.06] shadow-lg border border-white/[0.08] max-w-4xl mx-auto'
 				style={{
 					backdropFilter: 'blur(25px)',
 					WebkitBackdropFilter: 'blur(25px)',
@@ -45,7 +45,7 @@ const Navbar = () => {
 
 				<Link
 					href='/auth/signin'
-					className='hidden lg:flex items-center px-6 py-2.5 text-sm font-semibold text-black bg-[rgb(239,252,118)] rounded-xl hover:bg-[rgb(220,232,99)] transition-all duration-300 hover:scale-105 active:scale-95'
+					className='hidden lg:flex items-center px-5 py-2.5 text-sm font-semibold text-black bg-[rgb(239,252,118)] rounded-xl hover:bg-[rgb(220,232,99)] transition-all duration-300 hover:scale-105 active:scale-95'
 				>
 					Sigin
 				</Link>
