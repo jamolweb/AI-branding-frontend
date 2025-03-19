@@ -65,20 +65,20 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 	return (
 		<div className={`lg:hidden ${className} ${scrolled ? 'shadow-sm' : ''}`}>
 			<motion.button
-				className='relative z-50 p-2 group'
+				className='relative z-50 group p-2 flex items-center justify-center'
 				onClick={() => setIsOpen(!isOpen)}
 				aria-label='Toggle Menu'
 				whileTap={{ scale: 0.95 }}
 			>
-				<div className='flex flex-col gap-1.5 w-7'>
+				<div className='flex flex-col gap-1 w-5 items-center justify-center'>
 					<motion.span
 						animate={{
 							rotate: isOpen ? 45 : 0,
-							y: isOpen ? 8 : 0,
+							y: isOpen ? 6 : 0,
 							width: isOpen ? '100%' : '100%',
 						}}
-						className={`block h-[2px] ${lineColor} origin-center transition-all duration-300 ease-out ${
-							!isOpen && 'group-hover:w-5'
+						className={`block h-[1.5px] ${lineColor} origin-center transition-all duration-300 ease-out ${
+							!isOpen && 'group-hover:w-4'
 						}`}
 					/>
 					<motion.span
@@ -86,18 +86,18 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 							opacity: isOpen ? 0 : 1,
 							width: isOpen ? '0%' : '100%',
 						}}
-						className={`block h-[2px] ${lineColor} origin-center transition-all duration-300 ease-out ${
-							!isOpen && 'group-hover:w-6'
+						className={`block h-[1.5px] ${lineColor} origin-center transition-all duration-300 ease-out ${
+							!isOpen && 'group-hover:w-3.5'
 						}`}
 					/>
 					<motion.span
 						animate={{
 							rotate: isOpen ? -45 : 0,
-							y: isOpen ? -8 : 0,
+							y: isOpen ? -6 : 0,
 							width: isOpen ? '100%' : '100%',
 						}}
-						className={`block h-[2px] ${lineColor} origin-center transition-all duration-300 ease-out ${
-							!isOpen && 'group-hover:w-4'
+						className={`block h-[1.5px] ${lineColor} origin-center transition-all duration-300 ease-out ${
+							!isOpen && 'group-hover:w-3'
 						}`}
 					/>
 				</div>
@@ -125,7 +125,7 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 							onClick={e => e.stopPropagation()}
 						>
 							<div className='rounded-2xl overflow-hidden glass-light shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]'>
-								<div className='p-6'>
+								<div className='p-4'>
 									<nav className='flex flex-col space-y-3'>
 										{homePageNavbar.map((item, index) => (
 											<motion.div
@@ -156,7 +156,7 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 												fontSize: '17px',
 											}}
 										>
-											Get Template
+											Sign In
 										</Link>
 									</motion.div>
 								</div>

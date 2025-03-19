@@ -8,16 +8,16 @@ const HeroSection = () => {
 		<div className='relative bg-transparent  z-0 flex-col items-center text-center pt-16 pb-24 overflow-hidden'>
 			<StarBackground />
 
-			<div className='framer-content-wrapper mt-28 flex flex-col items-center text-center pt-16 pb-24'>
+			<div className='framer-content-wrapper mt-34 flex flex-col items-center text-center pt-16 pb-24'>
 				<div className='framer-heading-wrapper'>
 					<div className='framer-text-wrapper flex flex-col gap-5'>
 						{/* Main heading */}
 						<div className='flex flex-col justify-center opacity-100 flex-shrink-0 will-change-transform'>
 							<h1
-								className='text-white text-5xl md:text-6xl font-bold max-w-4xl leading-tight'
+								className='text-white text-6xl md:text-6xl font-bold max-w-4xl leading-tight'
 								style={{ fontFamily: 'var(--framer-font-family)' }}
 							>
-								Empowering the Future with <br /> Artificial Intelligence
+								Empowering the Future <br /> with Artificial Intelligence
 							</h1>
 						</div>
 
