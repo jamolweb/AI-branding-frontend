@@ -153,7 +153,7 @@ const Footer = () => {
 									className='framer-text'
 									style={{
 										fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
-										fontSize: '340px',
+										fontSize: '360px',
 										fontWeight: 600,
 										lineHeight: '0.8em',
 										color: 'rgb(38, 38, 38)',
