@@ -14,7 +14,7 @@ const Navbar = () => {
 			className='fixed top-0 left-0 right-0 z-50 px-4 pt-4'
 		>
 			<div
-				className='flex items-center h-[53px] justify-between pr-2 pl-4 rounded-2xl backdrop-blur-[25px] bg-white/[0.06] shadow-lg border border-white/[0.08] max-w-4xl mx-auto'
+				className='flex items-center h-[53px] justify-between pr-2 pl-4 rounded-2xl backdrop-blur-[25px] bg-white/[0.06] shadow-lg border border-white/[0.08] max-w-[668px] mx-auto'
 				style={{
 					backdropFilter: 'blur(25px)',
 					WebkitBackdropFilter: 'blur(25px)',
@@ -25,7 +25,8 @@ const Navbar = () => {
 			>
 				<Link
 					href='/'
-					className='text-2xl font-bold text-white tracking-tight hover:text-[rgb(239,252,118)] transition-colors duration-300'
+					className='text-[21px] font-bold text-white tracking-tight font-light hover:text-[rgb(239,252,118)] transition-colors duration-300'
+					style={{ fontFamily: 'var(--framer-font-family)' }}
 				>
 					Fluctus
 				</Link>
@@ -35,7 +36,7 @@ const Navbar = () => {
 						<Link
 							key={item.href}
 							href={`/#${item.href.toLowerCase()}`}
-							className='relative text-sm font-medium text-gray-200 hover:text-white transition-colors duration-300 group'
+							className='relative text-sm font-medium text-[rgb(213, 213, 213)] hover:text-white transition-colors duration-300 group'
 						>
 							{item.label}
 							<span className='absolute -bottom-1 left-0 w-0 h-[2px] bg-[rgb(239,252,118)] transition-all duration-300 group-hover:w-full'></span>
