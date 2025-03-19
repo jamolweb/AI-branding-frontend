@@ -1,6 +1,7 @@
 'use client'
 
 import SectionName from '@/components/ui/homePage/SectionName'
+import SectionTitle from '@/components/ui/homePage/sectionTitle'
 import { useMobile } from '@/hooks/use-mobile'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
@@ -40,26 +41,11 @@ export default function ProcessSteps() {
 		<div className='bg-transparent text-white mb- md:p-8'>
 			<div className='max-w-7xl mx-auto'>
 				<SectionName name='process' title='Our process' />
-
-				<motion.h1
-					className='text-4xl md:text-[44px] lg:text-[50px] font-semibold mb-4'
-					style={{ fontFamily: 'Manrope, sans-serif' }}
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, delay: 0.1 }}
-				>
-					Simple steps, powerful results
-				</motion.h1>
-				<motion.p
-					className='text-[16px] text-[#d5d5d5] mb-12 md:mb-16 max-w-2xl font-medium tracking-[-.01em] leading-[1.5em]'
-					style={{ fontFamily: 'Manrope, sans-serif', marginTop: '25px' }}
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.5, delay: 0.2 }}
-				>
-					We&apos;ve simplified AI transformation into three clear steps that
-					take you <br /> from concept to real-world results.
-				</motion.p>
+				<SectionTitle
+					title='Simple steps, powerful results'
+					description={`We've simplified AI transformation into three clear steps that
+					take you from concept to real-world results.`}
+				/>
 
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8'>
 					{steps.map((step, index) => (

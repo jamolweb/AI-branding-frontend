@@ -1,6 +1,7 @@
 'use client'
 
 import SectionName from '@/components/ui/homePage/SectionName'
+import SectionTitle from '@/components/ui/homePage/sectionTitle'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
@@ -63,26 +64,10 @@ const FaqSection = () => {
 	return (
 		<section className='py-20'>
 			<SectionName name='faq' title='FAQ' />
-			<motion.h1
-				className='text-4xl md:text-[44px] lg:text-[50px] font-semibold mb-4'
-				style={{ fontFamily: 'Manrope, sans-serif' }}
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, delay: 0.1 }}
-			>
-				What You need to know
-			</motion.h1>
-			<motion.p
-				className='text-[16px] text-[#d5d5d5] mb-12 md:mb-16 max-w-2xl font-medium tracking-[-.01em] leading-[1.5em]'
-				style={{ fontFamily: 'Manrope, sans-serif', marginTop: '25px' }}
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ duration: 0.5, delay: 0.2 }}
-			>
-				Quick answers to the most common questions about our AI solutions and{' '}
-				<br />
-				services.
-			</motion.p>
+			<SectionTitle
+				title='What You need to know'
+				description={`Quick answers to the most common questions about our AI solutions and services.`}
+			/>
 
 			<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
 				{faqs.map((faq, index) => (
@@ -100,7 +85,7 @@ const FaqSection = () => {
 							className={`w-full rounded-xl transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]`}
 						>
 							<button
-								className='w-full text-left p-6'
+								className='w-full text-left px-0 py-4'
 								onClick={() => toggleQuestion(index)}
 							>
 								<div className='flex justify-between items-start'>
@@ -179,7 +164,7 @@ const FaqSection = () => {
 												},
 											},
 										}}
-										className='overflow-hidden px-6 pb-6'
+										className='overflow-hidden px-0'
 									>
 										<motion.p
 											initial={{ y: 20, opacity: 0 }}
