@@ -25,7 +25,7 @@ const Navbar = () => {
 			>
 				<Link
 					href='/'
-					className='text-[21px] font-bold text-white tracking-tight font-light hover:text-[rgb(239,252,118)] transition-colors duration-300'
+					className='text-[21px] text-white tracking-tight font-light hover:text-[rgb(239,252,118)] transition-colors duration-300'
 					style={{ fontFamily: 'var(--framer-font-family)' }}
 				>
 					Fluctus

@@ -27,9 +27,6 @@
 	--foreground: #171717;
 	--token-c73f38a2-6347-4370-b65b-f2031925a1e9: rgb(16, 16, 16);
 	--framer-font-family: 'Manrope', 'Manrope Placeholder', sans-serif;
-}
-
-@theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
