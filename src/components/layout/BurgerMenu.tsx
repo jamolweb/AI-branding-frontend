@@ -13,22 +13,35 @@ interface BurgerMenuProps {
 const menuVariants = {
 	closed: {
 		opacity: 0,
-		y: -20,
+		y: -10,
+		scale: 0.95,
 	},
 	open: {
 		opacity: 1,
 		y: 0,
+		scale: 1,
 		transition: {
-			duration: 0.4,
-			staggerChildren: 0.1,
-			delayChildren: 0.2,
+			type: 'spring',
+			stiffness: 300,
+			damping: 30,
+			staggerChildren: 0.05,
+			delayChildren: 0.1,
 		},
 	},
 }
 
 const itemVariants = {
-	closed: { opacity: 0, x: -20 },
-	open: { opacity: 1, x: 0 },
+	closed: { opacity: 0, x: -10, y: -10 },
+	open: {
+		opacity: 1,
+		x: 0,
+		y: 0,
+		transition: {
+			type: 'spring',
+			stiffness: 400,
+			damping: 40,
+		},
+	},
 }
 
 const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
@@ -59,26 +72,25 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 	const textColor = theme === 'light' ? 'text-black/90' : 'text-white/90'
 	const textHoverColor = theme === 'light' ? 'text-black' : 'text-white'
 	const lineColor = theme === 'light' ? 'bg-black' : 'bg-white'
-	const hoverBgColor =
-		theme === 'light' ? 'hover:bg-black/[0.05]' : 'hover:bg-white/[0.03]'
+	const menuBg = theme === 'light' ? 'bg-white/90' : 'bg-black/95'
 
 	return (
-		<div className={`lg:hidden ${className} ${scrolled ? 'shadow-sm' : ''}`}>
+		<div className={`lg:hidden ${className} flex items-center justify-center`}>
 			<motion.button
-				className='relative z-50 group p-2 flex items-center justify-center'
+				className='relative z-50 group p-2 rounded-full hover:bg-white/5 transition-colors duration-200 flex items-center justify-center'
 				onClick={() => setIsOpen(!isOpen)}
 				aria-label='Toggle Menu'
 				whileTap={{ scale: 0.95 }}
 			>
-				<div className='flex flex-col gap-1 w-5 items-center justify-center'>
+				<div className='flex flex-col gap-1 w-4'>
 					<motion.span
 						animate={{
 							rotate: isOpen ? 45 : 0,
-							y: isOpen ? 6 : 0,
+							y: isOpen ? 5 : 0,
 							width: isOpen ? '100%' : '100%',
 						}}
 						className={`block h-[1.5px] ${lineColor} origin-center transition-all duration-300 ease-out ${
-							!isOpen && 'group-hover:w-4'
+							!isOpen && 'group-hover:w-3.5'
 						}`}
 					/>
 					<motion.span
@@ -87,17 +99,17 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 							width: isOpen ? '0%' : '100%',
 						}}
 						className={`block h-[1.5px] ${lineColor} origin-center transition-all duration-300 ease-out ${
-							!isOpen && 'group-hover:w-3.5'
+							!isOpen && 'group-hover:w-3'
 						}`}
 					/>
 					<motion.span
 						animate={{
 							rotate: isOpen ? -45 : 0,
-							y: isOpen ? -6 : 0,
+							y: isOpen ? -5 : 0,
 							width: isOpen ? '100%' : '100%',
 						}}
 						className={`block h-[1.5px] ${lineColor} origin-center transition-all duration-300 ease-out ${
-							!isOpen && 'group-hover:w-3'
+							!isOpen && 'group-hover:w-2.5'
 						}`}
 					/>
 				</div>
@@ -111,8 +123,7 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							exit={{ opacity: 0 }}
-							transition={{ duration: 0.3 }}
-							className='fixed inset-0 z-40'
+							transition={{ duration: 0.2 }}
 							onClick={() => setIsOpen(false)}
 						/>
 
@@ -121,12 +132,14 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 							initial='closed'
 							animate='open'
 							exit='closed'
-							className='fixed z-50 top-20 left-4 right-4'
+							className='fixed z-50 top-[4rem] left-0 right-0'
 							onClick={e => e.stopPropagation()}
 						>
-							<div className='rounded-2xl overflow-hidden glass-light shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]'>
-								<div className='p-4'>
-									<nav className='flex flex-col space-y-3'>
+							<div
+								className={`overflow-hidden shadow-2xl ${menuBg} backdrop-blur-[25px] border-b border-white/10 rounded-xl`}
+							>
+								<div className='py-2 px-3 container mx-auto'>
+									<nav className='flex flex-col'>
 										{homePageNavbar.map((item, index) => (
 											<motion.div
 												key={item.href}
@@ -135,11 +148,11 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 											>
 												<Link
 													href={item.href}
-													className={`block px-4 py-3.5 text-[17px] font-medium ${textColor} ${textHoverColor} rounded-xl transition-all duration-300 ${hoverBgColor} flex items-center`}
+													className={`block px-2 py-2 text-[14px] font-medium ${textColor} ${textHoverColor} transition-colors duration-200 flex items-center`}
 													onClick={() => setIsOpen(false)}
 												>
 													{item.icon && (
-														<span className='mr-3'>{item.icon}</span>
+														<span className='mr-3 opacity-70'>{item.icon}</span>
 													)}
 													{item.label}
 												</Link>
@@ -147,14 +160,11 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 										))}
 									</nav>
 
-									<motion.div variants={itemVariants} className='mt-6'>
+									<motion.div variants={itemVariants} className='mt-2'>
 										<Link
 											href='/#get-template'
-											className='block w-full py-4 bg-[rgb(239,252,118)] text-black text-center font-medium rounded-xl hover:bg-[rgb(220,232,99)] active:scale-95 transition-all duration-300'
+											className='block w-full py-2 bg-[rgb(239,252,118)] text-black/90 text-[14px] text-center font-medium rounded-lg hover:bg-[rgb(220,232,99)] active:scale-95 transition-all duration-200'
 											onClick={() => setIsOpen(false)}
-											style={{
-												fontSize: '17px',
-											}}
 										>
 											Sign In
 										</Link>
