@@ -48,7 +48,6 @@ const PlansSection = () => {
 
 	return (
 		<section className='py-20'>
-			{/* Header */}
 			<motion.div
 				className='flex items-center gap-2 bg-zinc-900/80 w-fit px-4 py-2 rounded-full mb-6'
 				initial={{ opacity: 0, y: 20 }}
@@ -68,7 +67,6 @@ const PlansSection = () => {
 				pricing tiers designed for every stage of AI adoption.
 			</p>
 
-			{/* Billing Toggle */}
 			<div className='flex items-center gap-4 mb-12'>
 				<span
 					className={
@@ -97,7 +95,6 @@ const PlansSection = () => {
 				<span className='text-[#E2FF3F] text-sm'>Save 20%</span>
 			</div>
 
-			{/* Plans Grid */}
 			<div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
 				{plans.map(plan => (
 					<div

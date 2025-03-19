@@ -1,3 +1,4 @@
+import FaqSection from '@/components/layout/FaqSection'
 import FeaturesSection from '@/components/layout/FeaturesSection'
 import HeroSection from '@/components/layout/HeroSection'
 import Navbar from '@/components/layout/Navbar'
@@ -31,6 +32,7 @@ const HomePage = () => {
 					<FeaturesSection />
 					<ProcessSection />
 					<PlansSection />
+					<FaqSection />
 				</div>
 			</div>
 		</div>
