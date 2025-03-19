@@ -1,6 +1,7 @@
 import ContactSection from '@/components/layout/homePage/ContactSection'
 import FaqSection from '@/components/layout/homePage/FaqSection'
 import FeaturesSection from '@/components/layout/homePage/FeaturesSection'
+import Footer from '@/components/layout/homePage/Footer'
 import HeroSection from '@/components/layout/homePage/HeroSection'
 import Navbar from '@/components/layout/homePage/Navbar'
 import PlansSection from '@/components/layout/homePage/PlansSection'
@@ -35,6 +36,7 @@ const HomePage = () => {
 					<PlansSection />
 					<FaqSection />
 					<ContactSection />
+					<Footer />
 				</div>
 			</div>
 		</div>
