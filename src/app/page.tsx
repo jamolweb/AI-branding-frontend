@@ -12,19 +12,38 @@ import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 const HomePage = () => {
-	const { theme } = useTheme()
+	const { resolvedTheme } = useTheme()
 	const [mounted, setMounted] = useState(false)
 
 	useEffect(() => {
 		setMounted(true)
 	}, [])
 
-	if (!mounted) return null
+	// During SSR and initial mount, return a basic layout
+	if (!mounted) {
+		return (
+			<div className='min-h-screen'>
+				<div className='container mx-auto px-4 max-w-6xl'>
+					<Navbar />
+					<HeroSection />
+					<TrustedBySection />
+					<FeaturesSection />
+					<ProcessSection />
+					<PlansSection />
+					<FaqSection />
+					<ContactSection />
+					<Footer />
+				</div>
+			</div>
+		)
+	}
 
 	return (
 		<div
 			className={`min-h-screen text-black dark:text-white transition-colors duration-300`}
-			style={{ backgroundColor: theme === 'dark' ? 'rgb(16,16,16)' : 'white' }}
+			style={{
+				backgroundColor: resolvedTheme === 'dark' ? 'rgb(16,16,16)' : 'white',
+			}}
 		>
 			<div
 				className='fixed inset-0 z-0 opacity-20 pointer-events-none'
