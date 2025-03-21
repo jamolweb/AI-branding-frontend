@@ -59,6 +59,17 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 		}
 	}, [isOpen])
 
+	const handleScroll = (
+		e: React.MouseEvent<HTMLAnchorElement>,
+		sectionId: string
+	) => {
+		e.preventDefault()
+		const element = document.getElementById(sectionId)
+		if (element) {
+			element.scrollIntoView({ behavior: 'smooth' })
+		}
+	}
+
 	const textColor = theme === 'light' ? 'text-black/90' : 'text-white/90'
 	const textHoverColor = theme === 'light' ? 'text-black' : 'text-white'
 	const lineColor = theme === 'light' ? 'bg-black' : 'bg-white'
@@ -136,23 +147,26 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 												variants={itemVariants}
 												custom={index}
 											>
-												<Link
-													href={item.href}
+												<a
 													className={`block px-2 py-2 text-[14px] font-medium ${textColor} ${textHoverColor} transition-colors duration-200 flex items-center`}
-													onClick={() => setIsOpen(false)}
+													key={item.href}
+													href={`#${item.href.toLowerCase()}`}
+													onClick={e =>
+														handleScroll(e, item.href.toLowerCase())
+													}
 												>
 													{item.icon && (
 														<span className='mr-3 opacity-70'>{item.icon}</span>
 													)}
 													{item.label}
-												</Link>
+												</a>
 											</motion.div>
 										))}
 									</nav>
 
 									<motion.div variants={itemVariants} className='mt-2'>
 										<Link
-											href='/#get-template'
+											href='/auth/signin'
 											className='block w-full py-2 bg-[rgb(239,252,118)] text-black/90 text-[14px] text-center font-medium rounded-lg hover:bg-[rgb(220,232,99)] active:scale-95 transition-all duration-200'
 											onClick={() => setIsOpen(false)}
 										>

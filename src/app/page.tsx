@@ -14,7 +14,6 @@ const HomePage = () => {
 			className='min-h-screen text-white'
 			style={{ backgroundColor: 'rgb(16, 16, 16)' }}
 		>
-			{/* Background noise overlay */}
 			<div
 				className='fixed inset-0 z-0 opacity-20 pointer-events-none'
 				style={{
