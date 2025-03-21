@@ -32,6 +32,44 @@ const steps = [
 			'We seamlessly integrate your AI solutions and continuously optimize them to deliver lasting value.',
 	},
 ]
+const plans = [
+	{
+		name: 'Starter',
+		description: 'Perfect for small business exploration',
+		priceMonthly: 499,
+		priceYearly: 399,
+		features: [
+			'Access to 3 pre-trained ML models',
+			'10,000 API calls per month',
+			'Basic analytics dashboard',
+			'Email support (48h response time)',
+		],
+	},
+	{
+		name: 'Professional',
+		description: 'Growing companies ready to scale',
+		priceMonthly: 1999,
+		priceYearly: 1599,
+		features: [
+			'2 custom ML models',
+			'50,000 API calls per month',
+			'Advanced analytics & reporting suite',
+			'Priority support (24h response time)',
+		],
+		highlighted: true,
+	},
+	{
+		name: 'Enterprise',
+		description: 'Full AI transformation for enterprises',
+		price: 'Custom',
+		features: [
+			'Unlimited custom model development',
+			'Unlimited API calls',
+			'Full data governance & compliance',
+			'24/7 dedicated support',
+		],
+	},
+]
 
-export { homePageNavbar, steps }
+export { homePageNavbar, plans, steps }
 export type { NavItem }
