@@ -38,7 +38,10 @@ export default function ProcessSteps() {
 	if (!isMounted) return null
 
 	return (
-		<div id='process' className='bg-transparent text-white mb- md:p-8'>
+		<div
+			id='process'
+			className='bg-transparent dark:text-white text-black mb- md:p-8'
+		>
 			<div className='max-w-7xl mx-auto'>
 				<SectionName name='process' title='Our process' />
 				<SectionTitle
@@ -64,10 +67,11 @@ export default function ProcessSteps() {
 							)}
 							<div
 								style={{
-									backgroundColor: 'black',
+									backgroundColor: 'var(--card-bg)',
 									borderRadius: '16px',
 									marginTop: '10px',
 								}}
+								className='dark:bg-black bg-white'
 							>
 								<div
 									className={`rounded-2xl overflow-hidden ${
@@ -75,12 +79,12 @@ export default function ProcessSteps() {
 									}`}
 								>
 									<div className='bg-[#EFFC76FF] rounded-2xl py-2 px-3 flex items-center max-h-[71px]'>
-										<div className='w-10 h-10 rounded-full  flex items-center justify-center mr-4 shadow-lg'>
+										<div className='w-10 h-10 rounded-full flex items-center justify-center mr-4 shadow-lg'>
 											<span
 												className='text-[#EFFC76FF] font-mono font-light text-xl'
 												style={{
 													fontFamily: 'DM Mono, monospace',
-													backgroundColor: 'rgb(45, 45, 45)',
+													backgroundColor: 'var(--number-bg)',
 													borderRadius: '108.9px',
 													boxShadow:
 														'rgba(0, 0, 0, 0.2) 0px -3px 7px 0px inset, rgba(0, 0, 0, 0.17) 1px -14px 14px 0px inset, rgba(0, 0, 0, 0.1) 3px -30px 18px 0px inset, rgba(0, 0, 0, 0.03) 5px -54px 22px 0px inset, rgba(0, 0, 0, 0) 7px -84px 24px 0px inset, rgba(0, 0, 0, 0.29) 0px 2px 4px 0px, rgba(0, 0, 0, 0.26) 0px 8px 8px 0px, rgba(0, 0, 0, 0.15) 0px 17px 10px 0px, rgba(0, 0, 0, 0.04) 0px 31px 12px 0px, rgba(0, 0, 0, 0.01) 0px 48px 13px 0px',
@@ -95,9 +99,9 @@ export default function ProcessSteps() {
 											{step.title}
 										</h3>
 									</div>
-									<div className='rounded-b-xl p-6 border border-zinc-800/50 border-t-0 min-h-[120px]'>
+									<div className='rounded-b-xl p-6 border dark:border-zinc-800/50 border-zinc-200/50 border-t-0 min-h-[120px]'>
 										<p
-											className='text-[#d5d5d5] text-base lg:text-[15px] md:text-sm'
+											className='dark:text-[#d5d5d5] text-zinc-700 text-base lg:text-[15px] md:text-sm'
 											style={{
 												fontFamily:
 													'"Manrope", "Manrope Placeholder", sans-serif',

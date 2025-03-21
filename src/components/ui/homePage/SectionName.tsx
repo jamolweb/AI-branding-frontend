@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { FlowerIcon, RefreshCw, StarIcon, Sun } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 const icons = {
 	process: (
@@ -25,6 +26,7 @@ const icons = {
 }
 
 const SectionName = ({ name, title }: { name: string; title: string }) => {
+	const { theme } = useTheme()
 	return (
 		<motion.div
 			className='flex items-center gap-3 w-fit px-4 py-2 mb-6'
