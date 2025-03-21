@@ -85,7 +85,6 @@ const PlansSection = () => {
 					tabIndex={0}
 				>
 					<div className='relative w-5 h-5'>
-						{/* Main toggle circle */}
 						<div
 							className={`absolute w-5 h-5 rounded-full bg-black shadow-lg transition-transform duration-300 ${
 								billingCycle === 'yearly' ? 'translate-x-7' : ''

@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 
-/* Add proper backdrop filter support */
 @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
 	.backdrop-blur {
 		-webkit-backdrop-filter: blur(12px);
@@ -9,7 +8,6 @@
 	}
 }
 
-/* Fix for Safari and other browsers */
 .glass-effect {
 	-webkit-backdrop-filter: blur(16px) saturate(180%);
 	backdrop-filter: blur(16px) saturate(180%);
@@ -130,5 +128,13 @@ body {
 	}
 	50% {
 		transform: translate(0, 50px) rotate(180deg);
+	}
+}
+@keyframes twinkle {
+	0% {
+		opacity: 0.1;
+	}
+	100% {
+		opacity: 0.8;
 	}
 }

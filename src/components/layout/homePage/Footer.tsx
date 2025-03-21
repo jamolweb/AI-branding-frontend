@@ -4,7 +4,6 @@ const Footer = () => {
 	return (
 		<footer className='bg-transparent text-white pt-12 px-6'>
 			<div className='max-w-6xl mx-auto'>
-				{/* CTA Section */}
 				<div className='mb-24'>
 					<div
 						className='w-full p-16 rounded-3xl relative overflow-hidden'
@@ -48,8 +47,6 @@ const Footer = () => {
 					</div>
 				</div>
 
-				{/* Rest of the footer content */}
-				{/* Top section with logo and tagline */}
 				<div className='flex flex-col md:flex-row justify-between items-start mb-8'>
 					<div className='mb-6 md:mb-0'>
 						<div className='flex items-center mb-4'>
@@ -75,7 +72,6 @@ const Footer = () => {
 						</p>
 					</div>
 
-					{/* Menu and Legal links */}
 					<div className='grid grid-cols-2 gap-x-16 gap-y-6'>
 						<div>
 							<h3 className='text-xl mb-4'>Menu</h3>
@@ -130,7 +126,6 @@ const Footer = () => {
 								</li>
 							</ul>
 
-							{/* Social icons */}
 							<div className='flex justify-start mt-7 space-x-4 relative z-10'>
 								<a
 									href='https://twitter.com'
@@ -155,10 +150,8 @@ const Footer = () => {
 					</div>
 				</div>
 
-				{/* Divider */}
 				<div className='border-t border-gray-800 my-8'></div>
 
-				{/* Bottom section with large transparent Fluctus text */}
 				<div className='relative'>
 					<div
 						className='framer-jrdvfs'

@@ -6,6 +6,7 @@ import HeroSection from '@/components/layout/homePage/HeroSection'
 import Navbar from '@/components/layout/homePage/Navbar'
 import PlansSection from '@/components/layout/homePage/PlansSection'
 import ProcessSection from '@/components/layout/homePage/ProcessSection'
+import TestimonialWithStars from '@/components/layout/homePage/Testimonials'
 import TrustedBySection from '@/components/layout/homePage/TrustedBySection'
 
 const HomePage = () => {
@@ -24,7 +25,6 @@ const HomePage = () => {
 				}}
 			/>
 
-			{/* Content */}
 			<div className='relative z-10'>
 				<div className='container mx-auto px-4 max-w-6xl'>
 					<Navbar />
@@ -32,6 +32,7 @@ const HomePage = () => {
 					<TrustedBySection />
 					<FeaturesSection />
 					<ProcessSection />
+					<TestimonialWithStars />
 					<PlansSection />
 					<FaqSection />
 					<ContactSection />

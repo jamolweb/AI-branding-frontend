@@ -11,7 +11,6 @@ const HeroSection = () => {
 			<div className='framer-content-wrapper mt-34 flex flex-col items-center text-center pt-16 pb-24'>
 				<div className='framer-heading-wrapper'>
 					<div className='framer-text-wrapper flex flex-col gap-5'>
-						{/* Main heading */}
 						<div className='flex flex-col justify-center opacity-100 flex-shrink-0 will-change-transform'>
 							<h1
 								className='text-white text-6xl md:text-6xl font-bold max-w-4xl leading-tight'
@@ -21,7 +20,6 @@ const HeroSection = () => {
 							</h1>
 						</div>
 
-						{/* Description */}
 						<div className='flex flex-col justify-center opacity-100 flex-shrink-0 will-change-transform'>
 							<p className='text-white/80 text-xl max-w-2xl mx-auto'>
 								Fluctus is a flexible and user-friendly template for AI startups
@@ -30,7 +28,6 @@ const HeroSection = () => {
 						</div>
 					</div>
 
-					{/* CTA buttons - hidden on mobile/tablet */}
 					<div className='hidden lg:flex gap-4 justify-center mt-12 opacity-100 will-change-transform'>
 						<Link
 							href='/#services'

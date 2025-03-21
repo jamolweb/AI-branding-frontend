@@ -42,7 +42,6 @@ const ContactSection = () => {
 					/>
 				</div>
 
-				{/* Right side - Form */}
 				<div className='lg:w-2/3'>
 					<form
 						onSubmit={handleSubmit}
