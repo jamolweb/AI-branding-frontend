@@ -3,6 +3,7 @@
 import { homePageNavbar } from '@/data/siteData'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { ModeToggle } from '../ModeToggle'
 import BurgerMenu from './BurgerMenu'
 
 const Navbar = () => {
@@ -62,6 +63,7 @@ const Navbar = () => {
 				>
 					Sign In
 				</Link>
+				<ModeToggle />
 
 				<BurgerMenu className='lg:hidden' />
 			</div>

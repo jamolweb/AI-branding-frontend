@@ -1,3 +1,4 @@
+'use client'
 import ContactSection from '@/components/layout/homePage/ContactSection'
 import FaqSection from '@/components/layout/homePage/FaqSection'
 import FeaturesSection from '@/components/layout/homePage/FeaturesSection'
@@ -7,14 +8,24 @@ import Navbar from '@/components/layout/homePage/Navbar'
 import PlansSection from '@/components/layout/homePage/PlansSection'
 import ProcessSection from '@/components/layout/homePage/ProcessSection'
 import TrustedBySection from '@/components/layout/homePage/TrustedBySection'
+import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 
 const HomePage = () => {
+	const { theme } = useTheme()
+	const [mounted, setMounted] = useState(false)
+
+	useEffect(() => {
+		setMounted(true)
+	}, [])
+
+	if (!mounted) return null
+
 	return (
 		<div
-			className='min-h-screen text-white'
-			style={{ backgroundColor: 'rgb(16, 16, 16)' }}
+			className={`min-h-screen text-black dark:text-white transition-colors duration-300`}
+			style={{ backgroundColor: theme === 'dark' ? 'rgb(16,16,16)' : 'white' }}
 		>
-			{/* Background noise overlay */}
 			<div
 				className='fixed inset-0 z-0 opacity-20 pointer-events-none'
 				style={{
