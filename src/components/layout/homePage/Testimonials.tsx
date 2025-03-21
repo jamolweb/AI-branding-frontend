@@ -129,8 +129,8 @@ const TestimonialWithStars = () => {
 						<Image
 							src='/testimonials/marcus-thompson.png'
 							alt='Marcus Thompson'
-							width={300}
-							height={300}
+							width={400}
+							height={400}
 							className='w-full h-full object-cover brightness-90'
 							style={{
 								filter: 'sepia(0.3) contrast(1.05)',
@@ -141,8 +141,8 @@ const TestimonialWithStars = () => {
 
 				<div className='flex flex-col text-white'>
 					<blockquote className='text-2xl font-medium mb-4 leading-tight'>
-						"Their predictive analytics gave us market forecasting accuracy we
-						never thought was possible."
+						&ldquo;Their predictive analytics gave us market forecasting
+						accuracy we never thought was possible.&rdquo;
 					</blockquote>
 
 					<div>
