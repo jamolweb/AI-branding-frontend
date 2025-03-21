@@ -2,38 +2,20 @@
 
 import SectionName from '@/components/ui/homePage/SectionName'
 import SectionTitle from '@/components/ui/homePage/sectionTitle'
+import { steps } from '@/data/siteData'
 import { useMobile } from '@/hooks/use-mobile'
 import { motion } from 'framer-motion'
+import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
 export default function ProcessSteps() {
+	const { theme } = useTheme()
 	const [isMounted, setIsMounted] = useState(false)
 	const isMobile = useMobile()
 
 	useEffect(() => {
 		setIsMounted(true)
 	}, [])
-
-	const steps = [
-		{
-			number: 1,
-			title: 'Discover & Prepare',
-			description:
-				'We analyze your challenges and organize your data to create the perfect foundation for AI transformation.',
-		},
-		{
-			number: 2,
-			title: 'Develop & Test',
-			description:
-				'Our team builds and validates custom AI solutions precisely matched to your business goals.',
-		},
-		{
-			number: 3,
-			title: 'Deploy & Optimize',
-			description:
-				'We seamlessly integrate your AI solutions and continuously optimize them to deliver lasting value.',
-		},
-	]
 
 	if (!isMounted) return null
 
@@ -47,7 +29,7 @@ export default function ProcessSteps() {
 				<SectionTitle
 					title='Simple steps, powerful results'
 					description={`We've simplified AI transformation into three clear steps that
-					take you from concept to real-world results.`}
+				take you from concept to real-world results.`}
 				/>
 
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8'>
@@ -60,31 +42,46 @@ export default function ProcessSteps() {
 							transition={{ duration: 0.6, delay: index * 0.1 }}
 							viewport={{ once: true, margin: '-100px' }}
 						>
-							{!isMobile && (
-								<div className='absolute top-0 mt-28 left-1/2 -translate-x-1/2 -translate-y-[70%] w-full h-32 pointer-events-none'>
+							{!isMobile && theme === 'dark' && (
+								<div className='absolute top-0 mt-16 left-1/2 -translate-x-1/2 -translate-y-[70%] w-full h-32 pointer-events-none'>
 									<RayBurst index={index} />
 								</div>
 							)}
 							<div
 								style={{
-									backgroundColor: 'var(--card-bg)',
+									backgroundColor: theme === 'dark' ? 'black' : '#fffdf7',
 									borderRadius: '16px',
 									marginTop: '10px',
+									boxShadow:
+										theme === 'dark'
+											? 'none'
+											: '0 4px 15px -3px rgba(0, 0, 0, 0.07), 0 2px 8px -2px rgba(0, 0, 0, 0.03)',
+									transition: 'all 0.3s ease',
 								}}
-								className='dark:bg-black bg-white'
 							>
 								<div
 									className={`rounded-2xl overflow-hidden ${
-										!isMobile ? 'mt-28' : 'mt-0'
+										!isMobile
+											? `${theme === 'dark' ? 'mt-14' : 'mt-0'}`
+											: 'mt-0'
 									}`}
 								>
-									<div className='bg-[#EFFC76FF] rounded-2xl py-2 px-3 flex items-center max-h-[71px]'>
+									<div
+										className='rounded-2xl py-2 px-3 flex items-center max-h-[71px]'
+										style={{
+											backgroundColor: '#EFFC76FF',
+											borderBottom:
+												theme === 'dark' ? 'none' : '1px solid #e6e3c3',
+										}}
+									>
 										<div className='w-10 h-10 rounded-full flex items-center justify-center mr-4 shadow-lg'>
 											<span
-												className='text-[#EFFC76FF] font-mono font-light text-xl'
+												className='font-mono font-light text-xl'
 												style={{
 													fontFamily: 'DM Mono, monospace',
-													backgroundColor: 'var(--number-bg)',
+													backgroundColor:
+														theme === 'dark' ? '#1a1a1a' : '#2a2a2a',
+													color: '#EFFC76FF',
 													borderRadius: '108.9px',
 													boxShadow:
 														'rgba(0, 0, 0, 0.2) 0px -3px 7px 0px inset, rgba(0, 0, 0, 0.17) 1px -14px 14px 0px inset, rgba(0, 0, 0, 0.1) 3px -30px 18px 0px inset, rgba(0, 0, 0, 0.03) 5px -54px 22px 0px inset, rgba(0, 0, 0, 0) 7px -84px 24px 0px inset, rgba(0, 0, 0, 0.29) 0px 2px 4px 0px, rgba(0, 0, 0, 0.26) 0px 8px 8px 0px, rgba(0, 0, 0, 0.15) 0px 17px 10px 0px, rgba(0, 0, 0, 0.04) 0px 31px 12px 0px, rgba(0, 0, 0, 0.01) 0px 48px 13px 0px',
@@ -95,19 +92,43 @@ export default function ProcessSteps() {
 												{step.number}
 											</span>
 										</div>
-										<h3 className='text-black text-base md:text-lg lg:text-xl font-semibold'>
+										<h3
+											className='text-base md:text-lg lg:text-xl font-semibold'
+											style={{
+												color: 'black',
+											}}
+										>
 											{step.title}
 										</h3>
 									</div>
-									<div className='rounded-b-xl p-6 border dark:border-zinc-800/50 border-zinc-200/50 border-t-0 min-h-[120px]'>
+									<div
+										className='rounded-b-xl p-6 min-h-[120px]'
+										style={{
+											backgroundColor:
+												theme === 'dark' ? 'transparent' : 'white',
+											borderLeft:
+												theme === 'dark'
+													? '1px solid rgba(82, 82, 91, 0.5)'
+													: '1px solid rgba(234, 230, 191, 0.8)',
+											borderRight:
+												theme === 'dark'
+													? '1px solid rgba(82, 82, 91, 0.5)'
+													: '1px solid rgba(234, 230, 191, 0.8)',
+											borderBottom:
+												theme === 'dark'
+													? '1px solid rgba(82, 82, 91, 0.5)'
+													: '1px solid rgba(234, 230, 191, 0.8)',
+										}}
+									>
 										<p
-											className='dark:text-[#d5d5d5] text-zinc-700 text-base lg:text-[15px] md:text-sm'
+											className='text-base lg:text-[15px] md:text-sm'
 											style={{
 												fontFamily:
 													'"Manrope", "Manrope Placeholder", sans-serif',
 												fontWeight: 500,
 												lineHeight: '1.5em',
 												letterSpacing: '-0.01em',
+												color: theme === 'dark' ? '#d5d5d5' : '#333333',
 											}}
 										>
 											{step.description}
