@@ -11,26 +11,27 @@ const Footer = () => {
 		>
 			<div className='max-w-6xl mx-auto'>
 				{/* CTA Section */}
-				<div className='mb-24'>
+				<div className='mb-12 md:mb-24'>
 					<div
-						className='w-full p-16 rounded-3xl relative overflow-hidden'
+						className='w-full p-6 md:p-16 rounded-3xl relative overflow-hidden'
 						style={{
 							backgroundColor:
 								theme === 'dark' ? 'rgb(32, 32, 32)' : 'rgb(239, 252, 118)',
 						}}
 					>
-						<div className='flex flex-col max-w-2xl gap-6'>
+						<div className='flex flex-col max-w-2xl gap-4 md:gap-6'>
 							<h2
-								className='text-5xl font-medium leading-tight'
+								className='text-3xl md:text-5xl font-medium leading-tight'
 								style={{
 									color:
 										theme === 'dark' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
 								}}
 							>
-								Ready to unlock the <br /> power of AI?
+								Ready to unlock the <br className='hidden md:block' /> power of
+								AI?
 							</h2>
 							<p
-								className='text-xl'
+								className='text-lg md:text-xl'
 								style={{
 									color:
 										theme === 'dark'
@@ -38,13 +39,14 @@ const Footer = () => {
 											: 'rgba(0, 0, 0, 0.6)',
 								}}
 							>
-								Transform your business with cutting-edge solutions <br />{' '}
-								tailored to your unique challenges.
+								Transform your business with cutting-edge solutions{' '}
+								<br className='hidden md:block' /> tailored to your unique
+								challenges.
 							</p>
-							<div className='mt-4'>
+							<div className='mt-2 md:mt-4'>
 								<a
 									href='#contact'
-									className='inline-flex px-6 py-3 rounded-xl font-medium text-lg transition-transform hover:scale-105'
+									className='inline-flex px-4 md:px-6 py-2 md:py-3 rounded-xl font-medium text-base md:text-lg transition-transform hover:scale-105'
 									style={{
 										backgroundColor:
 											theme === 'dark'
