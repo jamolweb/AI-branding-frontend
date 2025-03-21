@@ -1,44 +1,83 @@
 import { Instagram, Linkedin, Twitter } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 const Footer = () => {
+	const { theme } = useTheme()
+
 	return (
-		<footer className='bg-transparent text-white pt-12 px-6'>
+		<footer
+			className='bg-transparent pt-12 px-6'
+			style={{ color: theme === 'dark' ? 'white' : 'rgb(16, 16, 16)' }}
+		>
 			<div className='max-w-6xl mx-auto'>
 				{/* CTA Section */}
 				<div className='mb-24'>
 					<div
 						className='w-full p-16 rounded-3xl relative overflow-hidden'
-						style={{ backgroundColor: 'rgb(239, 252, 118)' }}
+						style={{
+							backgroundColor:
+								theme === 'dark' ? 'rgb(32, 32, 32)' : 'rgb(239, 252, 118)',
+						}}
 					>
 						<div className='flex flex-col max-w-2xl gap-6'>
 							<h2
 								className='text-5xl font-medium leading-tight'
-								style={{ color: 'rgb(0, 0, 0)' }}
+								style={{
+									color:
+										theme === 'dark' ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+								}}
 							>
 								Ready to unlock the <br /> power of AI?
 							</h2>
-							<p className='text-xl' style={{ color: 'rgba(0, 0, 0, 0.6)' }}>
+							<p
+								className='text-xl'
+								style={{
+									color:
+										theme === 'dark'
+											? 'rgba(255, 255, 255, 0.6)'
+											: 'rgba(0, 0, 0, 0.6)',
+								}}
+							>
 								Transform your business with cutting-edge solutions <br />{' '}
 								tailored to your unique challenges.
 							</p>
 							<div className='mt-4'>
 								<a
 									href='#contact'
-									className='inline-flex px-6 py-3 text-white rounded-xl font-medium text-lg transition-transform hover:scale-105'
+									className='inline-flex px-6 py-3 rounded-xl font-medium text-lg transition-transform hover:scale-105'
 									style={{
-										backgroundColor: 'rgb(45, 45, 45)',
-										boxShadow: `
-											rgba(0, 0, 0, 0.29) 0px 2px 4px 0px,
-											rgba(0, 0, 0, 0.26) 0px 8px 8px 0px,
-											rgba(0, 0, 0, 0.15) 0px 17px 10px 0px,
-											rgba(0, 0, 0, 0.04) 0px 31px 12px 0px,
-											rgba(0, 0, 0, 0.01) 0px 48px 13px 0px,
-											rgba(0, 0, 0, 0.2) 0px -3px 7px 0px inset,
-											rgba(0, 0, 0, 0.17) 1px -14px 14px 0px inset,
-											rgba(0, 0, 0, 0.1) 3px -30px 18px 0px inset,
-											rgba(0, 0, 0, 0.03) 5px -54px 22px 0px inset,
-											rgba(0, 0, 0, 0) 7px -84px 24px 0px inset
-										`,
+										backgroundColor:
+											theme === 'dark'
+												? 'rgb(239, 252, 118)'
+												: 'rgb(45, 45, 45)',
+										color:
+											theme === 'dark' ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+										boxShadow:
+											theme === 'dark'
+												? `
+												rgba(255, 255, 255, 0.1) 0px 2px 4px 0px,
+												rgba(255, 255, 255, 0.1) 0px 8px 8px 0px,
+												rgba(255, 255, 255, 0.1) 0px 17px 10px 0px,
+												rgba(255, 255, 255, 0.04) 0px 31px 12px 0px,
+												rgba(255, 255, 255, 0.01) 0px 48px 13px 0px,
+												rgba(255, 255, 255, 0.1) 0px -3px 7px 0px inset,
+												rgba(255, 255, 255, 0.1) 1px -14px 14px 0px inset,
+												rgba(255, 255, 255, 0.05) 3px -30px 18px 0px inset,
+												rgba(255, 255, 255, 0.02) 5px -54px 22px 0px inset,
+												rgba(255, 255, 255, 0) 7px -84px 24px 0px inset
+											`
+												: `
+												rgba(0, 0, 0, 0.29) 0px 2px 4px 0px,
+												rgba(0, 0, 0, 0.26) 0px 8px 8px 0px,
+												rgba(0, 0, 0, 0.15) 0px 17px 10px 0px,
+												rgba(0, 0, 0, 0.04) 0px 31px 12px 0px,
+												rgba(0, 0, 0, 0.01) 0px 48px 13px 0px,
+												rgba(0, 0, 0, 0.2) 0px -3px 7px 0px inset,
+												rgba(0, 0, 0, 0.17) 1px -14px 14px 0px inset,
+												rgba(0, 0, 0, 0.1) 3px -30px 18px 0px inset,
+												rgba(0, 0, 0, 0.03) 5px -54px 22px 0px inset,
+												rgba(0, 0, 0, 0) 7px -84px 24px 0px inset
+											`,
 									}}
 								>
 									Start Today
@@ -48,8 +87,6 @@ const Footer = () => {
 					</div>
 				</div>
 
-				{/* Rest of the footer content */}
-				{/* Top section with logo and tagline */}
 				<div className='flex flex-col md:flex-row justify-between items-start mb-8'>
 					<div className='mb-6 md:mb-0'>
 						<div className='flex items-center mb-4'>
@@ -69,7 +106,14 @@ const Footer = () => {
 							</div>
 							<span className='text-3xl font-bold'>Fluctus</span>
 						</div>
-						<p className='text-gray-400 max-w-md'>
+						<p
+							style={{
+								color:
+									theme === 'dark'
+										? 'rgb(156, 163, 175)'
+										: 'rgb(107, 114, 128)',
+							}}
+						>
 							Empowering organizations to harness the full potential of
 							artificial intelligence for sustainable growth.
 						</p>
@@ -83,28 +127,70 @@ const Footer = () => {
 								<li>
 									<a
 										href='#services'
-										className='text-gray-400 hover:text-white'
+										style={{
+											color:
+												theme === 'dark'
+													? 'rgb(156, 163, 175)'
+													: 'rgb(107, 114, 128)',
+										}}
+										className='hover:text-white dark:hover:text-white'
 									>
 										Services
 									</a>
 								</li>
 								<li>
-									<a href='#process' className='text-gray-400 hover:text-white'>
+									<a
+										href='#process'
+										style={{
+											color:
+												theme === 'dark'
+													? 'rgb(156, 163, 175)'
+													: 'rgb(107, 114, 128)',
+										}}
+										className='hover:text-white dark:hover:text-white'
+									>
 										Process
 									</a>
 								</li>
 								<li>
-									<a href='#pricing' className='text-gray-400 hover:text-white'>
+									<a
+										href='#pricing'
+										style={{
+											color:
+												theme === 'dark'
+													? 'rgb(156, 163, 175)'
+													: 'rgb(107, 114, 128)',
+										}}
+										className='hover:text-white dark:hover:text-white'
+									>
 										Pricing
 									</a>
 								</li>
 								<li>
-									<a href='#faq' className='text-gray-400 hover:text-white'>
+									<a
+										href='#faq'
+										style={{
+											color:
+												theme === 'dark'
+													? 'rgb(156, 163, 175)'
+													: 'rgb(107, 114, 128)',
+										}}
+										className='hover:text-white dark:hover:text-white'
+									>
 										FAQ
 									</a>
 								</li>
 								<li>
-									<a href='#contact' className='text-gray-400 hover:text-white'>
+									<a
+										href='#contact'
+										style={{
+											color:
+												theme === 'dark'
+													? 'rgb(156, 163, 175)'
+													: 'rgb(107, 114, 128)',
+										}}
+										className='hover:text-white dark:hover:text-white'
+									>
 										Contact
 									</a>
 								</li>
@@ -114,17 +200,44 @@ const Footer = () => {
 							<h3 className='text-xl mb-4'>Legal</h3>
 							<ul className='space-y-2'>
 								<li>
-									<a href='#terms' className='text-gray-400 hover:text-white'>
+									<a
+										href='#terms'
+										style={{
+											color:
+												theme === 'dark'
+													? 'rgb(156, 163, 175)'
+													: 'rgb(107, 114, 128)',
+										}}
+										className='hover:text-white dark:hover:text-white'
+									>
 										Terms of Service
 									</a>
 								</li>
 								<li>
-									<a href='#privacy' className='text-gray-400 hover:text-white'>
+									<a
+										href='#privacy'
+										style={{
+											color:
+												theme === 'dark'
+													? 'rgb(156, 163, 175)'
+													: 'rgb(107, 114, 128)',
+										}}
+										className='hover:text-white dark:hover:text-white'
+									>
 										Privacy Policy
 									</a>
 								</li>
 								<li>
-									<a href='#cookies' className='text-gray-400 hover:text-white'>
+									<a
+										href='#cookies'
+										style={{
+											color:
+												theme === 'dark'
+													? 'rgb(156, 163, 175)'
+													: 'rgb(107, 114, 128)',
+										}}
+										className='hover:text-white dark:hover:text-white'
+									>
 										Cookie Policy
 									</a>
 								</li>
@@ -180,7 +293,9 @@ const Footer = () => {
 								flexShrink: 0,
 								color: 'rgb(0, 153, 255)',
 								textShadow:
-									'rgba(214, 214, 214, 0.15) -1px -1px 0px, rgba(213, 213, 213, 0.15) 0px -1px 0px, rgba(213, 213, 213, 0.15) 1px -1px 0px, rgba(213, 213, 213, 0.15) 1px 0px 0px, rgba(213, 213, 213, 0.15) 1px 1px 0px, rgba(213, 213, 213, 0.15) 0px 1px 0px, rgba(213, 213, 213, 0.15) -1px 1px 0px, rgba(213, 213, 213, 0.15) -1px 0px 0px',
+									theme === 'dark'
+										? 'rgba(255, 255, 255, 0.15) -1px -1px 0px, rgba(255, 255, 255, 0.15) 0px -1px 0px, rgba(255, 255, 255, 0.15) 1px -1px 0px, rgba(255, 255, 255, 0.15) 1px 0px 0px, rgba(255, 255, 255, 0.15) 1px 1px 0px, rgba(255, 255, 255, 0.15) 0px 1px 0px, rgba(255, 255, 255, 0.15) -1px 1px 0px, rgba(255, 255, 255, 0.15) -1px 0px 0px'
+										: 'rgba(214, 214, 214, 0.15) -1px -1px 0px, rgba(213, 213, 213, 0.15) 0px -1px 0px, rgba(213, 213, 213, 0.15) 1px -1px 0px, rgba(213, 213, 213, 0.15) 1px 0px 0px, rgba(213, 213, 213, 0.15) 1px 1px 0px, rgba(213, 213, 213, 0.15) 0px 1px 0px, rgba(213, 213, 213, 0.15) -1px 1px 0px, rgba(213, 213, 213, 0.15) -1px 0px 0px',
 							}}
 						>
 							<foreignObject
@@ -200,7 +315,10 @@ const Footer = () => {
 										fontSize: '330px',
 										fontWeight: 600,
 										lineHeight: '0.3em',
-										color: 'rgb(38, 38, 38)',
+										color:
+											theme === 'dark'
+												? 'rgb(38, 38, 38)'
+												: 'rgb(229, 229, 229)',
 										transform: 'translateY(100px)',
 									}}
 								>
