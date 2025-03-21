@@ -2,6 +2,11 @@ import { motion } from 'framer-motion'
 import { FlowerIcon, RefreshCw, StarIcon, Sun } from 'lucide-react'
 
 const icons = {
+	service: (
+		<div className='w-7 h-7 rounded-full flex items-center justify-center'>
+			<Sun className='w-7 h-7 text-[#effc76]' />
+		</div>
+	),
 	process: (
 		<div className='w-7 h-7 rounded-full flex items-center justify-center'>
 			<RefreshCw className='w-7 h-7 text-[#E2FF3F]' />
@@ -39,7 +44,7 @@ const SectionName = ({ name, title }: { name: string; title: string }) => {
 				opacity: 1,
 			}}
 		>
-			{icons[name as keyof typeof icons]}
+			{name in icons ? icons[name as keyof typeof icons] : null}
 			<span
 				style={{
 					fontFamily: '"Satoshi", "Satoshi Placeholder", sans-serif',

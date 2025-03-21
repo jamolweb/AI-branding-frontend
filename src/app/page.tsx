@@ -4,6 +4,7 @@ import FeaturesSection from '@/components/layout/homePage/FeaturesSection'
 import Footer from '@/components/layout/homePage/Footer'
 import HeroSection from '@/components/layout/homePage/HeroSection'
 import Navbar from '@/components/layout/homePage/Navbar'
+import OurServices from '@/components/layout/homePage/OurServices'
 import PlansSection from '@/components/layout/homePage/PlansSection'
 import ProcessSection from '@/components/layout/homePage/ProcessSection'
 import TestimonialWithStars from '@/components/layout/homePage/Testimonials'
@@ -31,6 +32,7 @@ const HomePage = () => {
 					<HeroSection />
 					<TrustedBySection />
 					<FeaturesSection />
+					<OurServices />
 					<ProcessSection />
 					<TestimonialWithStars />
 					<PlansSection />
