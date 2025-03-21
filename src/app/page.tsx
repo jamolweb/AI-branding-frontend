@@ -19,7 +19,6 @@ const HomePage = () => {
 		setMounted(true)
 	}, [])
 
-	// During SSR and initial mount, return a basic layout
 	if (!mounted) {
 		return (
 			<div className='min-h-screen'>

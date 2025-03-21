@@ -2,9 +2,11 @@
 
 import SectionName from '@/components/ui/homePage/SectionName'
 import SectionTitle from '@/components/ui/homePage/sectionTitle'
+import { useTheme } from 'next-themes'
 import { useState } from 'react'
 
 const ContactSection = () => {
+	const { theme } = useTheme()
 	const [formData, setFormData] = useState({
 		firstName: '',
 		lastName: '',
@@ -48,10 +50,12 @@ const ContactSection = () => {
 						onSubmit={handleSubmit}
 						className='space-y-5 rounded-2xl p-8'
 						style={{
-							backgroundColor: 'rgb(16, 16, 16)',
+							backgroundColor: theme === 'dark' ? 'rgb(16, 16, 16)' : 'white',
 							borderRadius: '16px',
 							boxShadow:
-								'rgba(0, 0, 0, 0.29) 0px 2px 4px 0px, rgba(0, 0, 0, 0.26) 0px 8px 8px 0px, rgba(0, 0, 0, 0.15) 0px 17px 10px 0px, rgba(0, 0, 0, 0.04) 0px 31px 12px 0px, rgba(0, 0, 0, 0.01) 0px 48px 13px 0px, rgba(255, 255, 255, 0.15) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px -3px 7px 0px inset, rgba(0, 0, 0, 0.17) 1px -14px 14px 0px inset, rgba(0, 0, 0, 0.1) 3px -30px 18px 0px inset, rgba(0, 0, 0, 0.03) 5px -54px 22px 0px inset, rgba(0, 0, 0, 0) 7px -84px 24px 0px inset',
+								theme === 'dark'
+									? 'rgba(0, 0, 0, 0.29) 0px 2px 4px 0px, rgba(0, 0, 0, 0.26) 0px 8px 8px 0px, rgba(0, 0, 0, 0.15) 0px 17px 10px 0px, rgba(0, 0, 0, 0.04) 0px 31px 12px 0px, rgba(0, 0, 0, 0.01) 0px 48px 13px 0px, rgba(255, 255, 255, 0.15) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.2) 0px -3px 7px 0px inset, rgba(0, 0, 0, 0.17) 1px -14px 14px 0px inset, rgba(0, 0, 0, 0.1) 3px -30px 18px 0px inset, rgba(0, 0, 0, 0.03) 5px -54px 22px 0px inset, rgba(0, 0, 0, 0) 7px -84px 24px 0px inset'
+									: 'rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(0, 0, 0, 0.06) 0px 8px 8px 0px',
 							opacity: 1,
 						}}
 					>
@@ -60,7 +64,12 @@ const ContactSection = () => {
 								<label
 									htmlFor='firstName'
 									className='block mb-2 text-sm'
-									style={{ color: 'var(--framer-text-color)' }}
+									style={{
+										color:
+											theme === 'dark'
+												? 'rgb(213, 213, 213)'
+												: 'rgb(16, 16, 16)',
+									}}
 								>
 									First name
 								</label>
@@ -73,17 +82,37 @@ const ContactSection = () => {
 									className='w-full px-4 py-3 rounded-lg max-h-[40px]'
 									style={{
 										background:
-											'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)',
+											theme === 'dark'
+												? 'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)'
+												: 'white',
 										borderRadius: '10px',
-										border: '1px solid rgba(136, 136, 136, 0.1)',
-										boxShadow: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)',
-										color: 'rgb(213, 213, 213)',
+										border:
+											theme === 'dark'
+												? '1px solid rgba(136, 136, 136, 0.1)'
+												: '1px solid rgba(0, 0, 0, 0.1)',
+										boxShadow:
+											theme === 'dark'
+												? 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)'
+												: 'none',
+										color:
+											theme === 'dark'
+												? 'rgb(213, 213, 213)'
+												: 'rgb(16, 16, 16)',
 									}}
 									placeholder='John'
 								/>
 							</div>
 							<div>
-								<label htmlFor='lastName' className='block mb-2 text-sm'>
+								<label
+									htmlFor='lastName'
+									className='block mb-2 text-sm'
+									style={{
+										color:
+											theme === 'dark'
+												? 'rgb(213, 213, 213)'
+												: 'rgb(16, 16, 16)',
+									}}
+								>
 									Last name
 								</label>
 								<input
@@ -95,11 +124,22 @@ const ContactSection = () => {
 									className='w-full px-4 py-3 rounded-lg max-h-[40px]'
 									style={{
 										background:
-											'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)',
+											theme === 'dark'
+												? 'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)'
+												: 'white',
 										borderRadius: '10px',
-										border: '1px solid rgba(136, 136, 136, 0.1)',
-										boxShadow: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)',
-										color: 'rgb(213, 213, 213)',
+										border:
+											theme === 'dark'
+												? '1px solid rgba(136, 136, 136, 0.1)'
+												: '1px solid rgba(0, 0, 0, 0.1)',
+										boxShadow:
+											theme === 'dark'
+												? 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)'
+												: 'none',
+										color:
+											theme === 'dark'
+												? 'rgb(213, 213, 213)'
+												: 'rgb(16, 16, 16)',
 									}}
 									placeholder='Smith'
 								/>
@@ -107,7 +147,14 @@ const ContactSection = () => {
 						</div>
 
 						<div>
-							<label htmlFor='email' className='block mb-2 text-sm'>
+							<label
+								htmlFor='email'
+								className='block mb-2 text-sm'
+								style={{
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
+								}}
+							>
 								Email
 							</label>
 							<input
@@ -119,18 +166,34 @@ const ContactSection = () => {
 								className='w-full px-4 py-3 rounded-lg max-h-[40px]'
 								style={{
 									background:
-										'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)',
+										theme === 'dark'
+											? 'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)'
+											: 'white',
 									borderRadius: '10px',
-									border: '1px solid rgba(136, 136, 136, 0.1)',
-									boxShadow: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)',
-									color: 'rgb(213, 213, 213)',
+									border:
+										theme === 'dark'
+											? '1px solid rgba(136, 136, 136, 0.1)'
+											: '1px solid rgba(0, 0, 0, 0.1)',
+									boxShadow:
+										theme === 'dark'
+											? 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)'
+											: 'none',
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
 								}}
 								placeholder='john@johnsmith.com'
 							/>
 						</div>
 
 						<div>
-							<label htmlFor='companyName' className='block mb-2 text-sm'>
+							<label
+								htmlFor='companyName'
+								className='block mb-2 text-sm'
+								style={{
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
+								}}
+							>
 								Company name
 							</label>
 							<input
@@ -142,18 +205,34 @@ const ContactSection = () => {
 								className='w-full px-4 py-3 rounded-lg max-h-[40px]'
 								style={{
 									background:
-										'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)',
+										theme === 'dark'
+											? 'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)'
+											: 'white',
 									borderRadius: '10px',
-									border: '1px solid rgba(136, 136, 136, 0.1)',
-									boxShadow: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)',
-									color: 'rgb(213, 213, 213)',
+									border:
+										theme === 'dark'
+											? '1px solid rgba(136, 136, 136, 0.1)'
+											: '1px solid rgba(0, 0, 0, 0.1)',
+									boxShadow:
+										theme === 'dark'
+											? 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)'
+											: 'none',
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
 								}}
 								placeholder="John's company"
 							/>
 						</div>
 
 						<div>
-							<label htmlFor='industry' className='block mb-2 text-sm'>
+							<label
+								htmlFor='industry'
+								className='block mb-2 text-sm'
+								style={{
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
+								}}
+							>
 								Industry
 							</label>
 							<input
@@ -165,11 +244,20 @@ const ContactSection = () => {
 								className='w-full px-4 py-3 rounded-lg max-h-[40px]'
 								style={{
 									background:
-										'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)',
+										theme === 'dark'
+											? 'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)'
+											: 'white',
 									borderRadius: '10px',
-									border: '1px solid rgba(136, 136, 136, 0.1)',
-									boxShadow: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)',
-									color: 'rgb(213, 213, 213)',
+									border:
+										theme === 'dark'
+											? '1px solid rgba(136, 136, 136, 0.1)'
+											: '1px solid rgba(0, 0, 0, 0.1)',
+									boxShadow:
+										theme === 'dark'
+											? 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)'
+											: 'none',
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
 								}}
 								placeholder='IT SaaS'
 							/>
@@ -179,6 +267,10 @@ const ContactSection = () => {
 							<label
 								htmlFor='serviceOfInterest'
 								className='block mb-2 text-sm max-h-[50px]'
+								style={{
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
+								}}
 							>
 								Service of Interest
 							</label>
@@ -187,7 +279,24 @@ const ContactSection = () => {
 								name='serviceOfInterest'
 								value={formData.serviceOfInterest}
 								onChange={handleChange}
-								className='w-full px-4 py-3 rounded-lg bg-[#1A1A1A] border border-[#333333] focus:border-[#E2FF7D] focus:outline-none text-gray-300 appearance-none max-h-[50px]'
+								className='w-full px-4 py-3 rounded-lg appearance-none max-h-[50px]'
+								style={{
+									background:
+										theme === 'dark'
+											? 'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)'
+											: 'white',
+									borderRadius: '10px',
+									border:
+										theme === 'dark'
+											? '1px solid rgba(136, 136, 136, 0.1)'
+											: '1px solid rgba(0, 0, 0, 0.1)',
+									boxShadow:
+										theme === 'dark'
+											? 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)'
+											: 'none',
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
+								}}
 							>
 								<option className='max-h-[50px]' value=''>
 									Select...
@@ -205,7 +314,14 @@ const ContactSection = () => {
 						</div>
 
 						<div>
-							<label htmlFor='message' className='block mb-2 text-sm'>
+							<label
+								htmlFor='message'
+								className='block mb-2 text-sm'
+								style={{
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
+								}}
+							>
 								Message
 							</label>
 							<textarea
@@ -217,22 +333,33 @@ const ContactSection = () => {
 								className='w-full px-4 py-3 rounded-lg'
 								style={{
 									background:
-										'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)',
+										theme === 'dark'
+											? 'radial-gradient(81% 75% at 50% 18.4%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)'
+											: 'white',
 									borderRadius: '10px',
-									border: '1px solid rgba(136, 136, 136, 0.1)',
-									boxShadow: 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)',
-									color: 'rgb(213, 213, 213)',
+									border:
+										theme === 'dark'
+											? '1px solid rgba(136, 136, 136, 0.1)'
+											: '1px solid rgba(0, 0, 0, 0.1)',
+									boxShadow:
+										theme === 'dark'
+											? 'inset 0px 0px 0px 1px rgba(255, 255, 255, 0.1)'
+											: 'none',
+									color:
+										theme === 'dark' ? 'rgb(213, 213, 213)' : 'rgb(16, 16, 16)',
 								}}
 								placeholder='Hi, I would like to know if...'
 							/>
 						</div>
 						<button
 							type='submit'
-							className='w-full py-3 px-6 max-h-[40px] text-center text-black font-medium rounded-[10px] hover:bg-[#d4f066] transition-colors flex items-center justify-center cursor-pointer'
+							className='w-full py-3 px-6 max-h-[40px] text-center font-medium rounded-[10px] hover:bg-[#d4f066] transition-colors flex items-center justify-center cursor-pointer'
 							style={{
 								backgroundColor: 'rgb(239, 252, 118)',
 								boxShadow:
-									'inset 0px -2px 3px 0px rgba(0, 0, 0, 0.29), inset 0px -6px 6px 0px rgba(0, 0, 0, 0.26), inset 0px -14px 8px 0px rgba(0, 0, 0, 0.15), inset 0px -25px 10px 0px rgba(0, 0, 0, 0.04), inset 0px -39px 11px 0px rgba(0, 0, 0, 0.01)',
+									theme === 'dark'
+										? 'inset 0px -2px 3px 0px rgba(0, 0, 0, 0.29), inset 0px -6px 6px 0px rgba(0, 0, 0, 0.26), inset 0px -14px 8px 0px rgba(0, 0, 0, 0.15), inset 0px -25px 10px 0px rgba(0, 0, 0, 0.04), inset 0px -39px 11px 0px rgba(0, 0, 0, 0.01)'
+										: 'rgba(0, 0, 0, 0.1) 0px 2px 4px 0px',
 								height: '100%',
 								width: '100%',
 								opacity: 1,
