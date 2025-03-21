@@ -1,21 +1,15 @@
 'use client'
 
 import { homePageNavbar } from '@/data/siteData'
+import { useMobile } from '@/hooks/use-mobile'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-
-interface BurgerMenuProps {
-	className?: string
-	theme?: 'light' | 'dark'
-}
+import { ModeToggle } from '../ModeToggle'
 
 const menuVariants = {
-	closed: {
-		opacity: 0,
-		y: -10,
-		scale: 0.95,
-	},
+	closed: { opacity: 0, y: -10, scale: 0.95 },
 	open: {
 		opacity: 1,
 		y: 0,
@@ -36,33 +30,28 @@ const itemVariants = {
 		opacity: 1,
 		x: 0,
 		y: 0,
-		transition: {
-			type: 'spring',
-			stiffness: 400,
-			damping: 40,
-		},
+		transition: { type: 'spring', stiffness: 400, damping: 40 },
 	},
 }
 
-const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
+const BurgerMenu = ({ className = '' }: { className?: string }) => {
 	const [isOpen, setIsOpen] = useState(false)
+	const isMobile = useMobile()
+	const { theme } = useTheme()
 
 	useEffect(() => {
-		if (isOpen) {
-			document.body.style.overflow = 'hidden'
-		} else {
-			document.body.style.overflow = ''
-		}
-
+		document.body.style.overflow = isOpen ? 'hidden' : ''
 		return () => {
 			document.body.style.overflow = ''
 		}
 	}, [isOpen])
 
-	const textColor = theme === 'light' ? 'text-black/90' : 'text-white/90'
-	const textHoverColor = theme === 'light' ? 'text-black' : 'text-white'
-	const lineColor = theme === 'light' ? 'bg-black' : 'bg-white'
-	const menuBg = theme === 'light' ? 'bg-white/90' : 'bg-black/95'
+	// Dynamic styles based on theme
+	const isDark = theme === 'dark'
+	const textColor = isDark ? 'text-white/90' : 'text-black/90'
+	const textHoverColor = isDark ? 'hover:text-gray-300' : 'hover:text-black'
+	const lineColor = isDark ? 'bg-white' : 'bg-black'
+	const menuBg = isDark ? 'bg-black/95' : 'bg-white/90'
 
 	return (
 		<div className={`lg:hidden ${className} flex items-center justify-center`}>
@@ -74,30 +63,19 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 			>
 				<div className='flex flex-col gap-1 w-4'>
 					<motion.span
-						animate={{
-							rotate: isOpen ? 45 : 0,
-							y: isOpen ? 5 : 0,
-							width: isOpen ? '100%' : '100%',
-						}}
+						animate={{ rotate: isOpen ? 45 : 0, y: isOpen ? 5 : 0 }}
 						className={`block h-[1.5px] ${lineColor} origin-center transition-all duration-300 ease-out ${
 							!isOpen && 'group-hover:w-3.5'
 						}`}
 					/>
 					<motion.span
-						animate={{
-							opacity: isOpen ? 0 : 1,
-							width: isOpen ? '0%' : '100%',
-						}}
+						animate={{ opacity: isOpen ? 0 : 1, width: isOpen ? '0%' : '100%' }}
 						className={`block h-[1.5px] ${lineColor} origin-center transition-all duration-300 ease-out ${
 							!isOpen && 'group-hover:w-3'
 						}`}
 					/>
 					<motion.span
-						animate={{
-							rotate: isOpen ? -45 : 0,
-							y: isOpen ? -5 : 0,
-							width: isOpen ? '100%' : '100%',
-						}}
+						animate={{ rotate: isOpen ? -45 : 0, y: isOpen ? -5 : 0 }}
 						className={`block h-[1.5px] ${lineColor} origin-center transition-all duration-300 ease-out ${
 							!isOpen && 'group-hover:w-2.5'
 						}`}
@@ -108,7 +86,6 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 			<AnimatePresence>
 				{isOpen && (
 					<>
-						{/* Backdrop overlay */}
 						<motion.div
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
@@ -123,7 +100,6 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 							animate='open'
 							exit='closed'
 							className='fixed z-50 top-[4rem] left-0 right-0'
-							onClick={e => e.stopPropagation()}
 						>
 							<div
 								className={`overflow-hidden shadow-2xl ${menuBg} backdrop-blur-[25px] border-b border-white/10 rounded-xl`}
@@ -149,6 +125,7 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 											</motion.div>
 										))}
 									</nav>
+									{isMobile && <ModeToggle />}
 
 									<motion.div variants={itemVariants} className='mt-2'>
 										<Link
