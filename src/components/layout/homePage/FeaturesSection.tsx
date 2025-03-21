@@ -53,7 +53,7 @@ const FeaturesSection = () => {
 					<div className='h-32' />
 				</div>
 				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto'>
-					{features.map((feature, index) => (
+					{features.map(feature => (
 						<div
 							key={feature.title}
 							className='rounded-2xl p-2 flex items-center gap-3 min-w-[280px] bg-gray-100 dark:bg-[#1E1E1E]'
