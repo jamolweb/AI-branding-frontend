@@ -3,7 +3,7 @@ import ServiceList from './ServiceList'
 
 const GenerativeAI = () => {
 	return (
-		<div className='col-span-1 row-span-2 flex flex-col bg-gradient-to-br from-[#101010] via-[#101010] to-[#202020] rounded-2xl shadow-[0_2px_4px_#0000004a,0_8px_8px_#00000042,0_17px_10px_#00000026,0_31px_12px_#0000000a,0_48px_13px_#00000003,inset_0_-3px_7px_#0003,inset_1px_-14px_14px_#0000002b,inset_3px_-30px_18px_#0000001a,inset_5px_-54px_22px_#00000008,inset_7px_-84px_24px_#0000] p-9 gap-4 w-full h-full overflow-hidden'>
+		<div className='flex flex-col bg-gradient-to-br from-[#101010] via-[#101010] to-[#202020] rounded-2xl shadow-[0_2px_4px_#0000004a,0_8px_8px_#00000042,0_17px_10px_#00000026,0_31px_12px_#0000000a,0_48px_13px_#00000003,inset_0_-3px_7px_#0003,inset_1px_-14px_14px_#0000002b,inset_3px_-30px_18px_#0000001a,inset_5px_-54px_22px_#00000008,inset_7px_-84px_24px_#0000] p-6 lg:p-9 gap-4 w-full h-full overflow-hidden'>
 			{/* Header */}
 			<div
 				style={{
@@ -16,16 +16,10 @@ const GenerativeAI = () => {
 				}}
 			>
 				<h3
+					className='text-2xl lg:text-3xl font-manrope font-semibold tracking-tight text-white'
 					style={{
-						fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
-						fontSize: '32px',
-						fontStyle: 'normal',
-						fontWeight: 600,
 						letterSpacing: '-0.03em',
 						lineHeight: '1.2em',
-						textAlign: 'start',
-						color: '#ffffff',
-						textDecoration: 'none',
 					}}
 				>
 					Generative AI
@@ -33,24 +27,7 @@ const GenerativeAI = () => {
 			</div>
 
 			{/* List */}
-			<div
-				style={{
-					outline: 'none',
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center',
-					flexShrink: 0,
-					transform: 'none',
-					flex: 'none',
-					height: 'auto',
-					position: 'relative',
-					whiteSpace: 'pre-wrap',
-					width: '100%',
-					wordBreak: 'break-word',
-					wordWrap: 'break-word',
-					zIndex: 1,
-				}}
-			>
+			<div className='relative z-[1]'>
 				<ServiceList
 					items={[
 						'images and videos',
@@ -61,7 +38,10 @@ const GenerativeAI = () => {
 			</div>
 
 			{/* Illustration/Connection Section */}
-			<div className='relative mt-8' style={{ height: '600px' }}>
+			<div
+				className='relative mt-8 hidden lg:block'
+				style={{ height: '600px' }}
+			>
 				<div className='relative mt-8 py-8'>
 					{/* Star/Plus icon */}
 					<div className='flex justify-center relative z-10'>
@@ -185,6 +165,19 @@ const GenerativeAI = () => {
 							/>
 						</div>
 					</div>
+				</div>
+			</div>
+
+			{/* Mobile Icons */}
+			<div className='flex justify-center gap-6 mt-4 lg:hidden'>
+				<div className='w-12 h-12 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
+					<Image className='w-5 h-5' />
+				</div>
+				<div className='w-12 h-12 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
+					<File className='w-5 h-5' />
+				</div>
+				<div className='w-12 h-12 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
+					<Code className='w-5 h-5' />
 				</div>
 			</div>
 		</div>

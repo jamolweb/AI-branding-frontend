@@ -2,21 +2,9 @@ import ServiceList from './ServiceList'
 
 const PredictiveAnalytics = () => {
 	return (
-		<div className='col-span-2 bg-black rounded-lg p-6 shadow-md flex flex-col gap-3'>
+		<div className='bg-black rounded-lg p-4 lg:p-6 shadow-md flex flex-col gap-3 h-full'>
 			{/* Header */}
-			<h3
-				style={{
-					fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
-					fontSize: '30px',
-					fontStyle: 'normal',
-					fontWeight: 600,
-					letterSpacing: '-0.03em',
-					lineHeight: '1.2em',
-					textAlign: 'start',
-					color: '#ffffff',
-					textDecoration: 'none',
-				}}
-			>
+			<h3 className='text-2xl lg:text-3xl font-manrope font-semibold tracking-tight text-white'>
 				Predictive Analytics
 			</h3>
 
@@ -66,11 +54,11 @@ const PredictiveAnalytics = () => {
 					<div className='absolute top-0 right-0 flex items-center gap-4'>
 						<div className='flex items-center gap-2'>
 							<div className='w-2 h-2 rounded-full bg-[#90EE90]'></div>
-							<span className='text-white text-sm'>Fluctus</span>
+							<span className='text-white text-xs lg:text-sm'>Fluctus</span>
 						</div>
 						<div className='flex items-center gap-2'>
 							<div className='w-2 h-2 rounded-full bg-[#4A4A4A]'></div>
-							<span className='text-white text-sm'>competitors</span>
+							<span className='text-white text-xs lg:text-sm'>competitors</span>
 						</div>
 					</div>
 				</div>

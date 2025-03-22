@@ -2,22 +2,10 @@ import ServiceList from './ServiceList'
 
 const AIConsulting = () => {
 	return (
-		<div className='col-span-1 row-span-1 flex flex-col flex-nowrap items-start content-start justify-start gap-4 bg-[#effc76] rounded-2xl p-9 h-full w-full relative overflow-hidden self-start justify-self-start will-change-transform'>
+		<div className='flex flex-col flex-nowrap items-start content-start justify-start gap-4 bg-[#effc76] rounded-2xl p-6 lg:p-9 h-full w-full relative overflow-hidden will-change-transform'>
 			<div className='relative z-10'>
 				{/* Header */}
-				<h3
-					style={{
-						fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
-						fontSize: '30px',
-						fontStyle: 'normal',
-						fontWeight: 600,
-						letterSpacing: '-0.03em',
-						lineHeight: '1.2em',
-						textAlign: 'start',
-						color: 'black',
-						textDecoration: 'none',
-					}}
-				>
+				<h3 className='text-2xl lg:text-3xl font-manrope font-semibold tracking-tight text-black'>
 					AI Consulting
 				</h3>
 
@@ -26,7 +14,7 @@ const AIConsulting = () => {
 					items={['AI strategy', 'AI readiness', 'ROI analysis']}
 					textColor='text-black'
 					bulletColor='black'
-					fontSize='text-lg mt-4'
+					fontSize='text-base lg:text-lg mt-4'
 				/>
 			</div>
 
@@ -38,7 +26,9 @@ const AIConsulting = () => {
 					fill='none'
 					xmlns='http://www.w3.org/2000/svg'
 					style={{
-						transform: 'translate(20%, 20%) scale(0.7)',
+						transform: `translate(20%, 20%) scale(${
+							window.innerWidth < 768 ? '1.2' : '0.7'
+						})`,
 						opacity: 0.8,
 					}}
 				>

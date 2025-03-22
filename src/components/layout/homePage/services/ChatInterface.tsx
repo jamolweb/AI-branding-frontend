@@ -2,15 +2,16 @@ const ChatInterface = () => {
 	return (
 		<div
 			style={{
-				width: '500px',
+				width: '100%',
+				maxWidth: '500px',
 				backgroundColor: '#000',
 				borderRadius: '16px',
 				boxShadow: '0 15.4px 34.1px #0003',
-				transform: 'rotate(5deg) translateY(-20px)',
+				transform: 'none',
 				willChange: 'transform',
 				zIndex: 3,
 			}}
-			className='p-4'
+			className='lg:transform lg:rotate-5 lg:-translate-y-5 p-4'
 		>
 			<div className='flex items-center gap-2 mb-4'>
 				<div className='w-8 h-8 bg-[#effc76] rounded-lg flex items-center justify-center'>
@@ -27,7 +28,7 @@ const ChatInterface = () => {
 						<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'></path>
 					</svg>
 				</div>
-				<div className='text-white/80 font-manrope text-lg font-semibold'>
+				<div className='text-white/80 font-manrope text-base lg:text-lg font-semibold'>
 					Your AI Assistant
 				</div>
 				<button className='ml-auto text-white/60 hover:text-white'>
@@ -65,14 +66,14 @@ const ChatInterface = () => {
 					</svg>
 				</div>
 				<div className='bg-[#202020] rounded-lg p-3'>
-					<p className='text-white'>
+					<p className='text-white text-sm lg:text-base'>
 						Welcome to our website! What brought you to us today?
 					</p>
 				</div>
 			</div>
 			<div className='flex gap-2'>
 				<div className='bg-white rounded-lg p-3 ml-auto'>
-					<p className='text-[#202020]'>
+					<p className='text-[#202020] text-sm lg:text-base'>
 						I'd like to get some information about your products
 					</p>
 				</div>
@@ -93,11 +94,11 @@ const ChatInterface = () => {
 					</svg>
 				</div>
 				<div className='bg-[#202020] rounded-lg p-3'>
-					<p className='text-white'>
+					<p className='text-white text-sm lg:text-base'>
 						Certainly! Here are some of our most popular products:
 					</p>
 					<div className='mt-2'>
-						<button className='text-[#effc76] hover:underline flex items-center font-manrope'>
+						<button className='text-[#effc76] hover:underline flex items-center font-manrope text-sm lg:text-base'>
 							Product List
 							<svg
 								className='ml-1 w-4 h-4'
