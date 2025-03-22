@@ -138,3 +138,55 @@ body {
 		opacity: 0.8;
 	}
 }
+@media (max-width: 1439px) and (min-width: 1025px) {
+	.framer-LsabC .framer-styles-preset-q0rjv5:not(.rich-text-wrapper),
+	.framer-LsabC .framer-styles-preset-q0rjv5.rich-text-wrapper h3 {
+		--framer-font-family: 'Manrope', 'Manrope Placeholder', sans-serif;
+		--framer-font-family-bold: 'Manrope', 'Manrope Placeholder', sans-serif;
+		--framer-font-open-type-features: 'blwf' on, 'cv09' on, 'cv03' on, 'cv04' on,
+			'cv11' on;
+		--framer-font-size: 30px;
+		--framer-font-style: normal;
+		--framer-font-style-bold: normal;
+		--framer-font-variation-axes: normal;
+		--framer-font-weight: 600;
+		--framer-font-weight-bold: 700;
+		--framer-letter-spacing: -0.03em;
+		--framer-line-height: 1.2em;
+		--framer-paragraph-spacing: 40px;
+		--framer-text-alignment: start;
+		--framer-text-color: var(
+			--token-1955d0f4-913b-424e-b2ba-adec451af442,
+			#ffffff
+		);
+		--framer-text-decoration: none;
+		--framer-text-stroke-color: initial;
+		--framer-text-stroke-width: initial;
+		--framer-text-transform: none;
+	}
+}
+.framer-LsabC .framer-styles-preset-q0rjv5:not(.rich-text-wrapper),
+.framer-LsabC .framer-styles-preset-q0rjv5.rich-text-wrapper h3 {
+	--framer-font-family: 'Manrope', 'Manrope Placeholder', sans-serif;
+	--framer-font-family-bold: 'Manrope', 'Manrope Placeholder', sans-serif;
+	--framer-font-open-type-features: 'blwf' on, 'cv09' on, 'cv03' on, 'cv04' on,
+		'cv11' on;
+	--framer-font-size: 32px;
+	--framer-font-style: normal;
+	--framer-font-style-bold: normal;
+	--framer-font-variation-axes: normal;
+	--framer-font-weight: 600;
+	--framer-font-weight-bold: 700;
+	--framer-letter-spacing: -0.03em;
+	--framer-line-height: 1.2em;
+	--framer-paragraph-spacing: 40px;
+	--framer-text-alignment: start;
+	--framer-text-color: var(
+		--token-1955d0f4-913b-424e-b2ba-adec451af442,
+		#ffffff
+	);
+	--framer-text-decoration: none;
+	--framer-text-stroke-color: initial;
+	--framer-text-stroke-width: initial;
+	--framer-text-transform: none;
+}

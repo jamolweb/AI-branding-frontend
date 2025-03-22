@@ -6,7 +6,7 @@ import SectionName from '../../ui/homePage/SectionName'
 
 const OurServices = () => {
 	return (
-		<div className='py-20'>
+		<div className='py-20' id='services'>
 			<SectionName name='service' title='Our Services' />
 			<SectionTitle
 				title='How we help you shape your future'
@@ -221,7 +221,85 @@ const OurServices = () => {
 
 				{/* Second div - Spans 2 columns */}
 				<div className='col-span-2 bg-black rounded-lg p-6 shadow-md flex flex-col gap-3'>
-					{/* Content here */}
+					{/* Header */}
+					<h3
+						style={{
+							fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
+							fontSize: '30px',
+							fontStyle: 'normal',
+							fontWeight: 600,
+							letterSpacing: '-0.03em',
+							lineHeight: '1.2em',
+							textAlign: 'start',
+							color: '#ffffff',
+							textDecoration: 'none',
+						}}
+					>
+						Predictive Analytics
+					</h3>
+
+					{/* List of services */}
+					<ul className='text-[#d5d5d5] space-y-1 text-lg'>
+						<li className='flex items-center gap-2'>
+							<div className='w-1.5 h-1.5 rounded-full bg-white'></div>
+							<p>demand forecasting</p>
+						</li>
+						<li className='flex items-center gap-2'>
+							<div className='w-1.5 h-1.5 rounded-full bg-white'></div>
+							<p>risk assessment</p>
+						</li>
+						<li className='flex items-center gap-2'>
+							<div className='w-1.5 h-1.5 rounded-full bg-white'></div>
+							<p>time series forecasting</p>
+						</li>
+					</ul>
+
+					{/* Graph Visualization */}
+					<div className='relative flex-1 mt-4' style={{ minHeight: '120px' }}>
+						<div
+							className='absolute inset-0 flex items-end'
+							style={{ height: '100px' }}
+						>
+							<svg
+								className='w-full h-full'
+								viewBox='0 0 400 200'
+								preserveAspectRatio='none'
+								style={{ maxHeight: '100px' }}
+							>
+								{/* Green line (Fluctus) */}
+								<path
+									d='M 0,160 Q 100,140 200,100 T 400,20'
+									fill='none'
+									stroke='#90EE90'
+									strokeWidth='2'
+								/>
+								{/* Dots on the green line */}
+								<circle cx='200' cy='100' r='3' fill='#90EE90' />
+								<circle cx='300' cy='50' r='3' fill='#90EE90' />
+								<circle cx='400' cy='20' r='3' fill='#90EE90' />
+
+								{/* Gray line (competitors) */}
+								<path
+									d='M 0,180 Q 100,170 200,160 T 400,140'
+									fill='none'
+									stroke='#4A4A4A'
+									strokeWidth='2'
+								/>
+							</svg>
+
+							{/* Legend */}
+							<div className='absolute top-0 right-0 flex items-center gap-4'>
+								<div className='flex items-center gap-2'>
+									<div className='w-2 h-2 rounded-full bg-[#90EE90]'></div>
+									<span className='text-white text-sm'>Fluctus</span>
+								</div>
+								<div className='flex items-center gap-2'>
+									<div className='w-2 h-2 rounded-full bg-[#4A4A4A]'></div>
+									<span className='text-white text-sm'>competitors</span>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				{/* Third div - Spans 2 columns & 2 rows */}
@@ -230,8 +308,80 @@ const OurServices = () => {
 				</div>
 
 				{/* Fourth div - Spans 1 row & 1 column */}
-				<div className='col-span-1 row-span-1 bg-gradient-to-tr from-[#101010] to-[#202020] rounded-lg p-6 shadow-lg flex flex-col gap-3 overflow-visible'>
-					{/* Content here */}
+				<div className='col-span-1 row-span-1 flex flex-col flex-nowrap items-start content-start justify-start gap-4 bg-[#effc76] rounded-2xl p-9 h-full w-full relative overflow-hidden self-start justify-self-start will-change-transform'>
+					<div className='relative z-10'>
+						{/* Header */}
+						<h3
+							style={{
+								fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
+								fontSize: '30px',
+								fontStyle: 'normal',
+								fontWeight: 600,
+								letterSpacing: '-0.03em',
+								lineHeight: '1.2em',
+								textAlign: 'start',
+								color: 'black',
+								textDecoration: 'none',
+							}}
+						>
+							AI Consulting
+						</h3>
+
+						{/* List of services */}
+						<ul className='text-black space-y-1 text-lg mt-4'>
+							<li className='flex items-center gap-2'>
+								<div className='w-1.5 h-1.5 rounded-full bg-black'></div>
+								<p>AI strategy</p>
+							</li>
+							<li className='flex items-center gap-2'>
+								<div className='w-1.5 h-1.5 rounded-full bg-black'></div>
+								<p>AI readiness</p>
+							</li>
+							<li className='flex items-center gap-2'>
+								<div className='w-1.5 h-1.5 rounded-full bg-black'></div>
+								<p>ROI analysis</p>
+							</li>
+						</ul>
+					</div>
+
+					{/* 3D Cube Illustration */}
+					<div className='absolute right-3 bottom-5 w-3/5 h-3/5'>
+						<svg
+							className='w-full h-full'
+							viewBox='0 0 120 120'
+							fill='none'
+							xmlns='http://www.w3.org/2000/svg'
+							style={{
+								transform: 'translate(20%, 20%) scale(0.7)',
+								opacity: 0.8,
+							}}
+						>
+							{/* Front face */}
+							<path
+								d='M30,60 L90,60 L90,120 L30,120 Z'
+								fill='black'
+								fillOpacity='0.1'
+								stroke='black'
+								strokeWidth='2'
+							/>
+							{/* Right face */}
+							<path
+								d='M90,60 L120,30 L120,90 L90,120 Z'
+								fill='black'
+								fillOpacity='0.05'
+								stroke='black'
+								strokeWidth='2'
+							/>
+							{/* Top face */}
+							<path
+								d='M30,60 L90,60 L120,30 L60,30 Z'
+								fill='black'
+								fillOpacity='0.15'
+								stroke='black'
+								strokeWidth='2'
+							/>
+						</svg>
+					</div>
 				</div>
 			</div>
 		</div>
