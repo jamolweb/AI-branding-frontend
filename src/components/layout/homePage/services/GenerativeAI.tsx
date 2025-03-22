@@ -38,7 +38,6 @@ const GenerativeAI = () => {
 				/>
 			</div>
 
-			{/* Illustration/Connection Section */}
 			<div
 				className='relative mt-8 hidden lg:block'
 				style={{ height: '600px' }}
@@ -166,7 +165,6 @@ const GenerativeAI = () => {
 				</div>
 			</div>
 
-			{/* Mobile Icons */}
 			<div className='flex justify-center gap-6 mt-4 lg:hidden'>
 				<div className='w-12 h-12 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
 					<LucideImage className='w-5 h-5' />
