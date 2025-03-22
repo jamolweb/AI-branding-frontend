@@ -116,7 +116,7 @@ const TestimonialWithStars = () => {
 			/>
 
 			<div className='flex flex-row items-center z-10 gap-8 w-full max-w-4xl'>
-				<div className='relative w-32 h-32 flex-shrink-0'>
+				<div className='relative w-48 h-48 flex-shrink-0'>
 					<div
 						className='absolute inset-0 rounded-xl'
 						style={{
@@ -129,8 +129,8 @@ const TestimonialWithStars = () => {
 						<Image
 							src='/testimonials/marcus-thompson.png'
 							alt='Marcus Thompson'
-							width={400}
-							height={400}
+							width={600}
+							height={600}
 							className='w-full h-full object-cover brightness-90'
 							style={{
 								filter: 'sepia(0.3) contrast(1.05)',

@@ -1,6 +1,7 @@
 'use client'
 
 import SectionTitle from '@/components/ui/homePage/sectionTitle'
+import { Code, File, Image, Star } from 'lucide-react'
 import SectionName from '../../ui/homePage/SectionName'
 
 const OurServices = () => {
@@ -12,166 +13,207 @@ const OurServices = () => {
 				description={`Fluctus is a flexible and user-friendly template for AI startups to showcase their solutions and drive business growth.`}
 			/>
 			<div className='grid grid-cols-3 grid-rows-3 gap-4 w-full max-w-[1500px] h-[850px] mx-auto'>
-				<div className='col-span-1 row-span-2 flex flex-col bg-gradient-to-br from-[#101010] to-[#202020] rounded-2xl shadow-lg p-9 gap-4 w-full h-full overflow-hidden'>
+				<div className='col-span-1 row-span-2 flex flex-col bg-gradient-to-br from-[#101010] via-[#101010] to-[#202020] rounded-2xl shadow-[0_2px_4px_#0000004a,0_8px_8px_#00000042,0_17px_10px_#00000026,0_31px_12px_#0000000a,0_48px_13px_#00000003,inset_0_-3px_7px_#0003,inset_1px_-14px_14px_#0000002b,inset_3px_-30px_18px_#0000001a,inset_5px_-54px_22px_#00000008,inset_7px_-84px_24px_#0000] p-9 gap-4 w-full h-full overflow-hidden'>
 					{/* Header */}
-					<div className='flex flex-col justify-center flex-shrink-0'>
-						<h3 className='text-3xl font-bold text-white'>Generative AI</h3>
+					<div
+						style={{
+							outline: 'none',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center',
+							flexShrink: 0,
+							transform: 'none',
+						}}
+					>
+						<h3
+							style={{
+								fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
+								fontSize: '32px',
+								fontStyle: 'normal',
+								fontWeight: 600,
+								letterSpacing: '-0.03em',
+								lineHeight: '1.2em',
+								textAlign: 'start',
+								color: '#ffffff',
+								textDecoration: 'none',
+							}}
+						>
+							Generative AI
+						</h3>
 					</div>
 
 					{/* List */}
-					<div className='flex flex-col justify-center flex-shrink-0'>
-						<ul className='text-white space-y-1'>
-							<li>
+					<div
+						style={{
+							outline: 'none',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center',
+							flexShrink: 0,
+							transform: 'none',
+							flex: 'none',
+							height: 'auto',
+							position: 'relative',
+							whiteSpace: 'pre-wrap',
+							width: '100%',
+							wordBreak: 'break-word',
+							wordWrap: 'break-word',
+							zIndex: 1,
+						}}
+					>
+						<ul
+							className='text-white space-y-1'
+							style={{
+								fontFamily: '"Manrope", "Manrope Placeholder", sans-serif',
+								fontSize: '18px',
+								fontStyle: 'normal',
+								fontWeight: 500,
+								letterSpacing: '-0.01em',
+								lineHeight: '1.5em',
+								textAlign: 'start',
+								color: '#d5d5d5',
+								textDecoration: 'none',
+							}}
+						>
+							<li className='flex items-center gap-2'>
+								<div className='w-1.5 h-1.5 rounded-full bg-white'></div>
 								<p>images and videos</p>
 							</li>
-							<li>
+							<li className='flex items-center gap-2'>
+								<div className='w-1.5 h-1.5 rounded-full bg-white'></div>
 								<p>code generation</p>
 							</li>
-							<li>
+							<li className='flex items-center gap-2'>
+								<div className='w-1.5 h-1.5 rounded-full bg-white'></div>
 								<p>text content creation</p>
 							</li>
 						</ul>
 					</div>
 
 					{/* Illustration/Connection Section */}
-					<div className='relative mt-8'>
-						{/* Star/Plus icon */}
-						<div className='flex justify-center'>
-							<div className='w-12 h-12 bg-[#E4FF4B] rounded-full relative flex items-center justify-center'>
-								<div className='absolute w-2 h-8 bg-[#E4FF4B]'></div>
-								<div className='absolute w-8 h-2 bg-[#E4FF4B]'></div>
-								<div className='absolute w-6 h-6 bg-black rounded-full'></div>
+					<div className='relative mt-8' style={{ height: '600px' }}>
+						<div className='relative mt-8 py-8'>
+							{/* Star/Plus icon */}
+							<div className='flex justify-center relative z-10'>
+								<Star className='w-12 h-12 text-yellow-500' />
+							</div>
+
+							{/* Connection lines using absolute SVG */}
+							<svg
+								className='absolute left-1/2 transform -translate-x-1/2 top-16'
+								width='220'
+								height='160'
+								viewBox='0 0 300 160'
+								fill='none'
+								xmlns='http://www.w3.org/2000/svg'
+							>
+								{/* Vertical line from star */}
+								<line
+									x1='150'
+									y1='0'
+									x2='150'
+									y2='70'
+									stroke='#4A4A4A'
+									strokeWidth='2.5'
+								/>
+								{/* Horizontal line */}
+								<line
+									x1='30'
+									y1='70'
+									x2='270'
+									y2='70'
+									stroke='#4A4A4A'
+									strokeWidth='2.5'
+								/>
+								{/* Small vertical lines connecting to icons */}
+								<line
+									x1='30'
+									y1='70'
+									x2='30'
+									y2='140'
+									stroke='#4A4A4A'
+									strokeWidth='2.5'
+								/>
+								<line
+									x1='150'
+									y1='70'
+									x2='150'
+									y2='140'
+									stroke='#4A4A4A'
+									strokeWidth='2.5'
+								/>
+								<line
+									x1='270'
+									y1='70'
+									x2='270'
+									y2='140'
+									stroke='#4A4A4A'
+									strokeWidth='2.5'
+								/>
+							</svg>
+
+							{/* Icon boxes */}
+							<div className='flex justify-between pt-2 w-56 mx-auto relative z-10 mt-18'>
+								{/* Image icon */}
+								<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
+									<Image className='w-6 h-6' />
+								</div>
+
+								{/* Document icon */}
+								<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
+									<File className='w-6 h-6' />
+								</div>
+
+								{/* Code icon */}
+								<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
+									<Code className='w-6 h-6' />
+								</div>
 							</div>
 						</div>
-
-						{/* Connection line */}
-						<div className='h-12 w-0.5 bg-gradient-to-b from-[#202020] to-[#323232] mx-auto my-4'></div>
-
-						{/* Horizontal connection */}
-						<div className='flex justify-center'>
-							<div className='w-56 h-0.5 bg-gradient-to-r from-[#202020] to-[#323232]'></div>
-						</div>
-
-						{/* Icon boxes */}
-						<div className='flex justify-between pt-4'>
-							{/* Image icon */}
-							<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
-								<svg
-									width='22'
-									height='22'
-									viewBox='0 0 31 31'
-									fill='none'
-									xmlns='http://www.w3.org/2000/svg'
+						<div className='ssr-variant'>
+							<div
+								className='absolute inset-0 w-full'
+								data-framer-name='Dotted BG'
+								style={{
+									opacity: 1,
+									transform: 'scale(1.5)',
+									zIndex: 0,
+									aspectRatio: 0.9171974522292994 / 1,
+									right: '-137px',
+									position: 'absolute',
+									width: '180%',
+									left: '-106px',
+									height: 'calc(100% - 10px)',
+								}}
+							>
+								<div
+									style={{
+										position: 'absolute',
+										borderRadius: 'inherit',
+										top: 0,
+										right: 0,
+										bottom: 0,
+										left: 0,
+									}}
+									data-framer-background-image-wrapper='true'
 								>
-									<path
-										d='M25.6782 3.875H5.32178C3.48654 3.875 2 5.36154 2 7.19678V23.8032C2 25.6385 3.48654 27.125 5.32178 27.125H25.6782C27.5135 27.125 29 25.6385 29 23.8032V7.19678C29 5.36154 27.5135 3.875 25.6782 3.875Z'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
+									<img
+										decoding='async'
+										loading='lazy'
+										sizes={`calc(max((min(100vw - 48px, 1200px) - 48px) / 3, 50px) * 1.5)`}
+										srcSet='https://framerusercontent.com/images/5jAROqt29dIkbEdKTqD350HLB9w.svg?scale-down-to=512 512w,https://framerusercontent.com/images/5jAROqt29dIkbEdKTqD350HLB9w.svg 609w'
+										src='https://framerusercontent.com/images/5jAROqt29dIkbEdKTqD350HLB9w.svg'
+										alt='Dotted background pattern'
+										style={{
+											display: 'block',
+											width: '100%',
+											height: '100%',
+											borderRadius: 'inherit',
+											objectPosition: 'center',
+											objectFit: 'contain',
+										}}
 									/>
-									<path
-										d='M10.9688 12.9688C12.0734 12.9688 12.9688 12.0734 12.9688 10.9688C12.9688 9.86411 12.0734 8.96875 10.9688 8.96875C9.86411 8.96875 8.96875 9.86411 8.96875 10.9688C8.96875 12.0734 9.86411 12.9688 10.9688 12.9688Z'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-									<path
-										d='M29.0001 19.375L22.0626 12.4375C21.5407 11.9156 20.8345 11.625 20.1001 11.625C19.3656 11.625 18.6595 11.9156 18.1376 12.4375L7.75006 22.8125'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-								</svg>
-							</div>
-
-							{/* Document icon */}
-							<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
-								<svg
-									width='18'
-									height='22'
-									viewBox='0 0 27 34'
-									fill='none'
-									xmlns='http://www.w3.org/2000/svg'
-								>
-									<path
-										d='M15.4688 1.0625H4.21875C3.23556 1.0625 2.29217 1.45481 1.59794 2.14904C0.903705 2.84328 0.511395 3.78666 0.511395 4.76985V29.2301C0.511395 30.2133 0.903705 31.1567 1.59794 31.8509C2.29217 32.5452 3.23556 32.9375 4.21875 32.9375H22.7812C23.7644 32.9375 24.7078 32.5452 25.402 31.8509C26.0963 31.1567 26.4886 30.2133 26.4886 29.2301V12.0823L15.4688 1.0625Z'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-									<path
-										d='M15.4688 1.0625V12.0823H26.4886'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-									<path
-										d='M19.1762 19.1719H7.92621'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-									<path
-										d='M19.1762 25.5225H7.92621'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-									<path
-										d='M11.6336 12.8213H9.76184H7.92621'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-								</svg>
-							</div>
-
-							{/* Code icon */}
-							<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
-								<svg
-									width='22'
-									height='22'
-									viewBox='0 0 34 34'
-									fill='none'
-									xmlns='http://www.w3.org/2000/svg'
-								>
-									<path
-										d='M17 32.0625C25.3198 32.0625 32.0625 25.3198 32.0625 17C32.0625 8.68019 25.3198 1.9375 17 1.9375C8.68019 1.9375 1.9375 8.68019 1.9375 17C1.9375 25.3198 8.68019 32.0625 17 32.0625Z'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-									<path
-										d='M12.75 13.2812L8.5 17L12.75 20.7188'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-									<path
-										d='M21.25 13.2812L25.5 17L21.25 20.7188'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-									<path
-										d='M19.125 9.5625L14.875 24.4375'
-										stroke='#4A4A4A'
-										strokeWidth='2.5'
-										strokeLinecap='round'
-										strokeLinejoin='round'
-									/>
-								</svg>
+								</div>
 							</div>
 						</div>
 					</div>
