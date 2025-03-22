@@ -1,6 +1,24 @@
+import { useEffect, useState } from 'react'
 import ServiceList from './ServiceList'
 
 const AIConsulting = () => {
+	const [scale, setScale] = useState('0.7')
+
+	useEffect(() => {
+		const updateScale = () => {
+			if (typeof window !== 'undefined') {
+				setScale(window.innerWidth < 768 ? '1.2' : '0.7')
+			}
+		}
+
+		updateScale()
+
+		if (typeof window !== 'undefined') {
+			window.addEventListener('resize', updateScale)
+			return () => window.removeEventListener('resize', updateScale)
+		}
+	}, [])
+
 	return (
 		<div className='flex flex-col flex-nowrap items-start content-start justify-start gap-4 bg-[#effc76] rounded-2xl p-6 lg:p-9 h-full w-full relative overflow-hidden will-change-transform'>
 			<div className='relative z-10'>
@@ -19,43 +37,44 @@ const AIConsulting = () => {
 			</div>
 
 			{/* 3D Cube Illustration */}
-			<div className='absolute right-3 bottom-5 w-3/5 h-3/5'>
+			<div
+				className='absolute -bottom-8 -right-8 w-32 h-32 md:w-40 md:h-40'
+				style={{ transform: `scale(${scale})` }}
+			>
 				<svg
-					className='w-full h-full'
-					viewBox='0 0 120 120'
+					width='100%'
+					height='100%'
+					viewBox='0 0 200 200'
 					fill='none'
 					xmlns='http://www.w3.org/2000/svg'
-					style={{
-						transform: `translate(20%, 20%) scale(${
-							window.innerWidth < 768 ? '1.2' : '0.7'
-						})`,
-						opacity: 0.8,
-					}}
 				>
-					{/* Front face */}
-					<path
-						d='M30,60 L90,60 L90,120 L30,120 Z'
-						fill='black'
-						fillOpacity='0.1'
-						stroke='black'
-						strokeWidth='2'
-					/>
-					{/* Right face */}
-					<path
-						d='M90,60 L120,30 L120,90 L90,120 Z'
-						fill='black'
-						fillOpacity='0.05'
-						stroke='black'
-						strokeWidth='2'
-					/>
-					{/* Top face */}
-					<path
-						d='M30,60 L90,60 L120,30 L60,30 Z'
-						fill='black'
-						fillOpacity='0.15'
-						stroke='black'
-						strokeWidth='2'
-					/>
+					<g transform='translate(100, 100)'>
+						{/* Cube faces */}
+						<path
+							d='M0,-50 L43.3,-25 L43.3,25 L0,50 L-43.3,25 L-43.3,-25 Z'
+							fill='none'
+							stroke='rgba(0,0,0,0.5)'
+							strokeWidth='2'
+						/>
+						<path
+							d='M0,-50 L43.3,-25 L0,0 L-43.3,-25 Z'
+							fill='rgba(0,0,0,0.1)'
+							stroke='rgba(0,0,0,0.5)'
+							strokeWidth='2'
+						/>
+						<path
+							d='M43.3,-25 L43.3,25 L0,50 L0,0 Z'
+							fill='rgba(0,0,0,0.2)'
+							stroke='rgba(0,0,0,0.5)'
+							strokeWidth='2'
+						/>
+						<path
+							d='M0,0 L0,50 L-43.3,25 L-43.3,-25 Z'
+							fill='rgba(0,0,0,0.3)'
+							stroke='rgba(0,0,0,0.5)'
+							strokeWidth='2'
+						/>
+					</g>
 				</svg>
 			</div>
 		</div>

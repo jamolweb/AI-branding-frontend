@@ -19,7 +19,8 @@ const StarBackground = () => {
 	useEffect(() => {
 		const generateStars = () => {
 			const newStars = []
-			const count = Math.floor(window.innerWidth / 12)
+			const count =
+				typeof window !== 'undefined' ? Math.floor(window.innerWidth / 12) : 50
 
 			for (let i = 0; i < count; i++) {
 				newStars.push({
@@ -39,8 +40,10 @@ const StarBackground = () => {
 
 		generateStars()
 
-		window.addEventListener('resize', generateStars)
-		return () => window.removeEventListener('resize', generateStars)
+		if (typeof window !== 'undefined') {
+			window.addEventListener('resize', generateStars)
+			return () => window.removeEventListener('resize', generateStars)
+		}
 	}, [])
 
 	return (

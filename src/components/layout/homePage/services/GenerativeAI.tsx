@@ -1,4 +1,5 @@
-import { Code, File, Image, Star } from 'lucide-react'
+import { Code, File, Image as LucideImage, Star } from 'lucide-react'
+import Image from 'next/image'
 import ServiceList from './ServiceList'
 
 const GenerativeAI = () => {
@@ -106,7 +107,7 @@ const GenerativeAI = () => {
 					<div className='flex justify-between pt-2 w-56 mx-auto relative z-10 mt-18'>
 						{/* Image icon */}
 						<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
-							<Image className='w-6 h-6' />
+							<LucideImage className='w-6 h-6' />
 						</div>
 
 						{/* Document icon */}
@@ -147,15 +148,12 @@ const GenerativeAI = () => {
 							}}
 							data-framer-background-image-wrapper='true'
 						>
-							<img
-								decoding='async'
-								loading='lazy'
-								sizes={`calc(max((min(100vw - 48px, 1200px) - 48px) / 3, 50px) * 1.5)`}
-								srcSet='https://framerusercontent.com/images/5jAROqt29dIkbEdKTqD350HLB9w.svg?scale-down-to=512 512w,https://framerusercontent.com/images/5jAROqt29dIkbEdKTqD350HLB9w.svg 609w'
+							<Image
 								src='https://framerusercontent.com/images/5jAROqt29dIkbEdKTqD350HLB9w.svg'
 								alt='Dotted background pattern'
+								width={609}
+								height={609}
 								style={{
-									display: 'block',
 									width: '100%',
 									height: '100%',
 									borderRadius: 'inherit',
@@ -171,7 +169,7 @@ const GenerativeAI = () => {
 			{/* Mobile Icons */}
 			<div className='flex justify-center gap-6 mt-4 lg:hidden'>
 				<div className='w-12 h-12 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
-					<Image className='w-5 h-5' />
+					<LucideImage className='w-5 h-5' />
 				</div>
 				<div className='w-12 h-12 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
 					<File className='w-5 h-5' />

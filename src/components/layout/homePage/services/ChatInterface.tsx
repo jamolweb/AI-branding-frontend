@@ -74,7 +74,7 @@ const ChatInterface = () => {
 			<div className='flex gap-2'>
 				<div className='bg-white rounded-lg p-3 ml-auto'>
 					<p className='text-[#202020] text-sm lg:text-base'>
-						I'd like to get some information about your products
+						I&apos;d like to get some information about your products
 					</p>
 				</div>
 			</div>

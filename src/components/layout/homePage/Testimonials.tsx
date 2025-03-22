@@ -15,10 +15,12 @@ interface Star {
 
 const TestimonialWithStars = () => {
 	const [stars, setStars] = useState<Star[]>([])
+	const [isMounted, setIsMounted] = useState(false)
 	const animationRef = useRef<number | undefined>(undefined)
 	const containerRef = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
+		setIsMounted(true)
 		const generateStars = () => {
 			const newStars: Star[] = []
 			for (let i = 0; i < 70; i++) {
@@ -36,6 +38,8 @@ const TestimonialWithStars = () => {
 		}
 
 		const animateStars = () => {
+			if (typeof window === 'undefined') return
+
 			setStars(prevStars =>
 				prevStars.map(star => {
 					let newX = star.x + Math.cos(star.angle) * star.speed
@@ -58,18 +62,26 @@ const TestimonialWithStars = () => {
 				})
 			)
 
-			animationRef.current = requestAnimationFrame(animateStars)
+			if (typeof window !== 'undefined') {
+				animationRef.current = requestAnimationFrame(animateStars)
+			}
 		}
 
 		generateStars()
-		animationRef.current = requestAnimationFrame(animateStars)
+		if (typeof window !== 'undefined') {
+			animationRef.current = requestAnimationFrame(animateStars)
+		}
 
 		return () => {
-			if (animationRef.current) {
+			if (animationRef.current && typeof window !== 'undefined') {
 				cancelAnimationFrame(animationRef.current)
 			}
 		}
 	}, [])
+
+	if (!isMounted) {
+		return null
+	}
 
 	return (
 		<div
