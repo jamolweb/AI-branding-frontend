@@ -304,7 +304,164 @@ const OurServices = () => {
 
 				{/* Third div - Spans 2 columns & 2 rows */}
 				<div className='col-span-2 row-span-2 bg-gradient-to-tr from-[#101010] to-[#202020] rounded-lg p-6 shadow-lg flex flex-col gap-3 overflow-visible'>
-					{/* Content here */}
+					{/* Header */}
+					<h3 className='text-3xl font-semibold text-white tracking-tight'>
+						Natural Language Processing
+					</h3>
+
+					{/* Features list */}
+					<ul className='text-[#d5d5d5] space-y-1 text-lg'>
+						<li className='flex items-center gap-2'>
+							<div className='w-1.5 h-1.5 rounded-full bg-white'></div>
+							<p>chatbot development</p>
+						</li>
+						<li className='flex items-center gap-2'>
+							<div className='w-1.5 h-1.5 rounded-full bg-white'></div>
+							<p>text summarization</p>
+						</li>
+						<li className='flex items-center gap-2'>
+							<div className='w-1.5 h-1.5 rounded-full bg-white'></div>
+							<p>machine translation</p>
+						</li>
+					</ul>
+
+					{/* Chat Interface Demo */}
+					<div className='flex gap-8 mt-6'>
+						{/* Translation Example */}
+						<div className='transform -rotate-5' style={{ opacity: 1 }}>
+							<div className='bg-[#151515] rounded-xl p-4 w-[300px]'>
+								<div className='space-y-4'>
+									<div className='text-white'>
+										<h4 className='font-manrope text-xl tracking-tight'>
+											Como estás?
+										</h4>
+									</div>
+
+									<div className='font-mono text-white/70 tracking-tight leading-tight'>
+										<p>
+											p#d+G$xs;?00L.K#yt{'}'}1101;k{'{'}
+										</p>
+									</div>
+
+									<div>
+										<p className='font-manrope text-xl text-center text-[#effc76] tracking-tight'>
+											How are you?
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						{/* Chat Assistant Example */}
+						<div
+							className='bg-[#151515] rounded-xl p-4 w-[300px]'
+							style={{ transform: 'rotate(5deg)' }}
+						>
+							<div className='flex items-center gap-2 mb-4'>
+								<div className='w-8 h-8 bg-[#effc76] rounded-lg flex items-center justify-center'>
+									<svg
+										width='20'
+										height='20'
+										viewBox='0 0 24 24'
+										fill='none'
+										stroke='currentColor'
+										strokeWidth='2'
+										strokeLinecap='round'
+										strokeLinejoin='round'
+									>
+										<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'></path>
+									</svg>
+								</div>
+								<div className='text-white/80 font-manrope text-lg font-semibold'>
+									Your AI Assistant
+								</div>
+								<button className='ml-auto text-white/60 hover:text-white'>
+									<svg
+										width='16'
+										height='16'
+										viewBox='0 0 16 16'
+										fill='none'
+										stroke='currentColor'
+										strokeWidth='2'
+										strokeLinecap='round'
+										strokeLinejoin='round'
+									>
+										<line x1='12' y1='4' x2='4' y2='12'></line>
+										<line x1='4' y1='4' x2='12' y2='12'></line>
+									</svg>
+								</button>
+							</div>
+							<div className='text-xs text-white/70 mb-3 font-manrope'>
+								September 21st at 11:15 AM
+							</div>
+							<div className='flex gap-2 mb-3'>
+								<div className='w-8 h-8 bg-[#202020] rounded-lg flex items-center justify-center flex-shrink-0'>
+									<svg
+										width='16'
+										height='16'
+										viewBox='0 0 24 24'
+										fill='none'
+										stroke='currentColor'
+										strokeWidth='2'
+										strokeLinecap='round'
+										strokeLinejoin='round'
+									>
+										<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'></path>
+									</svg>
+								</div>
+								<div className='bg-[#202020] rounded-lg p-3'>
+									<p className='text-white'>
+										Welcome to our website! What brought you to us today?
+									</p>
+								</div>
+							</div>
+							<div className='flex gap-2'>
+								<div className='bg-white rounded-lg p-3 ml-auto'>
+									<p className='text-[#202020]'>
+										I'd like to get some information about your products
+									</p>
+								</div>
+							</div>
+							<div className='flex gap-2 mt-3'>
+								<div className='w-8 h-8 bg-[#202020] rounded-lg flex items-center justify-center flex-shrink-0'>
+									<svg
+										width='16'
+										height='16'
+										viewBox='0 0 24 24'
+										fill='none'
+										stroke='currentColor'
+										strokeWidth='2'
+										strokeLinecap='round'
+										strokeLinejoin='round'
+									>
+										<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'></path>
+									</svg>
+								</div>
+								<div className='bg-[#202020] rounded-lg p-3'>
+									<p className='text-white'>
+										Certainly! Here are some of our most popular products:
+									</p>
+									<div className='mt-2'>
+										<button className='text-[#effc76] hover:underline flex items-center font-manrope'>
+											Product List
+											<svg
+												className='ml-1 w-4 h-4'
+												viewBox='0 0 24 24'
+												fill='none'
+												stroke='currentColor'
+												strokeWidth='2'
+												strokeLinecap='round'
+												strokeLinejoin='round'
+											>
+												<line x1='5' y1='12' x2='19' y2='12'></line>
+												<polyline points='12 5 19 12 12 19'></polyline>
+											</svg>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				{/* Fourth div - Spans 1 row & 1 column */}
