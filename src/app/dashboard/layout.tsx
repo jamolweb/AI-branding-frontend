@@ -15,37 +15,52 @@ export default function DashboardLayout({
 	useEffect(() => {
 		const initializeAuth = async () => {
 			try {
-				// First check for OAuth callback tokens in URL
+				// Check for OAuth callback tokens in URL
 				const accessToken = searchParams.get('accessToken')
 				const refreshToken = searchParams.get('refreshToken')
 
 				if (accessToken && refreshToken) {
-					// Store the tokens from OAuth callback
+					// Store tokens from OAuth callback
 					authService.setTokens({
 						accessToken,
 						refreshToken,
 					})
-					// Clean up the URL
+
+					// Clean up URL by removing tokens
 					window.history.replaceState({}, document.title, '/dashboard')
 					setIsLoading(false)
-					return // No need to check refresh token as we just got new tokens
+					return
 				}
 
 				// If no URL tokens, check for stored refresh token
 				const storedRefreshToken = authService.getRefreshToken()
 				if (!storedRefreshToken) {
-					// No refresh token available, redirect to login
 					redirect('/auth/signin')
 					return
 				}
 
-				// Try to refresh the tokens using stored refresh token
+				// Try to refresh tokens using stored refresh token
 				try {
 					await authService.refreshToken()
 					setIsLoading(false)
-				} catch (error) {
-					// If refresh fails, redirect to login
-					redirect('/auth/signin')
+				} catch (error: any) {
+					// Check if error is due to invalid token
+					if (error?.response?.status === 401) {
+						console.error('Invalid refresh token:', error)
+						redirect('/auth/signin')
+						return
+					}
+
+					// For other errors, just log and continue with current tokens
+					console.warn(
+						'Token refresh failed, continuing with current tokens:',
+						error
+					)
+					if (authService.isAuthenticated()) {
+						setIsLoading(false)
+					} else {
+						redirect('/auth/signin')
+					}
 				}
 			} catch (error) {
 				console.error('Auth initialization error:', error)
@@ -59,11 +74,11 @@ export default function DashboardLayout({
 	// Show loading state while checking authentication
 	if (isLoading) {
 		return (
-			<div className='min-h-screen flex items-center justify-center'>
+			<div className='min-h-screen flex items-center justify-center bg-gray-900'>
 				<div className='animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500'></div>
 			</div>
 		)
 	}
 
-	return <>{children}</>
+	return <div className='min-h-screen bg-gray-900'>{children}</div>
 }

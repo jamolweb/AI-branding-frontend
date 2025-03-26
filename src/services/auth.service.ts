@@ -94,13 +94,6 @@ class AuthService {
 					}
 				}
 
-				// For 500 errors in regular requests, don't logout but propagate the error
-				if (status === 500) {
-					return Promise.reject(
-						new Error('Server error occurred. Please try again later.')
-					)
-				}
-
 				return Promise.reject(error)
 			}
 		)
@@ -158,27 +151,29 @@ class AuthService {
 			try {
 				const response = await axios.post<AuthTokens>(
 					`${API_URL}/auth/refresh`,
-					{}, // empty body as per API spec
+					{}, // empty body
 					{
 						headers: {
 							Authorization: `Bearer ${refreshToken}`,
+							'Content-Type': 'application/json',
 						},
 					}
 				)
 
-				this.setTokens(response.data)
-				return response.data
+				if (response.data.accessToken && response.data.refreshToken) {
+					this.setTokens(response.data)
+					return response.data
+				}
+				throw new Error('Invalid token response')
 			} catch (error) {
-				// For refresh endpoint, both 401 and 500 should clear tokens
 				if (error instanceof AxiosError) {
 					const status = error.response?.status
 					if (status === 401 || status === 500) {
-						this.clearTokens() // Don't redirect here, let the caller handle it
+						this.clearTokens()
 					}
 				}
 				throw error
 			} finally {
-				// Clear the promise reference
 				this.refreshPromise = null
 			}
 		})()
@@ -203,7 +198,7 @@ class AuthService {
 	}
 
 	setTokens(tokens: AuthTokens): void {
-		if (this.storage) {
+		if (this.storage && tokens.accessToken && tokens.refreshToken) {
 			this.storage.setItem(this.ACCESS_TOKEN_KEY, tokens.accessToken)
 			this.storage.setItem(this.REFRESH_TOKEN_KEY, tokens.refreshToken)
 		}
