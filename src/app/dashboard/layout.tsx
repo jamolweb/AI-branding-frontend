@@ -234,7 +234,7 @@ export default function DashboardLayout({
 				<div className='p-3 sm:p-4 border-t border-[rgba(255,255,255,0.1)]'>
 					<button
 						onClick={() => handleNavigation('/dashboard/settings')}
-						className='w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.1)] transition-all duration-200'
+						className='w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.1)] transition-all duration-200 cursor-pointer'
 					>
 						<Settings className='w-4 h-4 text-[rgba(255,255,255,0.8)]' />
 						<span className='text-sm font-medium text-[rgba(255,255,255,0.8)] whitespace-nowrap'>
@@ -243,7 +243,7 @@ export default function DashboardLayout({
 					</button>
 					<button
 						onClick={() => handleNavigation('/dashboard/help')}
-						className='w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.1)] transition-all duration-200'
+						className='w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.1)] transition-all duration-200 cursor-pointer'
 					>
 						<HelpCircle className='w-4 h-4 text-[rgba(255,255,255,0.8)]' />
 						<span className='text-sm font-medium text-[rgba(255,255,255,0.8)] whitespace-nowrap'>
@@ -256,8 +256,8 @@ export default function DashboardLayout({
 			{/* Main Content */}
 			<div className='flex-1 min-w-0'>
 				{/* Header */}
-				<header className='h-14 sm:h-16 border-b border-[rgba(255,255,255,0.1)] flex items-center justify-between px-3 sm:px-6'>
-					<div className='flex items-center gap-2 sm:gap-4 flex-1 min-w-0'>
+				<header className='h-14 sm:h-16 flex items-center justify-between px-3 sm:px-6'>
+					<div className='flex items-center gap-2 sm:gap-4 flex-1 min-w-0 max-w-2xl'>
 						<button
 							className='lg:hidden text-white hover:text-[rgb(239,252,118)] transition-colors p-1'
 							onClick={() => setIsSidebarOpen(true)}
