@@ -158,7 +158,6 @@ export default function DashboardLayout({
 			className='flex min-h-screen relative'
 			style={{ backgroundColor: 'rgb(16, 16, 16)' }}
 		>
-			{/* Mobile Overlay */}
 			{isSidebarOpen && (
 				<div
 					className='fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-20 lg:hidden'
@@ -166,7 +165,6 @@ export default function DashboardLayout({
 				/>
 			)}
 
-			{/* Sidebar */}
 			<aside
 				className={`fixed lg:static inset-y-0 left-0 w-[280px] sm:w-64 border-r border-[rgba(255,255,255,0.1)] flex flex-col bg-[rgb(16,16,16)] transform transition-transform duration-300 ease-in-out z-30 ${
 					isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
@@ -253,9 +251,7 @@ export default function DashboardLayout({
 				</div>
 			</aside>
 
-			{/* Main Content */}
 			<div className='flex-1 min-w-0'>
-				{/* Header */}
 				<header className='h-14 sm:h-16 flex items-center justify-between px-3 sm:px-6'>
 					<div className='flex items-center gap-2 sm:gap-4 flex-1 min-w-0 max-w-2xl'>
 						<button
@@ -305,7 +301,6 @@ export default function DashboardLayout({
 					</div>
 				</header>
 
-				{/* Page Content */}
 				<main className='p-3 sm:p-6'>{children}</main>
 			</div>
 		</div>

@@ -4,12 +4,10 @@ const AIConsulting = () => {
 	return (
 		<div className='flex flex-col flex-nowrap items-start content-start justify-start gap-4 bg-[#effc76] rounded-2xl p-6 lg:p-9 h-full w-full relative overflow-hidden will-change-transform'>
 			<div className='relative z-10'>
-				{/* Header */}
 				<h3 className='text-2xl lg:text-3xl font-manrope font-semibold tracking-tight text-black'>
 					AI Consulting
 				</h3>
 
-				{/* List of services */}
 				<ServiceList
 					items={['AI strategy', 'AI readiness', 'ROI analysis']}
 					textColor='text-black'
@@ -18,7 +16,6 @@ const AIConsulting = () => {
 				/>
 			</div>
 
-			{/* 3D Cube Illustration */}
 			<div className='absolute -bottom-8 -right-8 w-32 h-32 md:w-40 md:h-40'>
 				<svg viewBox='0 0 280 267' id='svg11770476900'>
 					<g>

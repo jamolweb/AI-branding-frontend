@@ -98,7 +98,6 @@ const cardStyle = {
 export default function DashboardPage() {
 	return (
 		<div className='space-y-6'>
-			{/* Metrics Overview */}
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
 				<div style={cardStyle} className='p-6'>
 					<h2 className='text-[rgba(255,255,255,0.4)] mb-4 flex items-center gap-2 uppercase text-sm font-medium'>
@@ -125,7 +124,6 @@ export default function DashboardPage() {
 				</div>
 			</div>
 
-			{/* Performance and Health */}
 			<div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
 				<div style={cardStyle} className='p-6'>
 					<h2 className='text-[rgba(255,255,255,0.4)] mb-4 uppercase text-sm font-medium'>
@@ -185,7 +183,6 @@ export default function DashboardPage() {
 				</div>
 			</div>
 
-			{/* Uptime Graph and Training Jobs */}
 			<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
 				<div style={cardStyle} className='lg:col-span-2 p-6'>
 					<h2 className='text-[rgba(255,255,255,0.4)] mb-4 flex items-center gap-2 uppercase text-sm font-medium'>

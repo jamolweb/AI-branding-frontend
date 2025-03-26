@@ -13,12 +13,10 @@ const NaturalLanguageProcessing = () => {
 			}}
 		>
 			<div className='p-4 lg:p-6'>
-				{/* Header */}
 				<h3 className='text-2xl lg:text-3xl font-semibold text-white tracking-tight'>
 					Natural Language Processing
 				</h3>
 
-				{/* Features list */}
 				<ServiceList
 					items={[
 						'chatbot development',
@@ -28,7 +26,6 @@ const NaturalLanguageProcessing = () => {
 				/>
 			</div>
 
-			{/* Chat Interface Demo */}
 			<div className='relative w-full overflow-hidden px-4 lg:px-16 py-4 lg:py-8'>
 				<div className='flex flex-col lg:flex-row items-center justify-center gap-8'>
 					<TranslationDemo />

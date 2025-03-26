@@ -5,7 +5,6 @@ import ServiceList from './ServiceList'
 const GenerativeAI = () => {
 	return (
 		<div className='flex flex-col bg-gradient-to-br from-[#101010] via-[#101010] to-[#202020] rounded-2xl shadow-[0_2px_4px_#0000004a,0_8px_8px_#00000042,0_17px_10px_#00000026,0_31px_12px_#0000000a,0_48px_13px_#00000003,inset_0_-3px_7px_#0003,inset_1px_-14px_14px_#0000002b,inset_3px_-30px_18px_#0000001a,inset_5px_-54px_22px_#00000008,inset_7px_-84px_24px_#0000] p-6 lg:p-9 gap-4 w-full h-full overflow-hidden'>
-			{/* Header */}
 			<div
 				style={{
 					outline: 'none',
@@ -27,7 +26,6 @@ const GenerativeAI = () => {
 				</h3>
 			</div>
 
-			{/* List */}
 			<div className='relative z-[1]'>
 				<ServiceList
 					items={[
@@ -43,12 +41,10 @@ const GenerativeAI = () => {
 				style={{ height: '600px' }}
 			>
 				<div className='relative mt-8 py-8'>
-					{/* Star/Plus icon */}
 					<div className='flex justify-center relative z-10'>
 						<Star className='w-12 h-12 text-yellow-500' />
 					</div>
 
-					{/* Connection lines using absolute SVG */}
 					<svg
 						className='absolute left-1/2 transform -translate-x-1/2 top-16'
 						width='220'
@@ -57,7 +53,6 @@ const GenerativeAI = () => {
 						fill='none'
 						xmlns='http://www.w3.org/2000/svg'
 					>
-						{/* Vertical line from star */}
 						<line
 							x1='150'
 							y1='0'
@@ -66,7 +61,6 @@ const GenerativeAI = () => {
 							stroke='#4A4A4A'
 							strokeWidth='2.5'
 						/>
-						{/* Horizontal line */}
 						<line
 							x1='30'
 							y1='70'
@@ -75,7 +69,6 @@ const GenerativeAI = () => {
 							stroke='#4A4A4A'
 							strokeWidth='2.5'
 						/>
-						{/* Small vertical lines connecting to icons */}
 						<line
 							x1='30'
 							y1='70'
@@ -102,19 +95,15 @@ const GenerativeAI = () => {
 						/>
 					</svg>
 
-					{/* Icon boxes */}
 					<div className='flex justify-between pt-2 w-56 mx-auto relative z-10 mt-18'>
-						{/* Image icon */}
 						<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
 							<LucideImage className='w-6 h-6' />
 						</div>
 
-						{/* Document icon */}
 						<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
 							<File className='w-6 h-6' />
 						</div>
 
-						{/* Code icon */}
 						<div className='w-14 h-14 bg-[#1A1A1A] rounded-lg flex items-center justify-center shadow-md'>
 							<Code className='w-6 h-6' />
 						</div>

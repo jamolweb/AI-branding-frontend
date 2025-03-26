@@ -3,12 +3,10 @@ import ServiceList from './ServiceList'
 const PredictiveAnalytics = () => {
 	return (
 		<div className='bg-black rounded-lg p-4 lg:p-6 shadow-md flex flex-col gap-3 h-full overflow-hidden'>
-			{/* Header */}
 			<h3 className='text-2xl lg:text-3xl font-manrope font-semibold tracking-tight text-white'>
 				Predictive Analytics
 			</h3>
 
-			{/* List of services */}
 			<ServiceList
 				items={[
 					'demand forecasting',
@@ -17,7 +15,6 @@ const PredictiveAnalytics = () => {
 				]}
 			/>
 
-			{/* Graph Visualization */}
 			<div className='relative flex-1 mt-4' style={{ minHeight: '80px' }}>
 				<div className='absolute inset-0 flex items-end'>
 					<svg viewBox='0 0 473 247' id='svg12770655941'>
@@ -52,7 +49,6 @@ const PredictiveAnalytics = () => {
 						</g>
 					</svg>
 
-					{/* Legend */}
 					<div className='absolute top-0 right-0 flex items-center gap-4'>
 						<div className='flex items-center gap-2'>
 							<div className='w-2 h-2 rounded-full bg-[#90EE90]'></div>
