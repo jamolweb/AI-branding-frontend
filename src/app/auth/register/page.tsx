@@ -1,6 +1,7 @@
 'use client'
 
 import { authService } from '@/services/auth.service'
+import { AxiosError } from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -31,10 +32,15 @@ export default function RegisterPage() {
 		try {
 			await authService.register(formData)
 			router.push('/dashboard')
-		} catch (err: any) {
-			setError(
-				err.response?.data?.message || 'An error occurred during registration'
-			)
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				setError(
+					error.response?.data?.message ||
+						'An error occurred during registration'
+				)
+			} else {
+				setError('An unexpected error occurred')
+			}
 		} finally {
 			setIsLoading(false)
 		}
@@ -57,7 +63,7 @@ export default function RegisterPage() {
 							href='/auth/signin'
 							className='font-medium text-indigo-400 hover:text-indigo-300'
 						>
-							sign in to your account
+							sign in to existing account
 						</Link>
 					</p>
 				</div>

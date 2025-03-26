@@ -1,6 +1,7 @@
 'use client'
 
 import { authService } from '@/services/auth.service'
+import { AxiosError } from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -30,8 +31,14 @@ export default function LoginPage() {
 		try {
 			await authService.login(formData)
 			router.push('/dashboard')
-		} catch (err: any) {
-			setError(err.response?.data?.message || 'An error occurred during login')
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				setError(
+					error.response?.data?.message || 'An error occurred during login'
+				)
+			} else {
+				setError('An unexpected error occurred')
+			}
 		} finally {
 			setIsLoading(false)
 		}

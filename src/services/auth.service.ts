@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios'
 
-// Extend AxiosRequestConfig to include _retry
 declare module 'axios' {
 	export interface InternalAxiosRequestConfig {
 		_retry?: boolean
@@ -44,7 +43,6 @@ class AuthService {
 	})
 
 	constructor() {
-		// Add request interceptor to add auth header
 		this.api.interceptors.request.use(
 			config => {
 				const token = this.getAccessToken()
@@ -58,22 +56,18 @@ class AuthService {
 			}
 		)
 
-		// Add response interceptor to handle token refresh
 		this.api.interceptors.response.use(
 			response => response,
 			async (error: AxiosError) => {
 				const originalRequest = error.config
 				const status = error.response?.status
 
-				// Only attempt refresh on 401 errors
 				if (status === 401 && originalRequest && !originalRequest._retry) {
 					originalRequest._retry = true
 
 					try {
-						// Wait for token refresh
 						await this.refreshToken()
 
-						// Update Authorization header with new token
 						const newToken = this.getAccessToken()
 						if (newToken) {
 							originalRequest.headers.Authorization = `Bearer ${newToken}`
@@ -83,7 +77,6 @@ class AuthService {
 						this.logout()
 						throw new Error('No access token after refresh')
 					} catch (refreshError) {
-						// If refresh fails with 401 or 500, logout and redirect
 						if (refreshError instanceof AxiosError) {
 							const refreshStatus = refreshError.response?.status
 							if (refreshStatus === 401 || refreshStatus === 500) {
@@ -136,7 +129,6 @@ class AuthService {
 	}
 
 	async refreshToken(): Promise<AuthTokens> {
-		// If there's already a refresh in progress, return that promise
 		if (this.refreshPromise) {
 			return this.refreshPromise
 		}
@@ -146,12 +138,11 @@ class AuthService {
 			throw new Error('No refresh token available')
 		}
 
-		// Create new refresh promise
 		this.refreshPromise = (async () => {
 			try {
 				const response = await axios.post<AuthTokens>(
 					`${API_URL}/auth/refresh`,
-					{}, // empty body
+					{},
 					{
 						headers: {
 							Authorization: `Bearer ${refreshToken}`,
