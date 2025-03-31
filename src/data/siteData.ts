@@ -1,3 +1,17 @@
+import {
+	Book,
+	FileText,
+	Globe,
+	Home,
+	Image,
+	MessageCircle,
+	Mic,
+	Palette,
+	Tag,
+} from 'lucide-react'
+
+import { BarChart2 } from 'lucide-react'
+
 interface NavItem {
 	href: string
 	label: string
@@ -55,5 +69,63 @@ const faqs = [
 	},
 ]
 
-export { faqs, homePageNavbar }
+const sidebarItems = [
+	{ icon: Home, label: 'Dashboard', href: '/dashboard', group: 'GENERAL' },
+	{
+		icon: BarChart2,
+		label: 'Analytics',
+		href: '/dashboard/analytics',
+		group: 'GENERAL',
+	},
+	{
+		icon: Palette,
+		label: 'Logo Maker',
+		href: '/dashboard/logo-maker',
+		group: 'BRANDING',
+	},
+	{
+		icon: Book,
+		label: 'Brand Book',
+		href: '/dashboard/brand-book',
+		group: 'BRANDING',
+	},
+	{
+		icon: MessageCircle,
+		label: 'Brand Voice',
+		href: '/dashboard/brand-voice',
+		group: 'BRANDING',
+	},
+	{
+		icon: FileText,
+		label: 'Content Generator',
+		href: '/dashboard/content',
+		group: 'CONTENT',
+	},
+	{
+		icon: Mic,
+		label: 'Text to Voice',
+		href: '/dashboard/text-to-voice',
+		group: 'CONTENT',
+	},
+	{
+		icon: Image,
+		label: 'Image Generator',
+		href: '/dashboard/image-generator',
+		group: 'CONTENT',
+	},
+	{
+		icon: Tag,
+		label: 'Label Generator',
+		href: '/dashboard/label-generator',
+		group: 'CONTENT',
+	},
+	{
+		icon: Globe,
+		label: 'Website Maker',
+		href: '/dashboard/website-maker',
+		group: 'DEVELOPMENT',
+	},
+]
+
+export { faqs, homePageNavbar, sidebarItems }
 export type { NavItem }

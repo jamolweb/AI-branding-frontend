@@ -1,23 +1,9 @@
 'use client'
 
+import { sidebarItems } from '@/data/siteData'
 import { authService } from '@/services/auth.service'
 import { AxiosError } from 'axios'
-import {
-	BarChart2,
-	Bell,
-	Box,
-	Cloud,
-	Code2,
-	HelpCircle,
-	Home,
-	Menu,
-	MessageSquare,
-	Search,
-	Server,
-	Settings,
-	Sun,
-	X,
-} from 'lucide-react'
+import { Bell, HelpCircle, Menu, Search, Settings, Sun, X } from 'lucide-react'
 import Link from 'next/link'
 import {
 	redirect,
@@ -26,41 +12,6 @@ import {
 	useSearchParams,
 } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-const sidebarItems = [
-	{ icon: Home, label: 'Dashboard', href: '/dashboard', group: 'GENERAL' },
-	{
-		icon: BarChart2,
-		label: 'Analytics',
-		href: '/dashboard/analytics',
-		group: 'GENERAL',
-	},
-	{ icon: Box, label: 'Models', href: '/dashboard/models', group: 'GENERAL' },
-	{
-		icon: MessageSquare,
-		label: 'Chatbots',
-		href: '/dashboard/chatbots',
-		group: 'SERVICES',
-	},
-	{
-		icon: Code2,
-		label: 'NLP Services',
-		href: '/dashboard/nlp',
-		group: 'SERVICES',
-	},
-	{
-		icon: Server,
-		label: 'Edge AI',
-		href: '/dashboard/edge-ai',
-		group: 'SERVICES',
-	},
-	{
-		icon: Cloud,
-		label: 'Cloud Integration',
-		href: '/dashboard/cloud',
-		group: 'INFRASTRUCTURE',
-	},
-]
 
 const Logo = () => (
 	<svg viewBox='0 0 24 23' className='w-6 h-6'>
@@ -81,9 +32,6 @@ export default function DashboardLayout({
 	const searchParams = useSearchParams()
 	const [isLoading, setIsLoading] = useState(true)
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-
-	const activeItem =
-		sidebarItems.find(item => item.href === pathname)?.label || 'Dashboard'
 
 	useEffect(() => {
 		const initializeAuth = async () => {
