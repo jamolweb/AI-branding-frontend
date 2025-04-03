@@ -249,7 +249,7 @@ export default function DashboardLayout({
 					</div>
 				</header>
 
-				<main className='p-3 sm:p-6'>{children}</main>
+				<main>{children}</main>
 			</div>
 		</div>
 	)
