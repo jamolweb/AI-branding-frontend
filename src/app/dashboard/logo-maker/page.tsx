@@ -12,6 +12,7 @@ interface Message {
 	type: 'user' | 'assistant'
 	content: string
 	images?: string[]
+	jobId?: string
 }
 
 export default function LogoMaker() {
@@ -85,9 +86,8 @@ export default function LogoMaker() {
 			const assistantMessage: Message = {
 				type: 'assistant',
 				content: 'Here are your generated logos:',
-				images: response.data.images.map(
-					(base64: string) => `data:image/png;base64,${base64}`
-				),
+				images: response.data.images,
+				jobId: response.data.jobId,
 			}
 
 			setMessages(prev => [...prev, assistantMessage])
@@ -106,7 +106,7 @@ export default function LogoMaker() {
 		}
 	}
 
-	const handleRegenerate = async (prompt: string) => {
+	const handleRegenerate = async (prompt: string, jobId?: string) => {
 		setIsLoading(true)
 		const accessToken = authService.getAccessToken()
 		try {
@@ -115,6 +115,7 @@ export default function LogoMaker() {
 				{
 					prompt,
 					count: 3,
+					jobId,
 				},
 				{
 					headers: {
@@ -131,9 +132,8 @@ export default function LogoMaker() {
 				) {
 					return {
 						...msg,
-						images: response.data.images.map(
-							(base64: string) => `data:image/png;base64,${base64}`
-						),
+						images: response.data.images,
+						jobId: response.data.jobId,
 					}
 				}
 				return msg
@@ -204,7 +204,9 @@ export default function LogoMaker() {
 													<Download size={20} className='text-black' />
 												</button>
 												<button
-													onClick={() => handleRegenerate(message.content)}
+													onClick={() =>
+														handleRegenerate(message.content, message.jobId)
+													}
 													className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
 												>
 													<RefreshCw size={20} className='text-black' />

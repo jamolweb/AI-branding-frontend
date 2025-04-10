@@ -1,5 +1,8 @@
 'use client'
 
+import { authService } from '@/services/auth.service'
+import { FavoriteLogo, Logo } from '@/types/logo'
+import axios from 'axios'
 import {
 	CategoryScale,
 	Chart as ChartJS,
@@ -11,8 +14,12 @@ import {
 	Title,
 	Tooltip,
 } from 'chart.js'
-import { Box, Clock } from 'lucide-react'
+import { Box, Clock, Heart, ImageIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
+import LogoGallery from './components/LogoGallery'
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api'
 
 ChartJS.register(
 	CategoryScale,
@@ -96,9 +103,54 @@ const cardStyle = {
 }
 
 export default function DashboardPage() {
+	const [myLogos, setMyLogos] = useState<Logo[]>([])
+	const [favoriteLogos, setFavoriteLogos] = useState<FavoriteLogo[]>([])
+
+	useEffect(() => {
+		fetchLogoMetrics()
+	}, [])
+
+	const fetchLogoMetrics = async () => {
+		try {
+			const accessToken = authService.getAccessToken()
+			const [myLogosRes, favoritesRes] = await Promise.all([
+				axios.get(`${API_URL}/logo/my-logos`, {
+					headers: { Authorization: `Bearer ${accessToken}` },
+				}),
+				axios.get(`${API_URL}/logo/favorites`, {
+					headers: { Authorization: `Bearer ${accessToken}` },
+				}),
+			])
+			setMyLogos(myLogosRes.data)
+			setFavoriteLogos(favoritesRes.data)
+		} catch (error) {
+			console.error('Error fetching logo metrics:', error)
+		}
+	}
+
 	return (
 		<div className='space-y-6 p-5'>
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+				<div style={cardStyle} className='p-6'>
+					<h2 className='text-[rgba(255,255,255,0.4)] mb-4 flex items-center gap-2 uppercase text-sm font-medium'>
+						<ImageIcon className='w-4 h-4' />
+						My Logos
+					</h2>
+					<div className='text-3xl font-semibold text-white'>
+						{myLogos.length}
+					</div>
+				</div>
+
+				<div style={cardStyle} className='p-6'>
+					<h2 className='text-[rgba(255,255,255,0.4)] mb-4 flex items-center gap-2 uppercase text-sm font-medium'>
+						<Heart className='w-4 h-4' />
+						Favorite Logos
+					</h2>
+					<div className='text-3xl font-semibold text-white'>
+						{favoriteLogos.length}
+					</div>
+				</div>
+
 				<div style={cardStyle} className='p-6'>
 					<h2 className='text-[rgba(255,255,255,0.4)] mb-4 flex items-center gap-2 uppercase text-sm font-medium'>
 						<Box className='w-4 h-4' />
@@ -106,23 +158,9 @@ export default function DashboardPage() {
 					</h2>
 					<div className='text-3xl font-semibold text-white'>3/3</div>
 				</div>
-
-				<div style={cardStyle} className='p-6'>
-					<h2 className='text-[rgba(255,255,255,0.4)] mb-4 uppercase text-sm font-medium'>
-						API Usage
-					</h2>
-					<div className='text-3xl font-semibold text-white'>8.2k/10k</div>
-				</div>
-
-				<div style={cardStyle} className='p-6'>
-					<h2 className='text-[rgba(255,255,255,0.4)] mb-4 uppercase text-sm font-medium'>
-						Support Status
-					</h2>
-					<div className='text-xl font-semibold text-white'>
-						No pending tickets
-					</div>
-				</div>
 			</div>
+
+			<LogoGallery />
 
 			<div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
 				<div style={cardStyle} className='p-6'>

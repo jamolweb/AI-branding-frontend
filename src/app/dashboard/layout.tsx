@@ -3,8 +3,16 @@
 import { sidebarItems } from '@/data/siteData'
 import { authService } from '@/services/auth.service'
 import { AxiosError } from 'axios'
-import { Bell, HelpCircle, Menu, Search, Settings, Sun, X } from 'lucide-react'
-import Link from 'next/link'
+import {
+	Bell,
+	ChevronDown,
+	HelpCircle,
+	Menu,
+	Search,
+	Settings,
+	Sun,
+	X,
+} from 'lucide-react'
 import {
 	redirect,
 	usePathname,
@@ -21,6 +29,106 @@ const Logo = () => (
 		/>
 	</svg>
 )
+
+interface AccordionItemProps {
+	item: (typeof sidebarItems)[0]
+	pathname: string
+	onNavigate: (href: string) => void
+}
+
+const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
+	const [isOpen, setIsOpen] = useState(false)
+	const isActive = pathname === item.href
+	const hasChildren = item.children && item.children.length > 0
+
+	// Auto-open the accordion if a child is active
+	useEffect(() => {
+		if (hasChildren && item.children) {
+			const isChildActive = item.children.some(child => pathname === child.href)
+			if (isChildActive) {
+				setIsOpen(true)
+			}
+		}
+	}, [pathname, hasChildren, item.children])
+
+	return (
+		<div className='space-y-1'>
+			<button
+				onClick={() => {
+					if (hasChildren) {
+						setIsOpen(!isOpen)
+					} else {
+						onNavigate(item.href)
+					}
+				}}
+				className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
+					isActive
+						? 'bg-[rgb(239,252,118)]'
+						: 'hover:bg-[rgba(255,255,255,0.1)]'
+				}`}
+			>
+				<item.icon
+					className={`w-4 h-4 ${
+						isActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+					}`}
+				/>
+				<span
+					className={`text-sm font-medium flex-1 text-left whitespace-nowrap ${
+						isActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+					}`}
+				>
+					{item.label}
+				</span>
+				{hasChildren && (
+					<div
+						className={`transition-transform duration-200 ${
+							isOpen ? 'rotate-180' : ''
+						}`}
+					>
+						<ChevronDown
+							className={`w-4 h-4 ${
+								isActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+							}`}
+						/>
+					</div>
+				)}
+			</button>
+
+			{hasChildren && isOpen && item.children && (
+				<div className='ml-4 space-y-1'>
+					{item.children.map(child => (
+						<button
+							key={child.href}
+							onClick={() => onNavigate(child.href)}
+							className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
+								pathname === child.href
+									? 'bg-[rgb(239,252,118)]'
+									: 'hover:bg-[rgba(255,255,255,0.1)]'
+							}`}
+						>
+							<child.icon
+								className={`w-4 h-4 ${
+									pathname === child.href
+										? 'text-black'
+										: 'text-[rgba(255,255,255,0.8)]'
+								}`}
+							/>
+							<span
+								className={`text-sm font-medium whitespace-nowrap ${
+									pathname === child.href
+										? 'text-black'
+										: 'text-[rgba(255,255,255,0.8)]'
+								}`}
+							>
+								{child.label}
+							</span>
+						</button>
+					))}
+				</div>
+			)}
+		</div>
+	)
+}
 
 export default function DashboardLayout({
 	children,
@@ -145,32 +253,12 @@ export default function DashboardLayout({
 							</h2>
 							<div className='space-y-1'>
 								{items.map(item => (
-									<Link
-										key={item.label}
-										href={item.href}
-										className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
-											pathname === item.href
-												? 'bg-[rgb(239,252,118)]'
-												: 'hover:bg-[rgba(255,255,255,0.1)]'
-										}`}
-									>
-										<item.icon
-											className={`w-4 h-4 ${
-												pathname === item.href
-													? 'text-black'
-													: 'text-[rgba(255,255,255,0.8)]'
-											}`}
-										/>
-										<span
-											className={`text-sm font-medium whitespace-nowrap ${
-												pathname === item.href
-													? 'text-black'
-													: 'text-[rgba(255,255,255,0.8)]'
-											}`}
-										>
-											{item.label}
-										</span>
-									</Link>
+									<AccordionItem
+										key={item.href}
+										item={item}
+										pathname={pathname}
+										onNavigate={handleNavigation}
+									/>
 								))}
 							</div>
 						</div>

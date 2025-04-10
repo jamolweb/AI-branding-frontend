@@ -2,11 +2,14 @@ import {
 	Book,
 	FileText,
 	Globe,
+	Heart,
 	Home,
 	Image,
+	Images,
 	MessageCircle,
 	Mic,
 	Palette,
+	Plus,
 	Tag,
 } from 'lucide-react'
 
@@ -15,15 +18,17 @@ import { BarChart2 } from 'lucide-react'
 interface NavItem {
 	href: string
 	label: string
-	icon?: React.ReactNode
+	icon?: any
+	group: string
+	children?: NavItem[]
 }
 
 const homePageNavbar: NavItem[] = [
-	{ href: 'services', label: 'Services' },
-	{ href: 'process', label: 'Process' },
-	{ href: 'pricing', label: 'Pricing' },
-	{ href: 'faq', label: 'FAQ' },
-	{ href: 'contact', label: 'Contact' },
+	{ href: 'services', label: 'Services', group: 'navbar' },
+	{ href: 'process', label: 'Process', group: 'navbar' },
+	{ href: 'pricing', label: 'Pricing', group: 'navbar' },
+	{ href: 'faq', label: 'FAQ', group: 'navbar' },
+	{ href: 'contact', label: 'Contact', group: 'navbar' },
 ]
 
 const faqs = [
@@ -69,7 +74,7 @@ const faqs = [
 	},
 ]
 
-const sidebarItems = [
+const sidebarItems: NavItem[] = [
 	{ icon: Home, label: 'Dashboard', href: '/dashboard', group: 'GENERAL' },
 	{
 		icon: BarChart2,
@@ -82,6 +87,26 @@ const sidebarItems = [
 		label: 'Logo Maker',
 		href: '/dashboard/logo-maker',
 		group: 'BRANDING',
+		children: [
+			{
+				icon: Plus,
+				label: 'New Logo',
+				href: '/dashboard/logo-maker',
+				group: 'BRANDING',
+			},
+			{
+				icon: Heart,
+				label: 'Favorites',
+				href: '/dashboard/logo-maker/favorites',
+				group: 'BRANDING',
+			},
+			{
+				icon: Images,
+				label: 'My Logos',
+				href: '/dashboard/logo-maker/my-logos',
+				group: 'BRANDING',
+			},
+		],
 	},
 	{
 		icon: Book,
