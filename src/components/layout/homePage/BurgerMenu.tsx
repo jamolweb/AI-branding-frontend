@@ -3,7 +3,7 @@
 import { homePageNavbar } from '@/data/siteData'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface BurgerMenuProps {
 	className?: string
@@ -155,7 +155,9 @@ const BurgerMenu = ({ className = '', theme = 'dark' }: BurgerMenuProps) => {
 													}
 												>
 													{item.icon && (
-														<span className='mr-3 opacity-70'>{item.icon}</span>
+														<span className='mr-3 opacity-70'>
+															<item.icon className='w-4 h-4' />
+														</span>
 													)}
 													{item.label}
 												</a>

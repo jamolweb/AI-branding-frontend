@@ -12,13 +12,14 @@ import {
 	Plus,
 	Tag,
 } from 'lucide-react'
+import React from 'react'
 
 import { BarChart2 } from 'lucide-react'
 
 interface NavItem {
 	href: string
 	label: string
-	icon?: any
+	icon?: React.ElementType
 	group: string
 	children?: NavItem[]
 }

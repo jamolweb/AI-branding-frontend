@@ -67,11 +67,13 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 						: 'hover:bg-[rgba(255,255,255,0.1)]'
 				}`}
 			>
-				<item.icon
-					className={`w-4 h-4 ${
-						isActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
-					}`}
-				/>
+				{item.icon && (
+					<item.icon
+						className={`w-4 h-4 ${
+							isActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+						}`}
+					/>
+				)}
 				<span
 					className={`text-sm font-medium flex-1 text-left whitespace-nowrap ${
 						isActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
@@ -106,13 +108,15 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 									: 'hover:bg-[rgba(255,255,255,0.1)]'
 							}`}
 						>
-							<child.icon
-								className={`w-4 h-4 ${
-									pathname === child.href
-										? 'text-black'
-										: 'text-[rgba(255,255,255,0.8)]'
-								}`}
-							/>
+							{child.icon && (
+								<child.icon
+									className={`w-4 h-4 ${
+										pathname === child.href
+											? 'text-black'
+											: 'text-[rgba(255,255,255,0.8)]'
+									}`}
+								/>
+							)}
 							<span
 								className={`text-sm font-medium whitespace-nowrap ${
 									pathname === child.href
