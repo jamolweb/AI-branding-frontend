@@ -2,7 +2,7 @@
 
 import { authService } from '@/services/auth.service'
 import axios from 'axios'
-import { Download, RefreshCw, Wand2 } from 'lucide-react'
+import { Download, RefreshCw, Trash2, Wand2 } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
@@ -164,6 +164,32 @@ export default function LogoMaker() {
 		}
 	}
 
+	const handleDelete = async (logoId: string) => {
+		try {
+			const accessToken = authService.getAccessToken()
+			await axios.delete(`${API_URL}/logo/${logoId}`, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			})
+
+			// Remove the deleted logo from the UI
+			setMessages(prevMessages => {
+				return prevMessages.map(msg => {
+					if (msg.type === 'assistant' && msg.images) {
+						return {
+							...msg,
+							images: msg.images.filter(image => !image.includes(logoId)),
+						}
+					}
+					return msg
+				})
+			})
+		} catch (error) {
+			console.error('Error deleting logo:', error)
+		}
+	}
+
 	return (
 		<div
 			className='flex flex-col h-[calc(100vh-4rem)]'
@@ -200,6 +226,7 @@ export default function LogoMaker() {
 												<button
 													onClick={() => handleDownload(image)}
 													className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+													title='Download'
 												>
 													<Download size={20} className='text-black' />
 												</button>
@@ -208,8 +235,19 @@ export default function LogoMaker() {
 														handleRegenerate(message.content, message.jobId)
 													}
 													className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+													title='Regenerate'
 												>
 													<RefreshCw size={20} className='text-black' />
+												</button>
+												<button
+													onClick={() => {
+														const logoId = image.split('/').pop()?.split('?')[0]
+														if (logoId) handleDelete(logoId)
+													}}
+													className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+													title='Delete'
+												>
+													<Trash2 size={20} className='text-black' />
 												</button>
 											</div>
 										</div>

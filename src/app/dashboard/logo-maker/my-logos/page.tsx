@@ -3,7 +3,7 @@
 import { authService } from '@/services/auth.service'
 import { Logo } from '@/types/logo'
 import axios from 'axios'
-import { Download, Heart } from 'lucide-react'
+import { Download, Heart, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -94,6 +94,21 @@ export default function MyLogosPage() {
 		}
 	}
 
+	const handleDelete = async (logoId: string) => {
+		try {
+			const accessToken = authService.getAccessToken()
+			await axios.delete(`${API_URL}/logo/${logoId}`, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			})
+			// Remove from state
+			setMyLogos(prev => prev.filter(logo => logo.id !== logoId))
+		} catch (error) {
+			console.error('Error deleting logo:', error)
+		}
+	}
+
 	const cardStyle = {
 		background:
 			'radial-gradient(79.58% 79.58% at 50% 20.42%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)',
@@ -122,6 +137,7 @@ export default function MyLogosPage() {
 								<button
 									onClick={() => handleDownload(logo.imageUrl)}
 									className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+									title='Download'
 								>
 									<Download className='w-5 h-5 text-black' />
 								</button>
@@ -132,11 +148,23 @@ export default function MyLogosPage() {
 											? 'bg-[rgb(239,252,118)] text-black'
 											: 'bg-white text-black hover:bg-[rgb(239,252,118)]'
 									}`}
+									title={
+										favoriteStatus[logo.id]
+											? 'Remove from favorites'
+											: 'Add to favorites'
+									}
 								>
 									<Heart
 										className='w-5 h-5'
 										fill={favoriteStatus[logo.id] ? 'currentColor' : 'none'}
 									/>
+								</button>
+								<button
+									onClick={() => handleDelete(logo.id)}
+									className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+									title='Delete'
+								>
+									<Trash2 className='w-5 h-5 text-black' />
 								</button>
 							</div>
 							<div className='mt-2'>

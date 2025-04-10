@@ -3,7 +3,7 @@
 import { authService } from '@/services/auth.service'
 import { FavoriteLogo } from '@/types/logo'
 import axios from 'axios'
-import { Heart } from 'lucide-react'
+import { Download, Heart, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
@@ -43,6 +43,38 @@ export default function FavoritesPage() {
 		}
 	}
 
+	const handleDelete = async (logoId: string) => {
+		try {
+			const accessToken = authService.getAccessToken()
+			await axios.delete(`${API_URL}/logo/${logoId}`, {
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			})
+			// Remove from state
+			setFavoriteLogos(prev => prev.filter(item => item.logo.id !== logoId))
+		} catch (error) {
+			console.error('Error deleting logo:', error)
+		}
+	}
+
+	const handleDownload = async (imageUrl: string) => {
+		try {
+			const response = await fetch(imageUrl)
+			const blob = await response.blob()
+			const url = window.URL.createObjectURL(blob)
+			const a = document.createElement('a')
+			a.href = url
+			a.download = 'logo.png'
+			document.body.appendChild(a)
+			a.click()
+			window.URL.revokeObjectURL(url)
+			document.body.removeChild(a)
+		} catch (error) {
+			console.error('Error downloading image:', error)
+		}
+	}
+
 	const cardStyle = {
 		background:
 			'radial-gradient(79.58% 79.58% at 50% 20.42%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)',
@@ -67,12 +99,27 @@ export default function FavoritesPage() {
 									className='object-cover rounded-lg'
 								/>
 							</div>
-							<div className='absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center'>
+							<div className='absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center space-x-3'>
+								<button
+									onClick={() => handleDownload(logo.imageUrl)}
+									className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+									title='Download'
+								>
+									<Download className='w-5 h-5 text-black' />
+								</button>
 								<button
 									onClick={() => removeFavorite(logo.id)}
 									className='p-2 rounded-full bg-[rgb(239,252,118)] text-black transition-colors'
+									title='Remove from favorites'
 								>
 									<Heart className='w-5 h-5' fill='currentColor' />
+								</button>
+								<button
+									onClick={() => handleDelete(logo.id)}
+									className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+									title='Delete'
+								>
+									<Trash2 className='w-5 h-5 text-black' />
 								</button>
 							</div>
 							<div className='mt-2'>
