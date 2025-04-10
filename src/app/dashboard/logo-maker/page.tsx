@@ -1,5 +1,6 @@
 'use client'
 
+import { authService } from '@/services/auth.service'
 import axios from 'axios'
 import { Download, RefreshCw, Wand2 } from 'lucide-react'
 import Image from 'next/image'
@@ -32,13 +33,20 @@ export default function LogoMaker() {
 
 		setIsLoading(true)
 		try {
+			const accessToken = authService.getAccessToken()
 			const response = await axios.post(
-				`${API_URL}/deepseek/logo/make-prompt-better`,
+				`${API_URL}/logo/deepseek/make-prompt-better`,
 				{
-					prompt: input,
+					text: input,
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${accessToken}`,
+					},
 				}
 			)
-			setInput(response.data.prompt)
+			setInput(response.data.enhancedPrompt)
 		} catch (error) {
 			console.error('Error optimizing prompt:', error)
 		} finally {
@@ -57,16 +65,29 @@ export default function LogoMaker() {
 		setMessages(prev => [...prev, userMessage])
 		setInput('')
 		setIsLoading(true)
+		const accessToken = authService.getAccessToken()
 
 		try {
-			const response = await axios.post(`${API_URL}/logo/generate?count=3`, {
-				prompt: input,
-			})
+			const response = await axios.post(
+				`${API_URL}/logo/generate`,
+				{
+					prompt: input,
+					count: 3,
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${accessToken}`,
+					},
+				}
+			)
 
 			const assistantMessage: Message = {
 				type: 'assistant',
 				content: 'Here are your generated logos:',
-				images: response.data.images,
+				images: response.data.images.map(
+					(base64: string) => `data:image/png;base64,${base64}`
+				),
 			}
 
 			setMessages(prev => [...prev, assistantMessage])
@@ -87,10 +108,21 @@ export default function LogoMaker() {
 
 	const handleRegenerate = async (prompt: string) => {
 		setIsLoading(true)
+		const accessToken = authService.getAccessToken()
 		try {
-			const response = await axios.post(`${API_URL}/logo/generate?count=3`, {
-				prompt,
-			})
+			const response = await axios.post(
+				`${API_URL}/logo/generate`,
+				{
+					prompt,
+					count: 3,
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${accessToken}`,
+					},
+				}
+			)
 
 			const newMessages = messages.map(msg => {
 				if (
@@ -99,7 +131,9 @@ export default function LogoMaker() {
 				) {
 					return {
 						...msg,
-						images: response.data.images,
+						images: response.data.images.map(
+							(base64: string) => `data:image/png;base64,${base64}`
+						),
 					}
 				}
 				return msg

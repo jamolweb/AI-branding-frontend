@@ -97,7 +97,7 @@ const cardStyle = {
 
 export default function DashboardPage() {
 	return (
-		<div className='space-y-6'>
+		<div className='space-y-6 p-5'>
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
 				<div style={cardStyle} className='p-6'>
 					<h2 className='text-[rgba(255,255,255,0.4)] mb-4 flex items-center gap-2 uppercase text-sm font-medium'>
