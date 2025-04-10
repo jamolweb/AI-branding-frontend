@@ -2,15 +2,17 @@
 
 import { sidebarItems } from '@/data/siteData'
 import { authService } from '@/services/auth.service'
-import { AxiosError } from 'axios'
+import axios, { AxiosError } from 'axios'
 import {
 	Bell,
 	ChevronDown,
 	HelpCircle,
+	LogOut,
 	Menu,
 	Search,
 	Settings,
 	Sun,
+	User,
 	X,
 } from 'lucide-react'
 import {
@@ -134,6 +136,8 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 	)
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api'
+
 export default function DashboardLayout({
 	children,
 }: {
@@ -144,6 +148,27 @@ export default function DashboardLayout({
 	const searchParams = useSearchParams()
 	const [isLoading, setIsLoading] = useState(true)
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+	const handleLogout = async () => {
+		try {
+			const accessToken = authService.getAccessToken()
+			await axios.post(
+				`${API_URL}/auth/logout`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				}
+			)
+			authService.logout()
+			router.push('/auth/signin')
+		} catch (error) {
+			console.error('Logout error:', error)
+			authService.logout()
+			router.push('/auth/signin')
+		}
+	}
 
 	useEffect(() => {
 		const initializeAuth = async () => {
@@ -338,6 +363,38 @@ export default function DashboardLayout({
 						<button className='p-1.5 sm:p-2 hover:bg-[rgba(255,255,255,0.1)] rounded-lg transition-all duration-200'>
 							<Bell className='w-4 h-4 text-[rgba(255,255,255,0.8)]' />
 						</button>
+						<div className='relative group'>
+							<button className='p-1.5 sm:p-2 rounded-full bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.15)] transition-all duration-200 flex items-center gap-2'>
+								<User className='w-4 h-4 text-[rgba(255,255,255,0.8)]' />
+								<ChevronDown className='w-3 h-3 text-[rgba(255,255,255,0.6)] group-hover:text-[rgba(255,255,255,0.8)] transition-colors duration-200' />
+							</button>
+							<div className='absolute right-0 top-full mt-2 w-48 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 transform scale-95 group-hover:scale-100 z-50'>
+								<div className='bg-[rgb(24,24,24)] rounded-lg shadow-xl border border-[rgba(255,255,255,0.1)] py-1'>
+									<button
+										onClick={() => handleNavigation('/dashboard/profile')}
+										className='flex items-center gap-2 px-4 py-2 w-full hover:bg-[rgba(255,255,255,0.1)] transition-all duration-200 text-[rgba(255,255,255,0.8)] text-sm'
+									>
+										<User className='w-4 h-4' />
+										<span>Profile</span>
+									</button>
+									<button
+										onClick={() => handleNavigation('/dashboard/settings')}
+										className='flex items-center gap-2 px-4 py-2 w-full hover:bg-[rgba(255,255,255,0.1)] transition-all duration-200 text-[rgba(255,255,255,0.8)] text-sm'
+									>
+										<Settings className='w-4 h-4' />
+										<span>Settings</span>
+									</button>
+									<div className='h-[1px] bg-[rgba(255,255,255,0.1)] my-1 mx-2' />
+									<button
+										onClick={handleLogout}
+										className='flex items-center gap-2 px-4 py-2 w-full hover:bg-[rgba(255,255,255,0.1)] text-red-400 hover:text-red-300 transition-all duration-200 text-sm'
+									>
+										<LogOut className='w-4 h-4' />
+										<span>Logout</span>
+									</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</header>
 
