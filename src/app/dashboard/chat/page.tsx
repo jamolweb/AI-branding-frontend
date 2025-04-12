@@ -5,6 +5,7 @@ import { authService } from '@/services/auth.service'
 import axios from 'axios'
 import { ChevronRight, Clock, MessageCircle, Plus, Send } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 interface Message {
 	id: string
@@ -105,7 +106,7 @@ export default function ChatPage() {
 				id: Date.now().toString(),
 				sessionId: currentSessionId || '',
 				role: 'ASSISTANT',
-				content: response.data.message,
+				content: response.data.response || response.data.message,
 				tokensUsed: null,
 				createdAt: new Date().toISOString(),
 			}
@@ -170,7 +171,9 @@ export default function ChatPage() {
 									: 'hover:bg-gray-800 text-gray-100'
 							}`}
 						>
-							<div className='font-medium'>{getLastMessage(session)}</div>
+							<div className='font-medium truncate'>
+								{getLastMessage(session)}
+							</div>
 							<div className='flex items-center text-xs text-gray-500 mt-2'>
 								<Clock className='w-3 h-3 mr-1' />
 								{formatDate(session.createdAt)}
@@ -243,8 +246,42 @@ export default function ChatPage() {
 												: 'bg-gray-800 text-gray-100 shadow-sm'
 										}`}
 									>
-										<div className='text-sm'>{message.content}</div>
-										<div className='text-xs text-gray-500 mt-1'>
+										<div className='prose prose-invert max-w-none'>
+											<ReactMarkdown
+												components={{
+													h1: props => (
+														<h1 className='text-xl font-bold mb-2' {...props} />
+													),
+													h2: props => (
+														<h2
+															className='text-lg font-semibold mb-2'
+															{...props}
+														/>
+													),
+													h3: props => (
+														<h3
+															className='text-base font-medium mb-2'
+															{...props}
+														/>
+													),
+													p: props => <p className='mb-2' {...props} />,
+													ul: props => (
+														<ul className='list-disc pl-4 mb-2' {...props} />
+													),
+													ol: props => (
+														<ol className='list-decimal pl-4 mb-2' {...props} />
+													),
+													li: props => <li className='mb-1' {...props} />,
+													strong: props => (
+														<strong className='font-bold' {...props} />
+													),
+													em: props => <em className='italic' {...props} />,
+												}}
+											>
+												{message.content}
+											</ReactMarkdown>
+										</div>
+										<div className='text-xs text-gray-500 mt-2'>
 											{formatDate(message.createdAt)}
 										</div>
 									</div>
