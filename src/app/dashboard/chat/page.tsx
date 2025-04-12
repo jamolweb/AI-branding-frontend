@@ -29,7 +29,6 @@ export default function ChatPage() {
 	const [sessions, setSessions] = useState<ChatSession[]>([])
 	const [currentSessionId, setCurrentSessionId] = useState<string | null>(null)
 	const [isLoading, setIsLoading] = useState(false)
-	const [isNewSession, setIsNewSession] = useState(false)
 
 	useEffect(() => {
 		fetchSessions()
@@ -152,7 +151,6 @@ export default function ChatPage() {
 						onClick={() => {
 							setCurrentSessionId(null)
 							setMessages([])
-							setIsNewSession(true)
 						}}
 						className='p-2 rounded-lg hover:bg-gray-800 transition-colors'
 					>
@@ -165,7 +163,6 @@ export default function ChatPage() {
 							key={session.id}
 							onClick={() => {
 								setCurrentSessionId(session.id)
-								setIsNewSession(false)
 							}}
 							className={`w-full text-left p-3 rounded-lg transition-all duration-200 ${
 								currentSessionId === session.id
@@ -202,7 +199,6 @@ export default function ChatPage() {
 								onClick={() => {
 									setCurrentSessionId(null)
 									setMessages([])
-									setIsNewSession(true)
 								}}
 								className='text-sm text-gray-400 hover:text-gray-200 flex items-center'
 							>
