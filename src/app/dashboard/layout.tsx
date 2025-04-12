@@ -1,6 +1,7 @@
 'use client'
 
 import { sidebarItems } from '@/data/siteData'
+import { API_URL } from '@/env'
 import { authService } from '@/services/auth.service'
 import axios, { AxiosError } from 'axios'
 import {
@@ -135,8 +136,6 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 		</div>
 	)
 }
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api'
 
 export default function DashboardLayout({
 	children,

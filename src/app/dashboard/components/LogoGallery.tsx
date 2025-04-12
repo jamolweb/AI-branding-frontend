@@ -1,13 +1,12 @@
 'use client'
 
+import { API_URL } from '@/env'
 import { authService } from '@/services/auth.service'
 import { Logo } from '@/types/logo'
 import axios from 'axios'
 import { Heart } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api'
 
 export default function LogoGallery() {
 	const [myLogos, setMyLogos] = useState<Logo[]>([])

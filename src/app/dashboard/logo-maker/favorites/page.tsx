@@ -1,13 +1,12 @@
 'use client'
 
+import { API_URL } from '@/env'
 import { authService } from '@/services/auth.service'
 import { FavoriteLogo } from '@/types/logo'
 import axios from 'axios'
 import { Download, Heart, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api'
 
 export default function FavoritesPage() {
 	const [favoriteLogos, setFavoriteLogos] = useState<FavoriteLogo[]>([])

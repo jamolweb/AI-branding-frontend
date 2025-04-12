@@ -1,5 +1,6 @@
 'use client'
 
+import { API_URL } from '@/env'
 import { authService } from '@/services/auth.service'
 import { FavoriteLogo, Logo } from '@/types/logo'
 import axios from 'axios'
@@ -18,8 +19,6 @@ import { Box, Clock, Heart, ImageIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import LogoGallery from './components/LogoGallery'
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api'
 
 ChartJS.register(
 	CategoryScale,

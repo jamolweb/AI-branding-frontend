@@ -84,6 +84,12 @@ const sidebarItems: NavItem[] = [
 		group: 'GENERAL',
 	},
 	{
+		icon: MessageCircle,
+		label: 'AI Chatbot',
+		href: '/dashboard/chat',
+		group: 'GENERAL',
+	},
+	{
 		icon: Palette,
 		label: 'Logo Maker',
 		href: '/dashboard/logo-maker',

@@ -1,12 +1,11 @@
 'use client'
 
+import { API_URL } from '@/env'
 import { authService } from '@/services/auth.service'
 import axios from 'axios'
 import { Download, RefreshCw, Trash2, Wand2 } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api'
 
 interface Message {
 	type: 'user' | 'assistant'

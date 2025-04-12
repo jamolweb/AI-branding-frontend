@@ -1,3 +1,4 @@
+import { API_URL } from '@/env'
 import axios, { AxiosError } from 'axios'
 
 declare module 'axios' {
@@ -5,8 +6,6 @@ declare module 'axios' {
 		_retry?: boolean
 	}
 }
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api'
 
 export interface LoginCredentials {
 	email: string

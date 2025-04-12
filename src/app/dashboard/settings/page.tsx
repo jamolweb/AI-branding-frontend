@@ -1,11 +1,10 @@
 'use client'
 
+import { API_URL } from '@/env'
 import { authService } from '@/services/auth.service'
 import axios from 'axios'
 import { Bell, Lock, Moon, Palette, Sun, User } from 'lucide-react'
 import { useEffect, useState } from 'react'
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3003/api'
 
 interface UserProfile {
 	name: string
