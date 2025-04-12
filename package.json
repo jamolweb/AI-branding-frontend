@@ -9,11 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/deepseek": "^0.2.9",
+    "ai": "^4.3.5",
     "axios": "^1.8.4",
     "chart.js": "^4.4.8",
     "framer-motion": "^12.5.0",
     "lucide-react": "^0.483.0",
-    "next": "15.2.3",
+    "next": "^15.3.0",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",
