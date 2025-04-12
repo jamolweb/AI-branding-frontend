@@ -175,15 +175,15 @@ export default function ChatPage() {
 
 	return (
 		<div
-			className='flex h-full min-h-screen overflow-hidden'
+			className='flex h-screen overflow-hidden'
 			style={{ backgroundColor: 'rgb(16, 16, 16)' }}
 		>
 			{/* Sessions sidebar */}
 			<div
-				className='w-80 border-r border-gray-800 p-6 shadow-sm flex flex-col'
+				className='w-80 border-r border-gray-800 p-6 shadow-sm flex flex-col h-full'
 				style={{ backgroundColor: 'rgb(16, 16, 16)' }}
 			>
-				<div className='flex items-center justify-between mb-8'>
+				<div className='flex-none flex items-center justify-between mb-8'>
 					<h2 className='text-xl font-semibold text-gray-100'>Chat Sessions</h2>
 					<button
 						onClick={() => {
@@ -195,39 +195,43 @@ export default function ChatPage() {
 						<Plus className='w-5 h-5 text-gray-400' />
 					</button>
 				</div>
-				<div className='flex-1 space-y-3 pr-2'>
-					{sessions.map(session => (
-						<button
-							key={session.id}
-							onClick={() => {
-								setCurrentSessionId(session.id)
-							}}
-							className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
-								currentSessionId === session.id
-									? 'bg-[rgb(239,252,118)] text-gray-900 shadow-md'
-									: 'hover:bg-gray-800 text-gray-100'
-							}`}
-						>
-							<div className='font-medium truncate mb-1.5'>
-								{getLastMessage(session)}
-							</div>
-							<div className='flex items-center text-xs text-gray-500'>
-								<Clock className='w-3.5 h-3.5 mr-1.5' />
-								{formatDate(session.createdAt)}
-							</div>
-						</button>
-					))}
+				<div className='flex-1 overflow-hidden'>
+					<div className='h-full overflow-y-auto pr-2'>
+						<div className='space-y-3'>
+							{sessions.map(session => (
+								<button
+									key={session.id}
+									onClick={() => {
+										setCurrentSessionId(session.id)
+									}}
+									className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
+										currentSessionId === session.id
+											? 'bg-[rgb(239,252,118)] text-gray-900 shadow-md'
+											: 'hover:bg-gray-800 text-gray-100'
+									}`}
+								>
+									<div className='font-medium truncate mb-1.5'>
+										{getLastMessage(session)}
+									</div>
+									<div className='flex items-center text-xs text-gray-500'>
+										<Clock className='w-3.5 h-3.5 mr-1.5' />
+										{formatDate(session.createdAt)}
+									</div>
+								</button>
+							))}
+						</div>
+					</div>
 				</div>
 			</div>
 
 			{/* Chat area */}
 			<div
-				className='flex-1 flex flex-col relative overflow-hidden'
+				className='flex-1 flex flex-col relative h-full'
 				style={{ backgroundColor: 'rgb(16, 16, 16)' }}
 			>
 				{/* Chat header */}
 				<div
-					className='border-b border-gray-800 p-6 shadow-sm'
+					className='flex-none border-b border-gray-800 p-6 shadow-sm'
 					style={{ backgroundColor: 'rgb(16, 16, 16)' }}
 				>
 					<div className='flex items-center justify-between'>
@@ -250,156 +254,155 @@ export default function ChatPage() {
 				</div>
 
 				{/* Messages area */}
-				<div
-					className='flex-1 p-8 overflow-y-auto pb-32'
-					style={{ backgroundColor: 'rgb(16, 16, 16)' }}
-				>
-					{messages.length === 0 ? (
-						<div className='h-full flex items-center justify-center text-gray-500'>
-							<div className='text-center max-w-md'>
-								<MessageCircle className='w-20 h-20 mx-auto mb-6 text-gray-700' />
-								<h3 className='text-2xl font-medium text-gray-200 mb-3'>
-									Start a conversation
-								</h3>
-								<p className='text-gray-400 text-lg'>
-									Ask our AI assistant anything about branding, marketing, or
-									business strategy.
-								</p>
+				<div className='flex-1 overflow-hidden'>
+					<div className='h-full overflow-y-auto p-8 pb-32'>
+						{messages.length === 0 ? (
+							<div className='h-full flex items-center justify-center text-gray-500'>
+								<div className='text-center max-w-md'>
+									<MessageCircle className='w-20 h-20 mx-auto mb-6 text-gray-700' />
+									<h3 className='text-2xl font-medium text-gray-200 mb-3'>
+										Start a conversation
+									</h3>
+									<p className='text-gray-400 text-lg'>
+										Ask our AI assistant anything about branding, marketing, or
+										business strategy.
+									</p>
+								</div>
 							</div>
-						</div>
-					) : (
-						<div className='space-y-6 max-w-4xl mx-auto'>
-							{messages.map(message => (
-								<div
-									key={message.id}
-									className={`flex ${
-										message.role === 'USER' ? 'justify-end' : 'justify-start'
-									}`}
-								>
+						) : (
+							<div className='space-y-6 max-w-4xl mx-auto'>
+								{messages.map(message => (
 									<div
-										className={`max-w-[75%] rounded-2xl p-5 transition-all duration-200 ${
-											message.role === 'USER'
-												? 'bg-[rgb(239,252,118)] text-gray-900'
-												: 'bg-gray-800 text-gray-100 shadow-sm'
+										key={message.id}
+										className={`flex ${
+											message.role === 'USER' ? 'justify-end' : 'justify-start'
 										}`}
 									>
-										<div className='prose prose-invert max-w-none'>
-											<ReactMarkdown
-												components={{
-													h1: props => (
-														<h1
-															className='text-2xl font-bold mb-3'
-															{...props}
-														/>
-													),
-													h2: props => (
-														<h2
-															className='text-xl font-semibold mb-3'
-															{...props}
-														/>
-													),
-													h3: props => (
-														<h3
-															className='text-lg font-medium mb-2'
-															{...props}
-														/>
-													),
-													p: props => (
-														<p
-															className='mb-3 text-base leading-relaxed'
-															{...props}
-														/>
-													),
-													ul: props => (
-														<ul
-															className='list-disc pl-5 mb-3 space-y-1'
-															{...props}
-														/>
-													),
-													ol: props => (
-														<ol
-															className='list-decimal pl-5 mb-3 space-y-1'
-															{...props}
-														/>
-													),
-													li: props => <li className='mb-1' {...props} />,
-													strong: props => (
-														<strong className='font-bold' {...props} />
-													),
-													em: props => <em className='italic' {...props} />,
-												}}
-											>
-												{message.content}
-											</ReactMarkdown>
-										</div>
-										<div className='text-xs text-gray-500 mt-3'>
-											{formatDate(message.createdAt)}
-										</div>
-									</div>
-								</div>
-							))}
-							{streamingContent && (
-								<div className='flex justify-start'>
-									<div className='max-w-[75%] rounded-2xl p-5 bg-gray-800 text-gray-100 shadow-sm'>
-										<div className='prose prose-invert max-w-none'>
-											<ReactMarkdown
-												components={{
-													h1: props => (
-														<h1
-															className='text-2xl font-bold mb-3'
-															{...props}
-														/>
-													),
-													h2: props => (
-														<h2
-															className='text-xl font-semibold mb-3'
-															{...props}
-														/>
-													),
-													h3: props => (
-														<h3
-															className='text-lg font-medium mb-2'
-															{...props}
-														/>
-													),
-													p: props => (
-														<p
-															className='mb-3 text-base leading-relaxed'
-															{...props}
-														/>
-													),
-													ul: props => (
-														<ul
-															className='list-disc pl-5 mb-3 space-y-1'
-															{...props}
-														/>
-													),
-													ol: props => (
-														<ol
-															className='list-decimal pl-5 mb-3 space-y-1'
-															{...props}
-														/>
-													),
-													li: props => <li className='mb-1' {...props} />,
-													strong: props => (
-														<strong className='font-bold' {...props} />
-													),
-													em: props => <em className='italic' {...props} />,
-												}}
-											>
-												{streamingContent}
-											</ReactMarkdown>
+										<div
+											className={`max-w-[75%] rounded-2xl p-5 transition-all duration-200 ${
+												message.role === 'USER'
+													? 'bg-[rgb(239,252,118)] text-gray-900'
+													: 'bg-gray-800 text-gray-100 shadow-sm'
+											}`}
+										>
+											<div className='prose prose-invert max-w-none'>
+												<ReactMarkdown
+													components={{
+														h1: props => (
+															<h1
+																className='text-2xl font-bold mb-3'
+																{...props}
+															/>
+														),
+														h2: props => (
+															<h2
+																className='text-xl font-semibold mb-3'
+																{...props}
+															/>
+														),
+														h3: props => (
+															<h3
+																className='text-lg font-medium mb-2'
+																{...props}
+															/>
+														),
+														p: props => (
+															<p
+																className='mb-3 text-base leading-relaxed'
+																{...props}
+															/>
+														),
+														ul: props => (
+															<ul
+																className='list-disc pl-5 mb-3 space-y-1'
+																{...props}
+															/>
+														),
+														ol: props => (
+															<ol
+																className='list-decimal pl-5 mb-3 space-y-1'
+																{...props}
+															/>
+														),
+														li: props => <li className='mb-1' {...props} />,
+														strong: props => (
+															<strong className='font-bold' {...props} />
+														),
+														em: props => <em className='italic' {...props} />,
+													}}
+												>
+													{message.content}
+												</ReactMarkdown>
+											</div>
+											<div className='text-xs text-gray-500 mt-3'>
+												{formatDate(message.createdAt)}
+											</div>
 										</div>
 									</div>
-								</div>
-							)}
-						</div>
-					)}
+								))}
+								{streamingContent && (
+									<div className='flex justify-start'>
+										<div className='max-w-[75%] rounded-2xl p-5 bg-gray-800 text-gray-100 shadow-sm'>
+											<div className='prose prose-invert max-w-none'>
+												<ReactMarkdown
+													components={{
+														h1: props => (
+															<h1
+																className='text-2xl font-bold mb-3'
+																{...props}
+															/>
+														),
+														h2: props => (
+															<h2
+																className='text-xl font-semibold mb-3'
+																{...props}
+															/>
+														),
+														h3: props => (
+															<h3
+																className='text-lg font-medium mb-2'
+																{...props}
+															/>
+														),
+														p: props => (
+															<p
+																className='mb-3 text-base leading-relaxed'
+																{...props}
+															/>
+														),
+														ul: props => (
+															<ul
+																className='list-disc pl-5 mb-3 space-y-1'
+																{...props}
+															/>
+														),
+														ol: props => (
+															<ol
+																className='list-decimal pl-5 mb-3 space-y-1'
+																{...props}
+															/>
+														),
+														li: props => <li className='mb-1' {...props} />,
+														strong: props => (
+															<strong className='font-bold' {...props} />
+														),
+														em: props => <em className='italic' {...props} />,
+													}}
+												>
+													{streamingContent}
+												</ReactMarkdown>
+											</div>
+										</div>
+									</div>
+								)}
+							</div>
+						)}
+					</div>
 				</div>
 
 				{/* Input area - Fixed at bottom */}
 				<div
-					className='fixed bottom-0 right-0 left-[320px] border-t border-gray-800 p-6 shadow-sm'
+					className='flex-none border-t border-gray-800 p-6 shadow-sm'
 					style={{ backgroundColor: 'rgb(16, 16, 16)' }}
 				>
 					<div className='max-w-4xl mx-auto'>
