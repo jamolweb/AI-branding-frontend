@@ -3,21 +3,24 @@
 import { API_URL } from '@/env'
 import { authService } from '@/services/auth.service'
 import axios from 'axios'
-import { MessageCircle, Send } from 'lucide-react'
+import { ChevronRight, Clock, MessageCircle, Plus, Send } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 interface Message {
 	id: string
+	sessionId: string
+	role: 'USER' | 'ASSISTANT'
 	content: string
-	role: 'user' | 'assistant'
-	timestamp: string
+	tokensUsed: number | null
+	createdAt: string
 }
 
 interface ChatSession {
 	id: string
-	title: string
-	lastMessage: string
-	timestamp: string
+	userId: string
+	createdAt: string
+	updatedAt: string
+	messages: Message[]
 }
 
 export default function ChatPage() {
@@ -26,6 +29,7 @@ export default function ChatPage() {
 	const [sessions, setSessions] = useState<ChatSession[]>([])
 	const [currentSessionId, setCurrentSessionId] = useState<string | null>(null)
 	const [isLoading, setIsLoading] = useState(false)
+	const [isNewSession, setIsNewSession] = useState(false)
 
 	useEffect(() => {
 		fetchSessions()
@@ -72,9 +76,11 @@ export default function ChatPage() {
 		setIsLoading(true)
 		const newMessage: Message = {
 			id: Date.now().toString(),
+			sessionId: currentSessionId || '',
+			role: 'USER',
 			content: inputMessage,
-			role: 'user',
-			timestamp: new Date().toISOString(),
+			tokensUsed: null,
+			createdAt: new Date().toISOString(),
 		}
 
 		setMessages(prev => [...prev, newMessage])
@@ -98,9 +104,11 @@ export default function ChatPage() {
 
 			const assistantMessage: Message = {
 				id: Date.now().toString(),
+				sessionId: currentSessionId || '',
+				role: 'ASSISTANT',
 				content: response.data.message,
-				role: 'assistant',
-				timestamp: new Date().toISOString(),
+				tokensUsed: null,
+				createdAt: new Date().toISOString(),
 			}
 
 			setMessages(prev => [...prev, assistantMessage])
@@ -115,25 +123,60 @@ export default function ChatPage() {
 		}
 	}
 
+	const formatDate = (dateString: string) => {
+		const date = new Date(dateString)
+		return date.toLocaleDateString('en-US', {
+			month: 'short',
+			day: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+		})
+	}
+
+	const getLastMessage = (session: ChatSession) => {
+		return session.messages.length > 0
+			? session.messages[session.messages.length - 1].content
+			: 'No messages yet'
+	}
+
 	return (
-		<div className='flex h-full'>
+		<div className='flex h-full' style={{ backgroundColor: 'rgb(16, 16, 16)' }}>
 			{/* Sessions sidebar */}
-			<div className='w-64 border-r border-gray-200 p-4'>
-				<h2 className='text-lg font-semibold mb-4'>Chat Sessions</h2>
-				<div className='space-y-2'>
+			<div
+				className='w-72 border-r border-gray-800 p-4 shadow-sm'
+				style={{ backgroundColor: 'rgb(16, 16, 16)' }}
+			>
+				<div className='flex items-center justify-between mb-6'>
+					<h2 className='text-lg font-semibold text-gray-100'>Chat Sessions</h2>
+					<button
+						onClick={() => {
+							setCurrentSessionId(null)
+							setMessages([])
+							setIsNewSession(true)
+						}}
+						className='p-2 rounded-lg hover:bg-gray-800 transition-colors'
+					>
+						<Plus className='w-5 h-5 text-gray-400' />
+					</button>
+				</div>
+				<div className='space-y-2 max-h-[calc(100vh-8rem)] overflow-y-auto'>
 					{sessions.map(session => (
 						<button
 							key={session.id}
-							onClick={() => setCurrentSessionId(session.id)}
-							className={`w-full text-left p-2 rounded-lg ${
+							onClick={() => {
+								setCurrentSessionId(session.id)
+								setIsNewSession(false)
+							}}
+							className={`w-full text-left p-3 rounded-lg transition-all duration-200 ${
 								currentSessionId === session.id
-									? 'bg-[rgb(239,252,118)]'
-									: 'hover:bg-gray-100'
+									? 'bg-[rgb(239,252,118)] text-gray-900 shadow-md'
+									: 'hover:bg-gray-800 text-gray-100'
 							}`}
 						>
-							<div className='font-medium'>{session.title}</div>
-							<div className='text-sm text-gray-500 truncate'>
-								{session.lastMessage}
+							<div className='font-medium'>{getLastMessage(session)}</div>
+							<div className='flex items-center text-xs text-gray-500 mt-2'>
+								<Clock className='w-3 h-3 mr-1' />
+								{formatDate(session.createdAt)}
 							</div>
 						</button>
 					))}
@@ -141,32 +184,73 @@ export default function ChatPage() {
 			</div>
 
 			{/* Chat area */}
-			<div className='flex-1 flex flex-col'>
-				<div className='flex-1 p-4 overflow-y-auto'>
+			<div
+				className='flex-1 flex flex-col relative'
+				style={{ backgroundColor: 'rgb(16, 16, 16)' }}
+			>
+				{/* Chat header */}
+				<div
+					className='border-b border-gray-800 p-4 shadow-sm'
+					style={{ backgroundColor: 'rgb(16, 16, 16)' }}
+				>
+					<div className='flex items-center justify-between'>
+						<h2 className='text-lg font-semibold text-gray-100'>
+							{currentSessionId ? 'Chat Session' : 'New Chat'}
+						</h2>
+						{currentSessionId && (
+							<button
+								onClick={() => {
+									setCurrentSessionId(null)
+									setMessages([])
+									setIsNewSession(true)
+								}}
+								className='text-sm text-gray-400 hover:text-gray-200 flex items-center'
+							>
+								New Chat
+								<ChevronRight className='w-4 h-4 ml-1' />
+							</button>
+						)}
+					</div>
+				</div>
+
+				{/* Messages area */}
+				<div
+					className='flex-1 p-4 overflow-y-auto pb-24'
+					style={{ backgroundColor: 'rgb(16, 16, 16)' }}
+				>
 					{messages.length === 0 ? (
 						<div className='h-full flex items-center justify-center text-gray-500'>
-							<div className='text-center'>
-								<MessageCircle className='w-12 h-12 mx-auto mb-4' />
-								<p>Start a conversation with our AI assistant</p>
+							<div className='text-center max-w-md'>
+								<MessageCircle className='w-16 h-16 mx-auto mb-4 text-gray-700' />
+								<h3 className='text-xl font-medium text-gray-200 mb-2'>
+									Start a conversation
+								</h3>
+								<p className='text-gray-400'>
+									Ask our AI assistant anything about branding, marketing, or
+									business strategy.
+								</p>
 							</div>
 						</div>
 					) : (
-						<div className='space-y-4'>
+						<div className='space-y-4 max-w-3xl mx-auto'>
 							{messages.map(message => (
 								<div
 									key={message.id}
 									className={`flex ${
-										message.role === 'user' ? 'justify-end' : 'justify-start'
+										message.role === 'USER' ? 'justify-end' : 'justify-start'
 									}`}
 								>
 									<div
-										className={`max-w-[70%] rounded-lg p-3 ${
-											message.role === 'user'
-												? 'bg-[rgb(239,252,118)]'
-												: 'bg-gray-100'
+										className={`max-w-[70%] rounded-2xl p-4 transition-all duration-200 ${
+											message.role === 'USER'
+												? 'bg-[rgb(239,252,118)] text-gray-900'
+												: 'bg-gray-800 text-gray-100 shadow-sm'
 										}`}
 									>
-										{message.content}
+										<div className='text-sm'>{message.content}</div>
+										<div className='text-xs text-gray-500 mt-1'>
+											{formatDate(message.createdAt)}
+										</div>
 									</div>
 								</div>
 							))}
@@ -174,25 +258,30 @@ export default function ChatPage() {
 					)}
 				</div>
 
-				{/* Input area */}
-				<div className='border-t border-gray-200 p-4'>
-					<div className='flex gap-2'>
-						<input
-							type='text'
-							value={inputMessage}
-							onChange={e => setInputMessage(e.target.value)}
-							onKeyPress={e => e.key === 'Enter' && handleSendMessage()}
-							placeholder='Type your message...'
-							className='flex-1 p-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[rgb(239,252,118)]'
-							disabled={isLoading}
-						/>
-						<button
-							onClick={handleSendMessage}
-							disabled={isLoading}
-							className='p-2 bg-[rgb(239,252,118)] rounded-lg hover:bg-opacity-90 disabled:opacity-50'
-						>
-							<Send className='w-5 h-5' />
-						</button>
+				{/* Input area - Fixed at bottom */}
+				<div
+					className='fixed bottom-0 right-0 left-[288px] border-t border-gray-800 p-4 shadow-sm'
+					style={{ backgroundColor: 'rgb(16, 16, 16)' }}
+				>
+					<div className='max-w-3xl mx-auto'>
+						<div className='flex gap-2'>
+							<input
+								type='text'
+								value={inputMessage}
+								onChange={e => setInputMessage(e.target.value)}
+								onKeyPress={e => e.key === 'Enter' && handleSendMessage()}
+								placeholder='Type your message...'
+								className='flex-1 p-3 border border-gray-700 rounded-lg focus:outline-none focus:border-[rgb(239,252,118)] focus:ring-1 focus:ring-[rgb(239,252,118)] transition-all duration-200 bg-gray-800 text-gray-100 placeholder-gray-500'
+								disabled={isLoading}
+							/>
+							<button
+								onClick={handleSendMessage}
+								disabled={isLoading}
+								className='p-3 bg-[rgb(239,252,118)] rounded-lg hover:bg-opacity-90 disabled:opacity-50 transition-all duration-200'
+							>
+								<Send className='w-5 h-5' />
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
