@@ -41,18 +41,46 @@ interface AccordionItemProps {
 
 const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 	const [isOpen, setIsOpen] = useState(false)
-	const isActive = pathname === item.href
-	const hasChildren = item.children && item.children.length > 0
+	const searchParams = useSearchParams()
 
-	// Auto-open the accordion if a child is active
+	const isActive = (href: string) => {
+		const baseMatch = pathname === href.split('?')[0]
+		if (!baseMatch) return false
+
+		const itemParams = new URLSearchParams(href.split('?')[1] || '')
+		const currentParams = searchParams
+
+		// Special handling for chat routes
+		if (href.startsWith('/dashboard/chat')) {
+			const isHistory = currentParams.get('view') === 'history'
+			const isHistoryRoute = href.includes('view=history')
+			// Only return true if both are history or both are not history
+			return isHistory === isHistoryRoute
+		}
+
+		// For other routes, check all params match
+		for (const [key, value] of itemParams) {
+			if (currentParams.get(key) !== value) return false
+		}
+
+		return true
+	}
+
+	const hasChildren = item.children && item.children.length > 0
+	const isItemActive = isActive(item.href)
+
 	useEffect(() => {
 		if (hasChildren && item.children) {
-			const isChildActive = item.children.some(child => pathname === child.href)
+			const isChildActive = item.children.some(child =>
+				child.children
+					? child.children.some(grandChild => isActive(grandChild.href))
+					: isActive(child.href)
+			)
 			if (isChildActive) {
 				setIsOpen(true)
 			}
 		}
-	}, [pathname, hasChildren, item.children])
+	}, [pathname, searchParams, hasChildren, item.children])
 
 	return (
 		<div className='space-y-1'>
@@ -65,7 +93,7 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 					}
 				}}
 				className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
-					isActive
+					isItemActive
 						? 'bg-[rgb(239,252,118)]'
 						: 'hover:bg-[rgba(255,255,255,0.1)]'
 				}`}
@@ -73,13 +101,13 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 				{item.icon && (
 					<item.icon
 						className={`w-4 h-4 ${
-							isActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+							isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
 						}`}
 					/>
 				)}
 				<span
 					className={`text-sm font-medium flex-1 text-left whitespace-nowrap ${
-						isActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+						isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
 					}`}
 				>
 					{item.label}
@@ -92,7 +120,7 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 					>
 						<ChevronDown
 							className={`w-4 h-4 ${
-								isActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+								isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
 							}`}
 						/>
 					</div>
@@ -102,34 +130,90 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 			{hasChildren && isOpen && item.children && (
 				<div className='ml-4 space-y-1'>
 					{item.children.map(child => (
-						<button
-							key={child.href}
-							onClick={() => onNavigate(child.href)}
-							className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
-								pathname === child.href
-									? 'bg-[rgb(239,252,118)]'
-									: 'hover:bg-[rgba(255,255,255,0.1)]'
-							}`}
-						>
-							{child.icon && (
-								<child.icon
-									className={`w-4 h-4 ${
-										pathname === child.href
+						<div key={child.href}>
+							<button
+								onClick={() => {
+									if (child.children) {
+										setIsOpen(!isOpen)
+									} else {
+										onNavigate(child.href)
+									}
+								}}
+								className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
+									isActive(child.href)
+										? 'bg-[rgb(239,252,118)]'
+										: 'hover:bg-[rgba(255,255,255,0.1)]'
+								}`}
+							>
+								{child.icon && (
+									<child.icon
+										className={`w-4 h-4 ${
+											isActive(child.href)
+												? 'text-black'
+												: 'text-[rgba(255,255,255,0.8)]'
+										}`}
+									/>
+								)}
+								<span
+									className={`text-sm font-medium whitespace-nowrap ${
+										isActive(child.href)
 											? 'text-black'
 											: 'text-[rgba(255,255,255,0.8)]'
 									}`}
-								/>
+								>
+									{child.label}
+								</span>
+								{child.children && (
+									<div
+										className={`transition-transform duration-200 ${
+											isOpen ? 'rotate-180' : ''
+										}`}
+									>
+										<ChevronDown
+											className={`w-4 h-4 ${
+												isActive(child.href)
+													? 'text-black'
+													: 'text-[rgba(255,255,255,0.8)]'
+											}`}
+										/>
+									</div>
+								)}
+							</button>
+							{child.children && isOpen && (
+								<div className='ml-4 space-y-1 mt-1'>
+									{child.children.map(grandChild => (
+										<button
+											key={grandChild.href}
+											onClick={() => onNavigate(grandChild.href)}
+											className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
+												isActive(grandChild.href)
+													? 'bg-[rgb(239,252,118)]'
+													: 'hover:bg-[rgba(255,255,255,0.1)]'
+											}`}
+										>
+											{grandChild.icon && (
+												<grandChild.icon
+													className={`w-4 h-4 ${
+														isActive(grandChild.href)
+															? 'text-black'
+															: 'text-[rgba(255,255,255,0.8)]'
+													}`}
+												/>
+											)}
+											<span
+												className={`text-sm font-medium whitespace-nowrap ${
+													isActive(grandChild.href)
+														? 'text-black'
+														: 'text-[rgba(255,255,255,0.8)]'
+												}`}
+											>
+												{grandChild.label}
+											</span>
+										</button>
+									))}
+								</div>
 							)}
-							<span
-								className={`text-sm font-medium whitespace-nowrap ${
-									pathname === child.href
-										? 'text-black'
-										: 'text-[rgba(255,255,255,0.8)]'
-								}`}
-							>
-								{child.label}
-							</span>
-						</button>
+						</div>
 					))}
 				</div>
 			)}

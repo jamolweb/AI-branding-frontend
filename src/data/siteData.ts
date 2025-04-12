@@ -88,6 +88,20 @@ const sidebarItems: NavItem[] = [
 		label: 'AI Chatbot',
 		href: '/dashboard/chat',
 		group: 'GENERAL',
+		children: [
+			{
+				icon: Plus,
+				label: 'New Chat',
+				href: '/dashboard/chat',
+				group: 'GENERAL',
+			},
+			{
+				icon: MessageCircle,
+				label: 'Chat History',
+				href: '/dashboard/chat?view=history',
+				group: 'GENERAL',
+			},
+		],
 	},
 	{
 		icon: Palette,
