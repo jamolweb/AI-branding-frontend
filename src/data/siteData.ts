@@ -132,8 +132,22 @@ const sidebarItems: NavItem[] = [
 	{
 		icon: Book,
 		label: 'Brand Book',
-		href: '/dashboard/brand-book',
+		href: '/dashboard/brandbook/brandbook',
 		group: 'BRANDING',
+		children: [
+			{
+				icon: Plus,
+				label: 'New Brandbook',
+				href: '/dashboard/brandbook/create',
+				group: 'BRANDING',
+			},
+			{
+				icon: Palette,
+				label: 'My brandbooks',
+				href: '/dashboard/brandbook',
+				group: 'BRANDING',
+			},
+		],
 	},
 	{
 		icon: MessageCircle,

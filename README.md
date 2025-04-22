@@ -1,4 +1,13 @@
+# AI Branding Platform
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Documentation
+
+- [API Documentation](docs/api.md) - Comprehensive documentation of the Brandbook API endpoints
+- [Getting Started](#getting-started) - How to set up and run the project
+- [Learn More](#learn-more) - Additional resources and documentation
+- [Deployment](#deploy-on-vercel) - How to deploy the application
 
 ## Getting Started
 
