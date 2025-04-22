@@ -1,5 +1,3 @@
-import { API_URL } from '@/env'
-import axiosInstance from '@/lib/axios'
 import {
 	Brandbook,
 	CreateBrandbookRequest,
@@ -7,12 +5,13 @@ import {
 	UpdateBrandbookRequest,
 } from '@/types/brandbook'
 import axios from 'axios'
+import { api } from './api'
 import { authService } from './auth.service'
 
 export const brandbookService = {
 	async list(): Promise<Brandbook[]> {
 		const accessToken = authService.getAccessToken()
-		const { data } = await axiosInstance.get(`${API_URL}/brandbook`, {
+		const { data } = await api.get(`/brandbook`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
@@ -22,7 +21,7 @@ export const brandbookService = {
 
 	async get(id: string): Promise<Brandbook> {
 		const accessToken = authService.getAccessToken()
-		const { data } = await axiosInstance.get(`${API_URL}/brandbook/${id}`, {
+		const { data } = await api.get(`/brandbook/${id}`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
@@ -32,8 +31,8 @@ export const brandbookService = {
 
 	async generateLogo(data: GenerateLogoRequest): Promise<{ logoUrl: string }> {
 		const accessToken = authService.getAccessToken()
-		const { data: responseData } = await axiosInstance.post(
-			`${API_URL}/generate-logo`,
+		const { data: responseData } = await api.post(
+			`/generate-logo`,
 			data,
 			{
 				headers: {
@@ -60,7 +59,7 @@ export const brandbookService = {
 			formData.append('logo', data.logo)
 		}
 
-		const response = await axiosInstance.post<Brandbook>(
+		const response = await api.post<Brandbook>(
 			'/brandbook',
 			formData,
 			{
@@ -78,44 +77,20 @@ export const brandbookService = {
 		const accessToken = authService.getAccessToken()
 		const formData = new FormData()
 
-		// Handle logo generation or upload
-		if (data.generateLogo && data.companyName) {
-			try {
-				const { logoUrl } = await this.generateLogo({
-					companyName: data.companyName,
-					industry: data.industry,
-					description: data.description,
-					preferredColor: data.preferredColor,
-				})
-
-				const logoResponse = await axios.get(logoUrl, {
-					responseType: 'blob',
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
-				})
-				const logoFile = new File([logoResponse.data], 'generated-logo.png', {
-					type: 'image/png',
-				})
-				formData.append('logo', logoFile)
-			} catch (error: any) {
-				throw new Error(
-					'Failed to generate logo: ' + (error.message || 'Unknown error')
-				)
-			}
-		} else if (data.logo) {
+		// Handle logo upload
+		if (data.logo) {
 			formData.append('logo', data.logo)
 		}
 
 		// Append other form data
 		Object.entries(data).forEach(([key, value]) => {
-			if (value !== undefined && key !== 'logo' && key !== 'generateLogo') {
+			if (value !== undefined && key !== 'logo') {
 				formData.append(key, value.toString())
 			}
 		})
 
-		const { data: responseData } = await axiosInstance.patch(
-			`${API_URL}/brandbook/${id}`,
+		const { data: responseData } = await api.patch(
+			`/brandbook/${id}`,
 			formData,
 			{
 				headers: {
@@ -130,7 +105,7 @@ export const brandbookService = {
 
 	async delete(id: string): Promise<void> {
 		const accessToken = authService.getAccessToken()
-		await axiosInstance.delete(`${API_URL}/brandbook/${id}`, {
+		await api.delete(`/brandbook/${id}`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
@@ -139,7 +114,7 @@ export const brandbookService = {
 
 	async regenerate(id: string): Promise<Brandbook> {
 		const accessToken = authService.getAccessToken()
-		const response = await axiosInstance.post<Brandbook>(
+		const response = await api.post<Brandbook>(
 			`/brandbook/${id}/regenerate`
 		)
 		return response.data
@@ -147,7 +122,7 @@ export const brandbookService = {
 
 	async getPdf(id: string): Promise<{ pdfUrl: string }> {
 		const accessToken = authService.getAccessToken()
-		const { data } = await axiosInstance.get(`${API_URL}/brandbook/${id}/pdf`, {
+		const { data } = await api.get(`/brandbook/${id}/pdf`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},

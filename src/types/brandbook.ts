@@ -17,8 +17,7 @@ export interface CreateBrandbookRequest {
 	authorName: string
 	authorRole: string
 	authorEmail: string
-	logo?: File
-	generateLogo?: boolean
+	logo: File
 	tagline?: string
 	preferredColor?: string
 	preferredFont?: string
@@ -27,7 +26,6 @@ export interface CreateBrandbookRequest {
 export interface UpdateBrandbookRequest
 	extends Partial<CreateBrandbookRequest> {
 	logo?: File
-	generateLogo?: boolean
 }
 
 export interface GenerateLogoRequest {

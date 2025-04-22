@@ -19,17 +19,19 @@ export function BrandbookForm() {
 	const router = useRouter()
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState<string | null>(null)
-	const [useAI, setUseAI] = useState(false)
-	const [formData, setFormData] = useState<Partial<CreateBrandbookRequest>>({
-		companyName: '',
-		industry: '',
-		description: '',
-		authorName: '',
-		authorRole: '',
-		authorEmail: '',
-		tagline: '',
-		preferredColor: '',
-		preferredFont: '',
+
+	const [formData, setFormData] = useState<Partial<CreateBrandbookRequest>>( {
+		companyName: "LuminoTech",
+		industry: "Green Energy Solutions",
+		description:
+		  "LuminoTech specializes in smart solar technology, providing innovative and sustainable energy solutions for homes and businesses. Our mission is to make green energy more accessible and intelligent.",
+		authorName: "Maya Chen",
+		authorRole: "Creative Strategist",
+		authorEmail: "maya.chen@luminotech.io",
+		tagline: "Powering the Future with Smart Energy",
+		preferredColor: "#00A86B", // Deep green
+		preferredFont: "Poppins",
+		// logo: undefined,
 	})
 	const [logoFile, setLogoFile] = useState<File | null>(null)
 
@@ -43,7 +45,6 @@ export function BrandbookForm() {
 	const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files?.[0]) {
 			setLogoFile(e.target.files[0])
-			setUseAI(false)
 		}
 	}
 
@@ -53,12 +54,16 @@ export function BrandbookForm() {
 		setError(null)
 
 		try {
+			if (!logoFile) {
+				setError('Please select a logo file')
+				return
+			}
+
 			const requestData: CreateBrandbookRequest = {
 				...(formData as Required<
-					Omit<CreateBrandbookRequest, 'logo' | 'generateLogo'>
+					Omit<CreateBrandbookRequest, 'logo'>
 				>),
-				generateLogo: useAI,
-				logo: logoFile || undefined,
+				logo: logoFile,
 			}
 
 			const result = await brandbookService.create(requestData)
@@ -212,36 +217,26 @@ export function BrandbookForm() {
 					</div>
 
 					<div className='space-y-4'>
-						<Label className='text-white'>Logo</Label>
+						<Label className='text-white'>Logo *</Label>
 						<div className='flex flex-col gap-4'>
-							<div className='flex items-center gap-4'>
-								<Button
-									type='button'
-									variant={useAI ? 'default' : 'outline'}
-									onClick={() => setUseAI(true)}
-									className='text-white'
-								>
-									Generate with AI
-								</Button>
-								<span className='text-white'>or</span>
-								<Button
-									type='button'
-									variant={!useAI ? 'default' : 'outline'}
-									onClick={() => document.getElementById('logo')?.click()}
-									className='text-white'
-								>
-									<Upload className='w-4 h-4 mr-2' />
-									Upload Logo
-								</Button>
-							</div>
+							<Button
+							type='button'
+							variant='default'
+							onClick={() => document.getElementById('logo')?.click()}
+							className='text-white'
+						>
+							<Upload className='w-4 h-4 mr-2' />
+							Choose Logo File
+						</Button>
 							<input
-								id='logo'
-								name='logo'
-								type='file'
-								accept='image/*'
-								onChange={handleLogoChange}
-								className='hidden'
-							/>
+							id='logo'
+							name='logo'
+							type='file'
+							accept='image/*'
+							onChange={handleLogoChange}
+							className='hidden'
+							required
+						/>
 							{logoFile && (
 								<p className='text-sm text-white'>
 									Selected file: {logoFile.name}
