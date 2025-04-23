@@ -1,13 +1,61 @@
+interface VoiceTone {
+	examples: {
+	  casual: string;
+	  formal: string;
+	};
+	guidelines: string[];
+	characteristics: string[];
+  }
+  
+  interface Typography {
+	primaryFont: string;
+	secondaryFont: string;
+	fontUsageGuidelines: string[];
+  }
+  
+  interface ColorPalette {
+	primary: string;
+	secondary: string;
+	accent: string;
+	neutral: string[];
+	colorUsageGuidelines: string[];
+  }
+  
+  interface BrandIdentity {
+	values: string[];
+	vision: string;
+	mission: string;
+	personality: string[];
+  }
+  
+  interface LogoGuidelines {
+	dosDonts: {
+	  dos: string[];
+	  donts: string[];
+	};
+	clearSpace: string;
+	minimumSize: string;
+  }
+  
+  interface GeneratedJson {
+	voiceTone: VoiceTone;
+	typography: Typography;
+	colorPalette: ColorPalette;
+	brandIdentity: BrandIdentity;
+	logoGuidelines: LogoGuidelines;
+  }
+
 export interface Brandbook {
-	id: string
-	companyName: string
-	logoUrl: string
-	createdAt: string
-	tagline?: string
-	industry?: string
-	description?: string
-	pdfUrl?: string
-	generatedHtml?: string
+	id: string;
+	companyName: string;
+	logoUrl: string;
+	createdAt: string;
+	tagline?: string;
+	industry?: string;
+	description?: string;
+	pdfUrl?: string;
+	generatedHtml?: string;
+	generatedJson?: GeneratedJson;
 }
 
 export interface CreateBrandbookRequest {
