@@ -164,66 +164,80 @@ export default function ViewBrandbookPage() {
 	};
 
 	const generatePDF = async () => {
-		const element = document.getElementById('brandbook-content');
-		if (!element) return;
+		const sections = document.querySelectorAll('section');
+		if (!sections.length) return;
 
-		// Create a deep clone of the element
-		const clone = element.cloneNode(true) as HTMLElement;
-		clone.style.position = 'absolute';
-		clone.style.left = '-9999px';
-		clone.style.top = '-9999px';
-		document.body.appendChild(clone);
+		const pdf = new jsPDF('p', 'mm', 'a4');
+		const pdfWidth = pdf.internal.pageSize.getWidth();
+		const pdfHeight = pdf.internal.pageSize.getHeight();
+		const margin = 20; // 20mm margins
 
-		// Convert all colors in the clone to hex
-		const processElement = (el: HTMLElement) => {
-			const style = window.getComputedStyle(el);
-			const colorProps = ['color', 'backgroundColor', 'borderColor'];
+		let isFirstPage = true;
 
-			colorProps.forEach(prop => {
-				const value = style[prop as any];
-				if (value && value.includes('oklch')) {
-					el.style[prop as any] = ensureHexColor(value);
+		for (const section of sections) {
+			// Create a clone of the section
+			const clone = section.cloneNode(true) as HTMLElement;
+			clone.style.position = 'absolute';
+			clone.style.left = '-9999px';
+			clone.style.top = '-9999px';
+			clone.style.backgroundColor = '#ffffff';
+			clone.style.padding = '20px';
+			clone.style.width = `${pdfWidth - 2 * margin}mm`;
+			document.body.appendChild(clone);
+
+			// Convert colors to hex
+			const processElement = (el: HTMLElement) => {
+				const style = window.getComputedStyle(el);
+				const colorProps = ['color', 'backgroundColor', 'borderColor'];
+
+				colorProps.forEach(prop => {
+					const value = style[prop as any];
+					if (value && value.includes('oklch')) {
+						el.style[prop as any] = ensureHexColor(value);
+					}
+				});
+
+				// Process children
+				Array.from(el.children).forEach(child => {
+					processElement(child as HTMLElement);
+				});
+			};
+
+			processElement(clone);
+
+			try {
+				const canvas = await html2canvas(clone, {
+					scale: 2,
+					useCORS: true,
+					allowTaint: true,
+					logging: false,
+					backgroundColor: '#ffffff'
+				});
+
+				// Add a new page for each section except the first one
+				if (!isFirstPage) {
+					pdf.addPage();
 				}
-			});
+				isFirstPage = false;
 
-			// Process children
-			Array.from(el.children).forEach(child => {
-				processElement(child as HTMLElement);
-			});
-		};
+				const imgData = canvas.toDataURL('image/png');
+				const imgWidth = canvas.width;
+				const imgHeight = canvas.height;
+				const ratio = (pdfWidth - 2 * margin) / imgWidth;
+				
+				pdf.addImage(imgData, 'PNG', margin, margin, imgWidth * ratio, imgHeight * ratio);
 
-		processElement(clone);
-
-		try {
-			const canvas = await html2canvas(clone, {
-				scale: 2,
-				useCORS: true,
-				allowTaint: true,
-				logging: false,
-				backgroundColor: '#ffffff'
-			});
-		
-			const imgData = canvas.toDataURL('image/png');
-			const pdf = new jsPDF('p', 'mm', 'a4');
-			const pdfWidth = pdf.internal.pageSize.getWidth();
-			const pdfHeight = pdf.internal.pageSize.getHeight();
-			
-			const imgWidth = canvas.width;
-			const imgHeight = canvas.height;
-			const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-			const imgX = (pdfWidth - imgWidth * ratio) / 2;
-			const imgY = 20;
-			
-			pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-			pdf.save(`${brandbook.companyName}-brand-book.pdf`);
-		} finally {
-			// Clean up the cloned element
-			if (clone.parentNode) {
-				clone.parentNode.removeChild(clone);
+				// Clean up
+				document.body.removeChild(clone);
+			} catch (error) {
+				console.error('Error generating section:', error);
+				document.body.removeChild(clone);
 			}
 		}
-	  };
 
+		pdf.save(`${brandbook.companyName}-brand-book.pdf`);
+	}
+	  
 	return (
 		<div className='min-h-screen bg-black w-full'>
 			<div className='max-w-[1400px] mx-auto'>
@@ -239,22 +253,22 @@ export default function ViewBrandbookPage() {
 				<div className='mt-6 px-4'>
 					{brandbook.generatedHtml && (
 						 <div id="brandbook-content" className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-						 <div className="max-w-4xl mx-auto">
-						   <div className="flex justify-between items-center mb-8">
-							 <h1 className="text-3xl font-bold text-gray-900">Brand Book</h1>
-							 <button
-							   onClick={generatePDF}
-							   className="px-4 py-2 text-white font-medium rounded-md transition-colors"
-							   style={{
-								 backgroundColor: ensureHexColor(brandbook.generatedJson?.colorPalette.primary),
-								 opacity: 1,
-							   }}
-							   onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-							   onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-							 >
-							   Download PDF
-							 </button>
-						   </div>
+					 <div className="max-w-4xl mx-auto">
+					   <div className="flex justify-between items-center mb-8">
+						 <h1 className="text-3xl font-bold text-gray-900">Brand Book</h1>
+						 <button
+						   onClick={generatePDF}
+						   className="px-4 py-2 text-white font-medium rounded-md transition-colors print:hidden"
+						   style={{
+							 backgroundColor: ensureHexColor(brandbook.generatedJson?.colorPalette.primary),
+							 opacity: 1,
+						   }}
+						   onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+						   onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+						 >
+						   Download PDF
+						 </button>
+					   </div>
 				   
 						   <div className="bg-white p-8 rounded-lg shadow-lg">
 							 {/* Brand Identity Section */}
