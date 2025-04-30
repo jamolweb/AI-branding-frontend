@@ -59,12 +59,6 @@ export function BrandbookCard({
               className="bg-gray-800 border-gray-700 text-white"
             >
               <DropdownMenuItem
-                onClick={() => onRegenerate(brandbook.id)}
-                className="hover:bg-gray-700 cursor-pointer"
-              >
-                Regenerate
-              </DropdownMenuItem>
-              <DropdownMenuItem
                 className="text-destructive hover:bg-destructive/20 hover:bg-gray-700 hover:text-destructive cursor-pointer"
                 onClick={() => onDelete(brandbook.id)}
               >
@@ -95,11 +89,13 @@ export function BrandbookCard({
         <Button
           asChild
           variant="outline"
-          className="w-full text-white border-white/20 hover:bg-white/10 hover:text-white"
+          className="w-full flex items-center justify-center text-white border-white/20 hover:bg-white/10 hover:text-white"
         >
           <Link href={`/dashboard/brandbook/view/${brandbook.id}`}>
-            <FileText className="mr-2 h-4 w-4" />
-            View Details
+            <span className="flex items-center">
+              <FileText className="mr-2 h-4 w-4" />
+              View Details
+            </span>
           </Link>
         </Button>
       </CardFooter>
