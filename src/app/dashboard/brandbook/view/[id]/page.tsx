@@ -1,491 +1,231 @@
-'use client'
+'use client';
 
-import { Button } from '@/components/ui/button'
-import { authService } from '@/services/auth.service'
-import { brandbookService } from '@/services/brandbook'
-import type { Brandbook } from '@/types/brandbook'
-import { ArrowLeft, Download, FileText, Loader2, RefreshCw } from 'lucide-react'
-import Image from 'next/image'
-import { useParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import { Button } from '@/components/ui/button';
+import { authService } from '@/services/auth.service';
+import { brandbookService } from '@/services/brandbook';
+import type { Brandbook } from '@/types/brandbook';
+import { ArrowLeft, Download, Loader2 } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function ViewBrandbookPage() {
-	const router = useRouter()
-	const params = useParams()
-	const id = params.id as string
+  const router = useRouter();
+  const params = useParams();
+  const id = params.id as string;
 
-	const [brandbook, setBrandbook] = useState<Brandbook | null>(null)
-	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState<string | null>(null)
-	const [regenerating, setRegenerating] = useState(false)
-	const [downloading, setDownloading] = useState(false)
-	const [downloadingLogo, setDownloadingLogo] = useState(false)
+  const [brandbook, setBrandbook] = useState<Brandbook | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		loadBrandbook()
-	}, [id])
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
+  const [loadingPdf, setLoadingPdf] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState(false);
 
-	async function loadBrandbook() {
-		try {
-			const data = await brandbookService.get(id)
-			setBrandbook(data)
-			setError(null)
-		} catch (err) {
-			setError('Failed to load brandbook')
-			console.error(err)
-		} finally {
-			setLoading(false)
-		}
-	}
+  // Fetch main brandbook data
+  useEffect(() => {
+    async function loadBrandbook() {
+      if (!id) return;
+      setLoading(true);
+      setError(null);
+      setPdfBlobUrl(null); // Reset PDF URL on ID change
+      setPdfError(null);
 
-	async function handleRegenerate() {
-		setRegenerating(true)
-		try {
-			const updated = await brandbookService.regenerate(id)
-			setBrandbook(updated)
-		} catch (err) {
-			console.error('Failed to regenerate brandbook:', err)
-		} finally {
-			setRegenerating(false)
-		}
-	}
+      try {
+        const data = await brandbookService.get(id);
+        setBrandbook(data);
+      } catch (err) {
+        console.error('Failed to load brandbook:', err);
+        setError(
+          err instanceof Error ? err.message : 'Failed to load brandbook data.',
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadBrandbook();
+  }, [id]);
 
-	async function handleDownloadPDF() {
-		if (!brandbook?.pdfUrl) return
+  // Fetch PDF blob when brandbook data is available
+  useEffect(() => {
+    // Store the current object URL to revoke it in cleanup
+    let currentObjectUrl: string | null = null;
 
-		try {
-			setDownloading(true)
-			const token = authService.getAccessToken()
-			const pdfId = brandbook.pdfUrl.split('/').pop()?.replace('.pdf', '')
-			const response = await fetch(
-				`http://localhost:3003/api/brandbook/pdf/${pdfId}.pdf`,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
+    async function loadPdf() {
+      if (!brandbook?.pdfUrl) {
+        // If there's no PDF URL, don't try to load it.
+        // We might set an error or just show nothing for the PDF section.
+        setLoadingPdf(false);
+        return;
+      }
 
-			if (!response.ok) {
-				throw new Error('Failed to download PDF')
-			}
+      setLoadingPdf(true);
+      setPdfError(null);
+      setPdfBlobUrl(null); // Reset before fetching
 
-			const blob = await response.blob()
-			const url = window.URL.createObjectURL(blob)
-			const a = document.createElement('a')
-			a.href = url
-			a.download = `${brandbook.companyName}-guidelines.pdf`
-			document.body.appendChild(a)
-			a.click()
-			window.URL.revokeObjectURL(url)
-			document.body.removeChild(a)
-		} catch (err) {
-			console.error('Failed to download PDF:', err)
-		} finally {
-			setDownloading(false)
-		}
-	}
+      try {
+        const token = authService.getAccessToken();
+        if (!token) {
+          throw new Error('Authentication token not found.');
+        }
 
-	async function handleDownloadLogo() {
-		if (!brandbook?.logoUrl) return
+        const response = await fetch(brandbook.pdfUrl, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-		try {
-			setDownloadingLogo(true)
-			const token = authService.getAccessToken()
-			const logoFilename = brandbook.logoUrl.split('/').pop()
-			const response = await fetch(
-				`http://localhost:3003/api/brandbook/logo/${logoFilename}`,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			)
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('PDF Fetch Error:', response.status, errorText);
+          throw new Error(
+            `Failed to fetch PDF: ${response.status} ${response.statusText}`,
+          );
+        }
 
-			if (!response.ok) {
-				throw new Error('Failed to download logo')
-			}
+        const blob = await response.blob();
 
-			const blob = await response.blob()
-			const url = window.URL.createObjectURL(blob)
-			const a = document.createElement('a')
-			a.href = url
-			a.download = `${brandbook.companyName}-logo.png`
-			document.body.appendChild(a)
-			a.click()
-			window.URL.revokeObjectURL(url)
-			document.body.removeChild(a)
-		} catch (err) {
-			console.error('Failed to download logo:', err)
-		} finally {
-			setDownloadingLogo(false)
-		}
-	}
+        // Check if the blob is actually a PDF
+        if (blob.type !== 'application/pdf') {
+          console.error('Fetched content is not PDF:', blob.type);
+          throw new Error('Downloaded file is not a PDF.');
+        }
 
-	if (loading) {
-		return (
-			<div className='flex items-center justify-center min-h-screen'>
-				<div className='animate-spin rounded-full h-8 w-8 border-b-2 border-white'></div>
-			</div>
-		)
-	}
+        currentObjectUrl = URL.createObjectURL(blob);
+        setPdfBlobUrl(currentObjectUrl);
+      } catch (err) {
+        console.error('Failed to load PDF:', err);
+        setPdfError(err instanceof Error ? err.message : 'Failed to load PDF.');
+        // Revoke URL if created before error
+        if (currentObjectUrl) {
+          URL.revokeObjectURL(currentObjectUrl);
+          currentObjectUrl = null;
+        }
+      } finally {
+        setLoadingPdf(false);
+      }
+    }
 
-	if (error || !brandbook) {
-		return (
-			<div className='flex flex-col items-center justify-center min-h-screen gap-4 text-white'>
-				<p className='text-destructive'>{error || 'Brandbook not found'}</p>
-				<Button onClick={() => router.push('/dashboard/brandbook')}>
-					Return to Dashboard
-				</Button>
-			</div>
-		)
-	}
+    if (brandbook) {
+      loadPdf();
+    }
 
-	const colorMap = {
-		primary: '#2563eb',    // blue-600
-		secondary: '#4b5563',  // gray-600
-		accent: '#8b5cf6',     // violet-500
-		neutral: '#6b7280',    // gray-500
-	};
+    // Cleanup function to revoke the object URL
+    return () => {
+      if (currentObjectUrl) {
+        URL.revokeObjectURL(currentObjectUrl);
+        console.log('Revoked Object URL:', currentObjectUrl);
+      }
+    };
+  }, [brandbook]); // Re-run when brandbook data changes
 
-	const ensureHexColor = (color: string | undefined): string => {
-		if (!color) return '#000000';
-		// If it's already a hex color, return it
-		if (color.startsWith('#')) return color;
-		// If it's an oklch color, map it to a safe color
-		if (color.toLowerCase().includes('primary')) return colorMap.primary;
-		if (color.toLowerCase().includes('secondary')) return colorMap.secondary;
-		if (color.toLowerCase().includes('accent')) return colorMap.accent;
-		if (color.toLowerCase().includes('neutral')) return colorMap.neutral;
-		// For any other format, return black as fallback
-		return '#000000';
-	};
+  const handleDownloadPDF = () => {
+    if (!pdfBlobUrl || !brandbook) return;
 
-	const generatePDF = async () => {
-		const sections = document.querySelectorAll('section');
-		if (!sections.length) return;
+    setDownloading(true);
+    try {
+      const link = document.createElement('a');
+      link.href = pdfBlobUrl;
+      link.download = `${brandbook.companyName}-brandbook.pdf`; // Set desired filename
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error('Download failed:', err);
+      // Optionally show an error to the user
+    } finally {
+      setDownloading(false);
+    }
+  };
 
-		const pdf = new jsPDF('p', 'mm', 'a4');
-		const pdfWidth = pdf.internal.pageSize.getWidth();
-		const pdfHeight = pdf.internal.pageSize.getHeight();
-		const margin = 20; // 20mm margins
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-black text-white">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
 
-		let isFirstPage = true;
+  if (error || !brandbook) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4 text-white bg-black">
+        <p className="text-destructive">{error || 'Brandbook not found.'}</p>
+        <Button
+          variant="outline"
+          onClick={() => router.push('/dashboard/brandbook')}
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Return to Brandbooks
+        </Button>
+      </div>
+    );
+  }
 
-		for (const section of sections) {
-			// Create a clone of the section
-			const clone = section.cloneNode(true) as HTMLElement;
-			clone.style.position = 'absolute';
-			clone.style.left = '-9999px';
-			clone.style.top = '-9999px';
-			clone.style.backgroundColor = '#ffffff';
-			clone.style.padding = '20px';
-			clone.style.width = `${pdfWidth - 2 * margin}mm`;
-			document.body.appendChild(clone);
+  return (
+    <div className="min-h-screen bg-black text-white w-full p-4 md:p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header with Back Button and Download Button */}
+        <div className="flex justify-between items-center mb-6">
+          <Button
+            variant="ghost"
+            className="text-muted-foreground hover:text-white"
+            onClick={() => router.push('/dashboard/brandbook')}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Brandbooks
+          </Button>
+          <Button
+            onClick={handleDownloadPDF}
+            disabled={downloading || loadingPdf || !pdfBlobUrl}
+            className="bg-[rgb(239,252,118)] hover:bg-[rgb(220,232,108)] text-black" // Use primary button style
+          >
+            {downloading ? (
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4 mr-2" />
+            )}
+            {downloading ? 'Downloading...' : 'Download PDF'}
+          </Button>
+        </div>
 
-			// Convert colors to hex
-			const processElement = (el: HTMLElement) => {
-				const style = window.getComputedStyle(el);
-				const colorProps = ['color', 'backgroundColor', 'borderColor'];
+        {/* Company Name Title */}
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-8">
+          {brandbook.companyName}
+        </h1>
 
-				colorProps.forEach(prop => {
-					const value = style[prop as any];
-					if (value && value.includes('oklch')) {
-						el.style[prop as any] = ensureHexColor(value);
-					}
-				});
-
-				// Process children
-				Array.from(el.children).forEach(child => {
-					processElement(child as HTMLElement);
-				});
-			};
-
-			processElement(clone);
-
-			try {
-				const canvas = await html2canvas(clone, {
-					scale: 2,
-					useCORS: true,
-					allowTaint: true,
-					logging: false,
-					backgroundColor: '#ffffff'
-				});
-
-				// Add a new page for each section except the first one
-				if (!isFirstPage) {
-					pdf.addPage();
-				}
-				isFirstPage = false;
-
-				const imgData = canvas.toDataURL('image/png');
-				const imgWidth = canvas.width;
-				const imgHeight = canvas.height;
-				const ratio = (pdfWidth - 2 * margin) / imgWidth;
-				
-				pdf.addImage(imgData, 'PNG', margin, margin, imgWidth * ratio, imgHeight * ratio);
-
-				// Clean up
-				document.body.removeChild(clone);
-			} catch (error) {
-				console.error('Error generating section:', error);
-				document.body.removeChild(clone);
-			}
-		}
-
-		pdf.save(`${brandbook.companyName}-brand-book.pdf`);
-	}
-	  
-	return (
-		<div className='min-h-screen bg-black w-full'>
-			<div className='max-w-[1400px] mx-auto'>
-				<Button
-					variant='ghost'
-					className='text-muted-foreground hover:text-foreground ml-4 mt-4'
-					onClick={() => router.push('/dashboard/brandbook')}
-				>
-					<ArrowLeft className='w-4 h-4 mr-2' />
-					Back to Dashboard
-				</Button>
-
-				<div className='mt-6 px-4'>
-					{brandbook.generatedHtml && (
-						 <div id="brandbook-content" className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-					 <div className="max-w-4xl mx-auto">
-					   <div className="flex justify-between items-center mb-8">
-						 <h1 className="text-3xl font-bold text-gray-900">Brand Book</h1>
-						 <button
-						   onClick={generatePDF}
-						   className="px-4 py-2 text-white font-medium rounded-md transition-colors print:hidden"
-						   style={{
-							 backgroundColor: ensureHexColor(brandbook.generatedJson?.colorPalette.primary),
-							 opacity: 1,
-						   }}
-						   onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-						   onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-						 >
-						   Download PDF
-						 </button>
-					   </div>
-				   
-						   <div className="bg-white p-8 rounded-lg shadow-lg">
-							 {/* Brand Identity Section */}
-							 <section className="mb-10">
-							   <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2" style={{ borderColor: ensureHexColor(brandbook.generatedJson?.colorPalette.primary) }}>
-								 Brand Identity
-							   </h2>
-							   
-							   <div className="mb-6">
-								 <h3 className="text-lg font-semibold mb-2">Mission</h3>
-								 <p className="text-gray-700">{brandbook.generatedJson?.brandIdentity.mission}</p>
-							   </div>
-							   
-							   <div className="mb-6">
-								 <h3 className="text-lg font-semibold mb-2">Vision</h3>
-								 <p className="text-gray-700">{brandbook.generatedJson?.brandIdentity.vision}</p>
-							   </div>
-							   
-							   <div className="mb-6">
-								 <h3 className="text-lg font-semibold mb-2">Values</h3>
-								 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-								   {brandbook.generatedJson?.brandIdentity.values.map((value, index) => (
-									 <div key={index} className="bg-gray-50 rounded-md p-3 text-center">
-									   <p className="font-medium">{value}</p>
-									 </div>
-								   ))}
-								 </div>
-							   </div>
-							   
-							   <div>
-								 <h3 className="text-lg font-semibold mb-2">Personality</h3>
-								 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-								   {brandbook.generatedJson?.brandIdentity.personality.map((trait, index) => (
-									 <div key={index} className="bg-gray-50 rounded-md p-3 text-center">
-									   <p className="font-medium">{trait}</p>
-									 </div>
-								   ))}
-								 </div>
-							   </div>
-							 </section>
-							 
-							 {/* Color Palette Section */}
-							 <section className="mb-10">
-							   <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2" style={{ borderColor: ensureHexColor(brandbook.generatedJson?.colorPalette.primary) }}>
-								 Color Palette
-							   </h2>
-							   
-							   <div className="mb-6">
-								 <h3 className="text-lg font-semibold mb-4">Primary Colors</h3>
-								 <div className="flex space-x-4 mb-6">
-								   <ColorBox color={brandbook.generatedJson?.colorPalette.primary ?? '#000000'} label="Primary" />
-								   <ColorBox color={brandbook.generatedJson?.colorPalette.secondary ?? '#666666'} label="Secondary" />
-								   <ColorBox color={brandbook.generatedJson?.colorPalette.accent ?? '#999999'} label="Accent" />
-								 </div>
-							   </div>
-							   
-							   <div className="mb-6">
-								 <h3 className="text-lg font-semibold mb-4">Neutral Colors</h3>
-								 <div className="flex space-x-4">
-								   <ColorBox color={brandbook.generatedJson?.colorPalette.neutral[0] ?? '#000000'} label="Neutral" />
-								 </div>
-							   </div>
-							   
-							   <div>
-								 <h3 className="text-lg font-semibold mb-2">Color Usage Guidelines</h3>
-								 <ul className="list-disc pl-5 space-y-1 text-gray-700">
-								   <li>{brandbook.generatedJson?.colorPalette.colorUsageGuidelines}</li>
-								 </ul>
-							   </div>
-							 </section>
-							 
-							 {/* Typography Section */}
-							 <section className="mb-10">
-							   <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2" style={{ borderColor: ensureHexColor(brandbook.generatedJson?.colorPalette.primary) }}>
-								 Typography
-							   </h2>
-							   
-							   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-								 <div className="bg-gray-50 p-4 rounded-md">
-								   <h3 className="text-lg font-semibold mb-2">Primary Font</h3>
-								   <p className="text-3xl" style={{ fontFamily: brandbook.generatedJson?.typography.primaryFont }}>
-									 {brandbook.generatedJson?.typography.primaryFont}
-								   </p>
-								   <p className="text-sm text-gray-500 mt-2">Used for headlines and important text</p>
-								 </div>
-								 
-								 <div className="bg-gray-50 p-4 rounded-md">
-								   <h3 className="text-lg font-semibold mb-2">Secondary Font</h3>
-								   <p className="text-3xl" style={{ fontFamily: brandbook.generatedJson?.typography.secondaryFont }}>
-									 {brandbook.generatedJson?.typography.secondaryFont}
-								   </p>
-								   <p className="text-sm text-gray-500 mt-2">Used for body text and longer content</p>
-								 </div>
-							   </div>
-							   
-							   <div>
-								 <h3 className="text-lg font-semibold mb-2">Font Usage Guidelines</h3>
-								 <ul className="list-disc pl-5 space-y-1 text-gray-700">
-								   {brandbook.generatedJson?.typography.fontUsageGuidelines.map((guideline, index) => (
-									 <li key={index}>{guideline}</li>
-								   ))}
-								 </ul>
-							   </div>
-							 </section>
-							 
-							 {/* Voice Tone Section */}
-							 <section className="mb-10">
-							   <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2" style={{ borderColor: ensureHexColor(brandbook.generatedJson?.colorPalette.primary) }}>
-								 Voice & Tone
-							   </h2>
-							   
-							   <div className="mb-6">
-								 <h3 className="text-lg font-semibold mb-2">Characteristics</h3>
-								 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-								   {brandbook.generatedJson && brandbook.generatedJson?.voiceTone?.characteristics?.map((characteristic, index) => (
-									 <div key={index} className="bg-gray-50 rounded-md p-3 text-center">
-									   <p className="font-medium">{characteristic}</p>
-									 </div>
-								   ))}
-								 </div>
-							   </div>
-							   
-							   <div className="mb-6">
-								 <h3 className="text-lg font-semibold mb-2">Guidelines</h3>
-								 <ul className="list-disc pl-5 space-y-1 text-gray-700">
-								   {brandbook.generatedJson && brandbook.generatedJson.voiceTone?.guidelines?.map((guideline, index) => (
-									 <li key={index}>{guideline}</li>
-								   ))}
-								 </ul>
-							   </div>
-							   
-							   <div>
-								 <h3 className="text-lg font-semibold mb-2">Examples</h3>
-								 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
-								   <div className="bg-gray-50 p-4 rounded-md">
-									 <h4 className="font-medium mb-2">Casual</h4>
-									 <p className="text-gray-700 italic">"{brandbook.generatedJson?.voiceTone?.examples?.casual || ''}"</p>
-								   </div>
-								   <div className="bg-gray-50 p-4 rounded-md">
-									 <h4 className="font-medium mb-2">Formal</h4>
-									 <p className="text-gray-700 italic">"{brandbook.generatedJson?.voiceTone?.examples?.formal || ''}"</p>
-								   </div>
-								 </div>
-							   </div>
-							 </section>
-							 
-							 {/* Logo Guidelines Section */}
-							 <section>
-							   <h2 className="text-2xl font-bold mb-6 pb-2 border-b-2" style={{ borderColor: ensureHexColor(brandbook.generatedJson?.colorPalette.primary) }}>
-								 Logo Guidelines
-							   </h2>
-							   
-							   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-								 <div>
-								   <h3 className="text-lg font-semibold mb-2">Do's</h3>
-								   <ul className="list-disc pl-5 space-y-1 text-gray-700">
-									 {brandbook.generatedJson && brandbook.generatedJson.logoGuidelines?.dosDonts?.dos?.map((item, index) => (
-									   <li key={index}>{item}</li>
-									 ))}
-								   </ul>
-								 </div>
-								 
-								 <div>
-								   <h3 className="text-lg font-semibold mb-2">Don'ts</h3>
-								   <ul className="list-disc pl-5 space-y-1 text-gray-700">
-									 {brandbook.generatedJson && brandbook.generatedJson.logoGuidelines?.dosDonts?.donts?.map((item, index) => (
-									   <li key={index}>{item}</li>
-									 ))}
-								   </ul>
-								 </div>
-							   </div>
-							   
-							   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-								 <div>
-								   <h3 className="text-lg font-semibold mb-2">Clear Space</h3>
-								   <p className="text-gray-700">{brandbook.generatedJson?.logoGuidelines?.clearSpace || ''}</p>
-								 </div>
-								 
-								 <div>
-								   <h3 className="text-lg font-semibold mb-2">Minimum Size</h3>
-								   <p className="text-gray-700">{brandbook.generatedJson?.logoGuidelines?.minimumSize || ''}</p>
-								 </div>
-							   </div>
-							 </section>
-						   </div>
-						 </div>
-					   </div>
-					)}
-
-					<div className='flex justify-end pb-6'>
-						<Button
-							variant='outline'
-							className='bg-background hover:bg-accent'
-							onClick={handleDownloadPDF}
-							disabled={downloading}
-						>
-							{downloading ? (
-								<Loader2 className='w-4 h-4 mr-2 animate-spin' />
-							) : (
-								<FileText className='w-4 h-4 mr-2' />
-							)}
-							View Full Guidelines
-						</Button>
-					</div>
-				</div>
-			</div>
-		</div>
-	)
-}
-
-const ColorBox = ({ color, label }: { color: string; label: string }) => (
-    <div className="flex flex-col items-center">
-      <div 
-        className="w-16 h-16 rounded-md mb-2 border border-gray-200" 
-        style={{ backgroundColor: color }}
-      ></div>
-      <span className="text-xs">{label}</span>
-      <span className="text-xs text-gray-500">{color}</span>
+        {/* PDF Viewer Section */}
+        <div className="pdf-container aspect-[8.5/11] w-full max-w-4xl mx-auto border border-gray-700 rounded-lg overflow-hidden shadow-lg">
+          {loadingPdf && (
+            <div className="flex items-center justify-center h-full bg-gray-900">
+              <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+              <p className="ml-3 text-gray-400">Loading PDF...</p>
+            </div>
+          )}
+          {pdfError && (
+            <div className="flex flex-col items-center justify-center h-full bg-gray-900 p-4 text-center">
+              <p className="text-destructive mb-2">Error loading PDF:</p>
+              <p className="text-sm text-gray-400">{pdfError}</p>
+              <p className="text-xs text-gray-500 mt-4">
+                Check console for details. Ensure the PDF URL is correct and the
+                server allows CORS.
+              </p>
+            </div>
+          )}
+          {pdfBlobUrl && !loadingPdf && !pdfError && (
+            <iframe
+              src={pdfBlobUrl}
+              title={`${brandbook.companyName} Brandbook PDF`}
+              className="w-full h-full"
+              frameBorder="0"
+            />
+          )}
+          {!pdfBlobUrl && !loadingPdf && !pdfError && (
+            <div className="flex items-center justify-center h-full bg-gray-900">
+              <p className="text-gray-500">No PDF available or specified.</p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
+}

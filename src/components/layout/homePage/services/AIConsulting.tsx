@@ -14,7 +14,7 @@ const AIConsulting = () => {
 					bulletColor='black'
 					fontSize='text-base lg:text-lg mt-4'
 				/>
-			</div>
+			</div>		
 
 			<div className='absolute -bottom-8 -right-8 w-32 h-32 md:w-40 md:h-40'>
 				<svg viewBox='0 0 280 267' id='svg11770476900'>
