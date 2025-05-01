@@ -20,7 +20,6 @@ import Link from 'next/link';
 interface BrandbookCardProps {
   brandbook: Brandbook;
   onDelete: (id: string) => void;
-  onRegenerate: (id: string) => void;
 }
 
 // Define the common card style used in the dashboard
@@ -35,7 +34,6 @@ const cardStyle = {
 export function BrandbookCard({
   brandbook,
   onDelete,
-  onRegenerate,
 }: BrandbookCardProps) {
   return (
     <Card
