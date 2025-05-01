@@ -162,7 +162,7 @@ export default function ViewBrandbookPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white w-full p-4 md:p-8">
+    <div className="min-h-screen  text-white w-full p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header with Back Button and Download Button */}
         <div className="flex justify-between items-center mb-6">
