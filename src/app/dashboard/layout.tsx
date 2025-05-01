@@ -17,12 +17,21 @@ import {
   X,
 } from 'lucide-react';
 import {
+<<<<<<< HEAD
   redirect,
   usePathname,
   useRouter,
   useSearchParams,
 } from 'next/navigation';
 import { useEffect, useState, useRef, useMemo } from 'react';
+=======
+	redirect,
+	usePathname,
+	useRouter,
+	useSearchParams,
+} from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
+>>>>>>> 50b1ccddbf28076c08c7116eb64ba00c7b904aba
 
 const Logo = () => (
   <svg viewBox="0 0 24 23" className="w-6 h-6">
@@ -43,6 +52,7 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
 
+<<<<<<< HEAD
   const isActive = (href: string) => {
     const baseMatch = pathname === href.split('?')[0];
     if (!baseMatch) return false;
@@ -65,10 +75,38 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 
     return true;
   };
+=======
+	const isActive = useCallback(
+		(href: string) => {
+			const baseMatch = pathname === href.split('?')[0]
+			if (!baseMatch) return false
+
+			const itemParams = new URLSearchParams(href.split('?')[1] || '')
+			const currentParams = searchParams
+
+			// Special handling for chat routes
+			if (href.startsWith('/dashboard/chat')) {
+				const isHistory = currentParams.get('view') === 'history'
+				const isHistoryRoute = href.includes('view=history')
+				// Only return true if both are history or both are not history
+				return isHistory === isHistoryRoute
+			}
+
+			// For other routes, check all params match
+			for (const [key, value] of itemParams) {
+				if (currentParams.get(key) !== value) return false
+			}
+
+			return true
+		},
+		[pathname, searchParams]
+	)
+>>>>>>> 50b1ccddbf28076c08c7116eb64ba00c7b904aba
 
   const hasChildren = item.children && item.children.length > 0;
   const isItemActive = isActive(item.href);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (hasChildren && item.children) {
       const isChildActive = item.children.some((child) =>
@@ -81,6 +119,20 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
       }
     }
   }, [pathname, searchParams, hasChildren, item.children]);
+=======
+	useEffect(() => {
+		if (hasChildren && item.children) {
+			const isChildActive = item.children.some(child =>
+				child.children
+					? child.children.some(grandChild => isActive(grandChild.href))
+					: isActive(child.href)
+			)
+			if (isChildActive) {
+				setIsOpen(true)
+			}
+		}
+	}, [pathname, searchParams, hasChildren, item.children, isActive])
+>>>>>>> 50b1ccddbf28076c08c7116eb64ba00c7b904aba
 
   return (
     <div className="space-y-1">

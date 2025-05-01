@@ -40,16 +40,6 @@ export default function BrandbookPage() {
 		}
 	}
 
-	async function handleRegenerate(id: string) {
-		try {
-			const updated = await brandbookService.regenerate(id)
-			setBrandbooks(brandbooks.map(b => (b.id === id ? updated : b)))
-		} catch (err) {
-			console.error('Failed to regenerate brandbook:', err)
-			// You might want to show a toast notification here
-		}
-	}
-
 	if (loading) {
 		return (
 			<div className='flex items-center justify-center min-h-screen' style={{backgroundColor: '#0a0a0a'}}>
@@ -101,7 +91,6 @@ export default function BrandbookPage() {
 							key={brandbook.id}
 							brandbook={brandbook}
 							onDelete={handleDelete}
-							onRegenerate={handleRegenerate}
 						/>
 					))}
 				</div>

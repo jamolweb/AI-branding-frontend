@@ -4,7 +4,6 @@ import {
   GenerateLogoRequest,
   UpdateBrandbookRequest,
 } from '@/types/brandbook';
-import axios from 'axios';
 import { api } from './api';
 import { authService } from './auth.service';
 
@@ -118,7 +117,11 @@ export const brandbookService = {
 
   async regenerate(id: string): Promise<Brandbook> {
     const accessToken = authService.getAccessToken();
-    const response = await api.post<Brandbook>(`/brandbook/${id}/regenerate`);
+    const response = await api.post<Brandbook>(`/brandbook/${id}/regenerate`, null, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return response.data;
   },
 
