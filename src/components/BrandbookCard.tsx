@@ -49,7 +49,7 @@ export function BrandbookCard({
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-muted-foreground hover:text-white hover:bg-white/10 cursor-pointer"
+                className="text-muted-foreground text-white hover:bg-white/10 cursor-pointer"
               >
                 <MoreVertical className="h-4 w-4" />
               </Button>
