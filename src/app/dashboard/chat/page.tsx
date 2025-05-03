@@ -36,7 +36,6 @@ export default function ChatPage() {
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [streamingContent, setStreamingContent] = useState('');
-  console.log(messages);
   
 
   useEffect(() => {
@@ -393,11 +392,19 @@ export default function ChatPage() {
                   </div>
                 </div>
               ))}
-              {streamingContent && (
+              {(isLoading || streamingContent) && (
                 <div className="flex justify-start">
-                  <div className="max-w-[80%] rounded-2xl p-5 bg-gray-800 text-gray-100 shadow-lg animate-pulse">
+                  <div className="max-w-[80%] rounded-2xl p-5 bg-gray-800 text-gray-100 shadow-lg">
                     <div className="prose prose-lg prose-invert max-w-none">
-                      <ReactMarkdown>{streamingContent}</ReactMarkdown>
+                      {streamingContent ? (
+                        <ReactMarkdown>{streamingContent}</ReactMarkdown>
+                      ) : (
+                        <div className="flex items-center gap-1">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
