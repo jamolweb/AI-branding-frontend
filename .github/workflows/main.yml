@@ -3,7 +3,7 @@ name: Deploy Frontend
 on:
   push:
     branches:
-      - ${{ secrets.MAIN_BRANCH }}
+      - brandbook
 
 jobs:
   deploy:
@@ -26,7 +26,7 @@ jobs:
             [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
             
             cd ${{ secrets.WORK_DIR }}
-            git pull origin ${{ secrets.MAIN_BRANCH }}
+            git pull origin brandbook
             npm install
             npm run build
             pm2 restart ai-branding-frontend || pm2 start npm --name ai-branding-frontend -- start
