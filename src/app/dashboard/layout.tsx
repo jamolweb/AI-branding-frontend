@@ -269,7 +269,6 @@ const flattenNavItems = (items: SidebarItemType[]): FlattenedNavItem[] => {
     href: '/dashboard/help',
     icon: HelpCircle as React.ElementType,
   });
-  // Optional: Add Profile page
   flattened.push({
     label: 'Profile',
     href: '/dashboard/profile',
