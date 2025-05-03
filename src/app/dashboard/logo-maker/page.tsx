@@ -3,7 +3,7 @@
 import { API_URL } from '@/env'
 import { authService } from '@/services/auth.service'
 import axios from 'axios'
-import { Download, RefreshCw, Trash2, Wand2 } from 'lucide-react'
+import { Download, RefreshCw, Trash2, Maximize2, X, Wand2 } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 
@@ -48,6 +48,7 @@ const logoStyles = [
 ]
 
 export default function LogoMaker() {
+	const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	const [messages, setMessages] = useState<Message[]>([])
 	const [currentStep, setCurrentStep] = useState(1)
 	const [selectedStyle, setSelectedStyle] = useState('')
@@ -331,47 +332,76 @@ export default function LogoMaker() {
 								{message.images && (
 									<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-4'>
 										{message.images.map((image, imgIndex) => (
-											<div key={imgIndex} className='relative group'>
-												<Image
-													src={image}
-													alt={`Generated logo ${imgIndex + 1}`}
-													width={200}
-													height={200}
-													className='rounded-lg shadow-lg'
-												/>
-												<div className='absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center space-x-3'>
-													<button
-														onClick={() => handleDownload(image)}
-														className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
-														title='Download'
-													>
-														<Download size={20} className='text-black' />
-													</button>
-													<button
-														onClick={() =>
-															handleRegenerate(message.content, message.jobId)
-														}
-														className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
-														title='Regenerate'
-													>
-														<RefreshCw size={20} className='text-black' />
-													</button>
-													<button
-														onClick={() => {
-															const logoId = image
-																.split('/')
-																.pop()
-																?.split('?')[0]
-															if (logoId) handleDelete(logoId)
-														}}
-														className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
-														title='Delete'
-													>
-														<Trash2 size={20} className='text-black' />
-													</button>
-												</div>
-											</div>
-										))}
+							<div key={imgIndex} className='relative group'>
+								<Image
+									src={image}
+									alt={`Generated logo ${imgIndex + 1}`}
+									width={200}
+									height={200}
+									className='rounded-lg shadow-lg'
+								/>
+								<div className='absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center space-x-3'>
+									<button
+										onClick={() => setSelectedImage(image)}
+										className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+										title='View Larger'
+									>
+										<Maximize2 size={20} className='text-black' />
+									</button>
+									<button
+										onClick={() => handleDownload(image)}
+										className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+										title='Download'
+									>
+										<Download size={20} className='text-black' />
+									</button>
+									<button
+										onClick={() =>
+											handleRegenerate(message.content, message.jobId)
+										}
+										className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+										title='Regenerate'
+									>
+										<RefreshCw size={20} className='text-black' />
+									</button>
+									<button
+										onClick={() => {
+											const logoId = image
+												.split('/')
+												.pop()
+												?.split('?')[0]
+											if (logoId) handleDelete(logoId)
+										}}
+										className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+										title='Delete'
+									>
+										<Trash2 size={20} className='text-black' />
+									</button>
+								</div>
+							</div>
+						))}
+
+						{/* Image Modal */}
+						{selectedImage && (
+							<div className='fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm z-50 flex items-center justify-center p-4'>
+								<div className='relative max-w-4xl w-full bg-white rounded-lg p-2'>
+									<button
+										onClick={() => setSelectedImage(null)}
+										className='absolute -top-4 -right-4 p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
+									>
+										<X size={24} className='text-black' />
+									</button>
+									<div className='w-full aspect-square relative'>
+										<Image
+											src={selectedImage}
+											alt='Selected logo'
+											fill
+											className='object-contain rounded-lg'
+										/>
+									</div>
+								</div>
+							</div>
+						)}
 									</div>
 								)}
 							</div>
