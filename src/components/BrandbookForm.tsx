@@ -122,36 +122,36 @@ export function BrandbookForm() {
   // --- State for Enhanced Form Data ---
   const [formData, setFormData] = useState<Partial<CreateBrandbookRequest>>({
     // Initialize required fields and known optionals
-    companyName: 'Example Inc.',
-    tagline: 'Innovating Tomorrow',
+    companyName: 'LuminoTech',
+    tagline: 'Empowering Tomorrow Through Intelligent, Sustainable Energy Solutions',
     industry: 'Technology',
-    companyDescription: '',
-    targetAudience: '',
-    brandPersonalityKeywords: '',
-    visualStyleKeywords: '',
-    toneOfVoice: '',
-    missionStatement: '',
-    visionStatement: '',
-    primaryFontName: 'Inter',
-    secondaryFontName: '',
-    contactEmail: '',
-    contactWebsite: '',
+    companyDescription: 'LuminoTech stands at the forefront of the global movement toward sustainable energy, offering state-of-the-art smart technologies designed to reduce carbon emissions, optimize energy consumption, and reshape how the world powers its future. Our solutions combine advanced data analytics, renewable energy integration, and IoT-enabled systems to empower businesses and communities with cleaner, smarter energy choices.',
+    targetAudience: 'Businesses, communities, and individuals interested in adopting smart, sustainable energy solutions, reducing their carbon footprint, and integrating renewable energy systems and IoT technologies.',
+    brandPersonalityKeywords: 'Innovative, sustainable, intelligent, eco-friendly, forward-thinking',
+    visualStyleKeywords: 'Minimalist, modern, clean, geometric, tech-focused',
+    toneOfVoice: 'Professional, authoritative, empowering, visionary',
+    missionStatement: 'Our mission is to drive the global transition to sustainable energy by delivering innovative, intelligent, and accessible technology solutions that enhance efficiency, reduce environmental impact, and promote energy independence for all.',
+    visionStatement: 'We envision a future where every home, business, and city is powered by intelligent energy systems that are clean, efficient, and resilient—creating a healthier planet and a more sustainable tomorrow.',
+    primaryFontName: 'Poppins',
+    secondaryFontName: 'Roboto',
+    contactEmail: 'maya.chen@luminotech.io',
+    contactWebsite: 'https://www.luminotech.io',
     contactPhone: '',
     contactAddress: '',
     brandColors: [
-      // Initialize with one default color
       {
         name: 'Primary',
-        value: '#EFFF76',
+        value: '#00A86B',
         usageNote: 'Main call-to-action color',
       },
       {
         name: 'Secondary',
-        value: '#101010',
+        value: '#1A1A1A',
         usageNote: 'Backgrounds, dark text',
       },
     ],
   });
+  
   const [logoFile, setLogoFile] = useState<File | null>(null);
   // const [referenceImageFiles, setReferenceImageFiles] = useState<File[]>([]); // Keep commented for now
   // --- End State ---

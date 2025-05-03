@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { API_URL } from '@/env';
 import { authService } from '@/services/auth.service';
 import { brandbookService } from '@/services/brandbook';
 import type { Brandbook } from '@/types/brandbook';
@@ -69,9 +70,9 @@ export default function ViewBrandbookPage() {
           throw new Error('Authentication token not found.');
         }
 
-        const response = await fetch(brandbook.pdfUrl, {
+        const response = await fetch( brandbook.pdfUrl, {
           headers: {
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
         });
 
