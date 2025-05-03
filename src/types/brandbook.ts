@@ -38,11 +38,11 @@ interface LogoGuidelines {
 }
 
 interface GeneratedJson {
-  voiceTone: VoiceTone;
-  typography: Typography;
-  colorPalette: ColorPalette;
-  brandIdentity: BrandIdentity;
-  logoGuidelines: LogoGuidelines;
+  voiceTone?: VoiceTone;
+  typography?: Typography;
+  colorPalette?: ColorPalette;
+  brandIdentity?: BrandIdentity;
+  logoGuidelines?: LogoGuidelines;
 }
 
 export interface Brandbook {
@@ -50,33 +50,66 @@ export interface Brandbook {
   companyName: string;
   logoUrl: string;
   createdAt: string;
+  updatedAt: string;
   tagline?: string;
   industry?: string;
-  description?: string;
+  companyDescription?: string;
+  targetAudience?: string;
+  brandPersonalityKeywords?: string;
+  visualStyleKeywords?: string;
+  toneOfVoice?: string;
+  missionStatement?: string;
+  visionStatement?: string;
+  brandColorsJson?: Array<{
+    name: string;
+    value: string;
+    usageNote?: string;
+  }> | null;
+  primaryFontName?: string;
+  secondaryFontName?: string;
+  contactEmail?: string;
+  contactWebsite?: string;
+  contactPhone?: string;
+  contactAddress?: string;
   pdfUrl?: string;
   generatedHtml?: string;
   generatedJson?: GeneratedJson;
+  description?: string;
+  authorName?: string;
+  authorRole?: string;
+  authorEmail?: string;
+  preferredColor?: string;
+  preferredFont?: string;
 }
 
 export interface CreateBrandbookRequest {
   companyName: string;
-  industry: string;
-  description: string;
-  authorName: string;
-  authorRole: string;
-  authorEmail: string;
-  logo: File;
   tagline?: string;
-  preferredColor?: string;
-  preferredFont?: string;
-  mission?: string;
-  vision?: string;
-  coreValues?: string[];
+  industry?: string;
+  companyDescription?: string;
+  targetAudience?: string;
+  brandPersonalityKeywords?: string;
+  visualStyleKeywords?: string;
+  toneOfVoice?: string;
+  missionStatement?: string;
+  visionStatement?: string;
+  logo: File;
+  brandColors?: Array<{
+    name: string;
+    value: string;
+    usageNote?: string;
+  }>;
+  primaryFontName?: string;
+  secondaryFontName?: string;
+  contactEmail?: string;
+  contactWebsite?: string;
+  contactPhone?: string;
+  contactAddress?: string;
 }
 
 export interface UpdateBrandbookRequest
-  extends Partial<CreateBrandbookRequest> {
-  logo?: File;
+  extends Partial<Omit<CreateBrandbookRequest, 'logo'>> {
+  logo?: File | string;
 }
 
 export interface GenerateLogoRequest {
