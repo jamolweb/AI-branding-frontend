@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { API_URL } from '@/env';
 import { authService } from '@/services/auth.service';
 import { brandbookService } from '@/services/brandbook';
 import type { Brandbook } from '@/types/brandbook';
