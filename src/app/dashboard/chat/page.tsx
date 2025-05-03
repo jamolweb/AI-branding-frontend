@@ -36,6 +36,8 @@ export default function ChatPage() {
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [streamingContent, setStreamingContent] = useState('');
+  console.log(messages);
+  
 
   useEffect(() => {
     fetchSessions();
@@ -116,27 +118,66 @@ export default function ChatPage() {
       if (!reader) throw new Error('No reader available');
 
       const decoder = new TextDecoder();
+      let fullContent = '';
+      let buffer = '';
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          
+          if (value) {
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            
+            // Process all complete lines
+            buffer = lines.pop() || ''; // Keep the last incomplete line in buffer
+            
+            for (const line of lines) {
+              if (line.trim() && line.startsWith('data: ')) {
+                try {
+                  const data = JSON.parse(line.slice(6));
+                  if (data.content) {
+                    fullContent += data.content;
+                    setStreamingContent(fullContent);
+                  }
+                } catch (e) {
+                  console.warn('Error parsing streaming data:', e);
+                }
+              }
+            }
+          }
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
-
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const data = JSON.parse(line.slice(6));
-            setStreamingContent((prev) => prev + data.content);
+          if (done) {
+            // Process any remaining data
+            const remaining = decoder.decode();
+            if (remaining) buffer += remaining;
+            
+            if (buffer.trim() && buffer.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(buffer.slice(6));
+                if (data.content) {
+                  fullContent += data.content;
+                  setStreamingContent(fullContent);
+                }
+              } catch (e) {
+                console.warn('Error parsing final streaming data:', e);
+              }
+            }
+            break;
           }
         }
+      } catch (streamError) {
+        console.warn('Stream processing error:', streamError);
+        // Don't rethrow - we want to continue with what we have
+      } finally {
+        reader.releaseLock();
       }
 
       const assistantMessage: Message = {
         id: Date.now().toString(),
         sessionId: currentSessionId || '',
         role: 'ASSISTANT',
-        content: streamingContent,
+        content: fullContent,
         tokensUsed: null,
         createdAt: new Date().toISOString(),
       };
