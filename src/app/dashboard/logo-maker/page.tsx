@@ -418,7 +418,7 @@ export default function LogoMaker() {
 					<div ref={messagesEndRef} />
 				</div>
 
-				<div className='border-t border-[rgba(255,255,255,0.15)] p-4 sm:p-6 shadow-[0_-5px_15px_rgba(0,0,0,0.2)] mt-auto sticky bottom-0 bg-[rgb(12,12,18)]'>
+				<div className='border-t border-[rgba(255,255,255,0.15)] p-4 sm:p-6 shadow-[0_-5px_15px_rgba(0,0,0,0.2)] mt-auto sticky bottom-0'>
 					<div className='flex items-center justify-between max-w-4xl mx-auto w-full'>
 						{currentStep > 1 && (
 							<button
