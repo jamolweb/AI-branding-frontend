@@ -4,15 +4,16 @@ import { API_URL } from '@/env'
 import { authService } from '@/services/auth.service'
 import { Logo } from '@/types/logo'
 import axios from 'axios'
-import { Download, Heart, Trash2 } from 'lucide-react'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import LogoCard from '../components/LogoCard'
+import ImageModal from '../components/ImageModal'
 
 export default function MyLogosPage() {
 	const [myLogos, setMyLogos] = useState<Logo[]>([])
 	const [favoriteStatus, setFavoriteStatus] = useState<Record<string, boolean>>(
 		{}
 	)
+	const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
 	useEffect(() => {
 		fetchMyLogos()
@@ -123,62 +124,27 @@ export default function MyLogosPage() {
 			<div style={cardStyle} className='p-6'>
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
 					{myLogos.map(logo => (
-						<div key={logo.id} className='relative group'>
-							<div className='relative w-full h-48'>
-								<Image
-									src={logo.imageUrl}
-									alt={logo.prompt}
-									fill
-									className='object-cover rounded-lg'
-								/>
-							</div>
-							<div className='absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center space-x-3'>
-								<button
-									onClick={() => handleDownload(logo.imageUrl)}
-									className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
-									title='Download'
-								>
-									<Download className='w-5 h-5 text-black' />
-								</button>
-								<button
-									onClick={() => toggleFavorite(logo.id)}
-									className={`p-2 rounded-full transition-colors ${
-										favoriteStatus[logo.id]
-											? 'bg-[rgb(239,252,118)] text-black'
-											: 'bg-white text-black hover:bg-[rgb(239,252,118)]'
-									}`}
-									title={
-										favoriteStatus[logo.id]
-											? 'Remove from favorites'
-											: 'Add to favorites'
-									}
-								>
-									<Heart
-										className='w-5 h-5'
-										fill={favoriteStatus[logo.id] ? 'currentColor' : 'none'}
-									/>
-								</button>
-								<button
-									onClick={() => handleDelete(logo.id)}
-									className='p-2 bg-[rgb(239,252,118)] rounded-full hover:bg-[rgba(239,252,118,0.8)] transition-colors'
-									title='Delete'
-								>
-									<Trash2 className='w-5 h-5 text-black' />
-								</button>
-							</div>
-							<div className='mt-2'>
-								<p className='text-white text-sm truncate'>{logo.prompt}</p>
-								<p className='text-[rgba(255,255,255,0.4)] text-xs'>
-									{new Date(logo.createdAt).toLocaleDateString()}
-								</p>
-								<p className='text-[rgba(255,255,255,0.4)] text-xs'>
-									{logo._count.favoritedBy}{' '}
-									{logo._count.favoritedBy === 1 ? 'favorite' : 'favorites'}
-								</p>
-							</div>
-						</div>
+						<LogoCard
+							key={logo.id}
+							image={logo.imageUrl}
+							logoId={logo.id}
+							prompt={logo.prompt}
+							createdAt={logo.createdAt}
+							favoritesCount={logo._count.favoritedBy}
+							isFavorite={favoriteStatus[logo.id]}
+							onView={setSelectedImage}
+							onDownload={handleDownload}
+							onDelete={handleDelete}
+							onToggleFavorite={toggleFavorite}
+						/>
 					))}
 				</div>
+				{selectedImage && (
+					<ImageModal
+						imageUrl={selectedImage}
+						onClose={() => setSelectedImage(null)}
+					/>
+				)}
 			</div>
 		</div>
 	)
