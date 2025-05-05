@@ -669,7 +669,7 @@ export default function DashboardLayout({
         )}
         {/* --- End Centered Search Modal --- */}
 
-        <main className="p-4 md:p-6">{children}</main>
+        <main className="p-4">{children}</main>
       </div>
     </div>
   );
