@@ -54,7 +54,6 @@ export default function LogoMaker() {
 	const [selectedStyle, setSelectedStyle] = useState('')
 	const [companyName, setCompanyName] = useState('')
 	const [description, setDescription] = useState('')
-	const [prompt, setPrompt] = useState('')
 	const [slogan, setSlogan] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 	const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -252,7 +251,6 @@ export default function LogoMaker() {
 		setSelectedStyle('')
 		setCompanyName('')
 		setDescription('')
-		setPrompt('')
 		setSlogan('')
 	}
 
