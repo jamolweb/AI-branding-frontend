@@ -45,7 +45,7 @@ export default function LogoResults({
                         showFavorite={false}
                         onView={onViewImage}
                         onDownload={onDownloadImage}
-                        onRegenerate={(_, jobId) => onRegenerateImage(message.content, message.jobId)}
+                        onRegenerate={() => onRegenerateImage(message.content, message.jobId)}
                         onDelete={onDeleteImage}
                         jobId={message.jobId}
                       />

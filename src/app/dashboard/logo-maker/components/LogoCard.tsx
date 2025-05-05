@@ -1,6 +1,5 @@
 'use client'
 
-import { Logo } from '@/types/logo'
 import { Download, Heart, Maximize2, RefreshCw, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
