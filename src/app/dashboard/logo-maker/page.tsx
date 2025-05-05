@@ -244,6 +244,18 @@ export default function LogoMaker() {
 		setCurrentStep(prev => Math.max(prev - 1, 1))
 	}
 
+	const handleCreateNew = () => {
+		// Reset all state to initial values
+		setSelectedImage(null)
+		setMessages([])
+		setCurrentStep(1)
+		setSelectedStyle('')
+		setCompanyName('')
+		setDescription('')
+		setPrompt('')
+		setSlogan('')
+	}
+
 	return (
 		<div
 			className='flex flex-col h-[calc(100vh-4rem)]'
@@ -418,9 +430,16 @@ export default function LogoMaker() {
 					<div ref={messagesEndRef} />
 				</div>
 
-				<div className='border-t border-[rgba(255,255,255,0.15)] p-4 sm:p-6 shadow-[0_-5px_15px_rgba(0,0,0,0.2)] mt-auto sticky bottom-0'>
+				<div className='border-t border-[rgba(255,255,255,0.15)] p-4 sm:p-6 shadow-[0_-5px_15px_rgba(0,0,0,0.2)] mt-auto sticky bottom-0 bg-[rgb(12,12,18)]'>
 					<div className='flex items-center justify-between max-w-4xl mx-auto w-full'>
-						{currentStep > 1 && (
+						{currentStep === 4 && messages.some(m => m.type === 'assistant' && m.images && m.images.length > 0) ? (
+							<button
+								onClick={handleCreateNew}
+								className='px-4 sm:px-6 py-2.5 sm:py-3 text-white hover:text-white transition-all duration-300 bg-[rgba(239,252,118,0.2)] hover:bg-[rgba(239,252,118,0.3)] rounded-xl font-medium text-sm sm:text-base w-[140px] sm:w-auto'
+							>
+								Create New Logo
+							</button>
+						) : currentStep > 1 && currentStep < 4 && (
 							<button
 								onClick={handleBack}
 								className='px-4 sm:px-6 py-2.5 sm:py-3 text-[rgba(255,255,255,0.8)] hover:text-white transition-all duration-300 bg-[rgba(255,255,255,0.08)] hover:bg-[rgba(255,255,255,0.12)] rounded-xl font-medium text-sm sm:text-base w-[100px] sm:w-auto'
