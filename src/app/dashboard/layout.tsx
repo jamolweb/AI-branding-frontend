@@ -95,36 +95,31 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
             onNavigate(item.href);
           }
         }}
-        className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
-          isItemActive
+        className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${isItemActive
             ? 'bg-[rgb(239,252,118)]'
             : 'hover:bg-[rgba(255,255,255,0.1)]'
-        }`}
+          }`}
       >
         {item.icon && (
           <item.icon
-            className={`w-4 h-4 ${
-              isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
-            }`}
+            className={`w-4 h-4 ${isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+              }`}
           />
         )}
         <span
-          className={`text-sm font-medium flex-1 text-left whitespace-nowrap ${
-            isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
-          }`}
+          className={`text-sm font-medium flex-1 text-left whitespace-nowrap ${isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+            }`}
         >
           {item.label}
         </span>
         {hasChildren && (
           <div
-            className={`transition-transform duration-200 ${
-              isOpen ? 'rotate-180' : ''
-            }`}
+            className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
+              }`}
           >
             <ChevronDown
-              className={`w-4 h-4 ${
-                isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
-              }`}
+              className={`w-4 h-4 ${isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+                }`}
             />
           </div>
         )}
@@ -142,42 +137,37 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
                     onNavigate(child.href);
                   }
                 }}
-                className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
-                  isActive(child.href)
+                className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${isActive(child.href)
                     ? 'bg-[rgb(239,252,118)]'
                     : 'hover:bg-[rgba(255,255,255,0.1)]'
-                }`}
+                  }`}
               >
                 {child.icon && (
                   <child.icon
-                    className={`w-4 h-4 ${
-                      isActive(child.href)
+                    className={`w-4 h-4 ${isActive(child.href)
                         ? 'text-black'
                         : 'text-[rgba(255,255,255,0.8)]'
-                    }`}
+                      }`}
                   />
                 )}
                 <span
-                  className={`text-sm font-medium whitespace-nowrap ${
-                    isActive(child.href)
+                  className={`text-sm font-medium whitespace-nowrap ${isActive(child.href)
                       ? 'text-black'
                       : 'text-[rgba(255,255,255,0.8)]'
-                  }`}
+                    }`}
                 >
                   {child.label}
                 </span>
                 {child.children && (
                   <div
-                    className={`transition-transform duration-200 ${
-                      isOpen ? 'rotate-180' : ''
-                    }`}
+                    className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
+                      }`}
                   >
                     <ChevronDown
-                      className={`w-4 h-4 ${
-                        isActive(child.href)
+                      className={`w-4 h-4 ${isActive(child.href)
                           ? 'text-black'
                           : 'text-[rgba(255,255,255,0.8)]'
-                      }`}
+                        }`}
                     />
                   </div>
                 )}
@@ -188,27 +178,24 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
                     <button
                       key={grandChild.href}
                       onClick={() => onNavigate(grandChild.href)}
-                      className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
-                        isActive(grandChild.href)
+                      className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${isActive(grandChild.href)
                           ? 'bg-[rgb(239,252,118)]'
                           : 'hover:bg-[rgba(255,255,255,0.1)]'
-                      }`}
+                        }`}
                     >
                       {grandChild.icon && (
                         <grandChild.icon
-                          className={`w-4 h-4 ${
-                            isActive(grandChild.href)
+                          className={`w-4 h-4 ${isActive(grandChild.href)
                               ? 'text-black'
                               : 'text-[rgba(255,255,255,0.8)]'
-                          }`}
+                            }`}
                         />
                       )}
                       <span
-                        className={`text-sm font-medium whitespace-nowrap ${
-                          isActive(grandChild.href)
+                        className={`text-sm font-medium whitespace-nowrap ${isActive(grandChild.href)
                             ? 'text-black'
                             : 'text-[rgba(255,255,255,0.8)]'
-                        }`}
+                          }`}
                       >
                         {grandChild.label}
                       </span>
@@ -313,8 +300,8 @@ export default function DashboardLayout({
       searchQuery.trim() === ''
         ? flattenedNavItems // <-- Show all items when query is empty
         : flattenedNavItems.filter((item) =>
-            item.label.toLowerCase().includes(searchQuery.toLowerCase()),
-          );
+          item.label.toLowerCase().includes(searchQuery.toLowerCase()),
+        );
     setFilteredResults(results);
   }, [searchQuery, flattenedNavItems]);
 
@@ -469,9 +456,8 @@ export default function DashboardLayout({
       )}
 
       <aside
-        className={`fixed lg:static inset-y-0 left-0 w-[280px] sm:w-64 border-r border-[rgba(255,255,255,0.1)] flex flex-col bg-[rgb(16,16,16)] transform transition-transform duration-300 ease-in-out z-30 ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`}
+        className={`fixed lg:static inset-y-0 left-0 w-[280px] sm:w-64 border-r border-[rgba(255,255,255,0.1)] flex flex-col transform transition-transform duration-300 ease-in-out z-30 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          }`}
       >
         <div className="p-3 sm:p-4 border-b border-[rgba(255,255,255,0.1)] flex items-center justify-between">
           <h1 className="text-lg sm:text-xl font-semibold flex items-center gap-2 text-white">
