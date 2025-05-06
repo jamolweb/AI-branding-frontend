@@ -11,8 +11,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { SearchableSelect } from '@/components/ui/searchable-select';
 import { api } from '@/services/api';
 import { brandbookService } from '@/services/brandbook';
+import { popularFonts } from '@/data/brandbook';
 import { CreateBrandbookRequest } from '@/types/brandbook';
 import { Loader2, Upload, ArrowLeft, ArrowRight, Trash2, Wand2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -160,6 +162,11 @@ export function BrandbookForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (stepError) setStepError(null);
+  };
+
+  const handleFontChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (stepError) setStepError(null);
   };
@@ -659,7 +666,7 @@ export function BrandbookForm() {
                 {formData.brandColors?.map((color, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 p-3 border border-gray-700/50 rounded-md bg-[#1f1f1f]"
+                    className="flex items-center text-white gap-2 p-3 border border-gray-700/50 rounded-md bg-[#1f1f1f]"
                   >
                     <Input
                       type="text"
@@ -722,27 +729,26 @@ export function BrandbookForm() {
                 <Label htmlFor="primaryFontName" className="text-white/80">
                   Primary Font Name *
                 </Label>
-                <Input
-                  id="primaryFontName"
-                  name="primaryFontName"
-                  value={formData.primaryFontName}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="e.g., Inter, Poppins"
-                  className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
+                <SearchableSelect
+                  options={popularFonts}
+                  value={formData.primaryFontName || ''}
+                  onChange={(value) => handleFontChange('primaryFontName', value)}
+                  placeholder="Select primary font"
+                  searchPlaceholder="Search fonts..."
+                  emptyMessage="No matching fonts found"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="secondaryFontName" className="text-white/80">
                   Secondary Font Name (Optional)
                 </Label>
-                <Input
-                  id="secondaryFontName"
-                  name="secondaryFontName"
-                  value={formData.secondaryFontName}
-                  onChange={handleInputChange}
-                  placeholder="e.g., Roboto Slab"
-                  className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
+                <SearchableSelect
+                  options={popularFonts}
+                  value={formData.secondaryFontName || ''}
+                  onChange={(value) => handleFontChange('secondaryFontName', value)}
+                  placeholder="Select secondary font"
+                  searchPlaceholder="Search fonts..."
+                  emptyMessage="No matching fonts found"
                 />
               </div>
             </div>
