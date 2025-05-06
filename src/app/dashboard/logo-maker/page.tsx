@@ -15,6 +15,7 @@ import ImageModal from './components/ImageModal'
 
 // Import types
 import { Message } from './types'
+import { api } from '@/services/api'
 
 export default function LogoMaker() {
 	const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -40,18 +41,11 @@ export default function LogoMaker() {
 
 		setIsLoading(true)
 		try {
-			const accessToken = authService.getAccessToken()
-			const response = await axios.post(
-				`${API_URL}/logo/deepseek/make-prompt-better`,
+			const response = await api.post(
+				`${API_URL}/deepseek/make-prompt-better`,
 				{
 					text: description,
 				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${accessToken}`,
-					},
-				}
 			)
 			setDescription(response.data)
 		} catch (error) {

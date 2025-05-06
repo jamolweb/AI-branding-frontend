@@ -11,9 +11,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { api } from '@/services/api';
 import { brandbookService } from '@/services/brandbook';
 import { CreateBrandbookRequest } from '@/types/brandbook';
-import { Loader2, Upload, ArrowLeft, ArrowRight, Trash2 } from 'lucide-react';
+import { Loader2, Upload, ArrowLeft, ArrowRight, Trash2, Wand2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -64,11 +65,10 @@ const Stepper: React.FC<StepperProps> = ({
             {/* Connecting line (adjust vertical alignment if needed) */}
             {stepNumber > 1 && (
               <div
-                className={`flex-1 h-0.5 mt-4 transition-colors duration-300 ${
-                  isCompleted || isActive
-                    ? 'bg-[rgb(239,252,118)]'
-                    : 'bg-gray-600'
-                }`}
+                className={`flex-1 h-0.5 mt-4 transition-colors duration-300 ${isCompleted || isActive
+                  ? 'bg-[rgb(239,252,118)]'
+                  : 'bg-gray-600'
+                  }`}
                 style={{ minWidth: '20px' }} // Ensure line has some width
               />
             )}
@@ -81,25 +81,23 @@ const Stepper: React.FC<StepperProps> = ({
               {/* Added container with fixed width */}
               {/* Step Circle */}
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 mb-1 ${
-                  isActive
-                    ? 'bg-[rgb(239,252,118)] text-black'
-                    : isCompleted
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 mb-1 ${isActive
+                  ? 'bg-[rgb(239,252,118)] text-black'
+                  : isCompleted
                     ? 'bg-[rgba(239,252,118,0.5)] text-gray-800'
                     : 'bg-gray-600 text-gray-400'
-                }`}
+                  }`}
               >
                 <span className="font-semibold text-sm">{stepNumber}</span>
               </div>
               {/* Step Label */}
               <span
-                className={`text-xs text-center transition-colors duration-300 ${
-                  isActive
-                    ? 'text-[rgb(239,252,118)]'
-                    : isCompleted
+                className={`text-xs text-center transition-colors duration-300 ${isActive
+                  ? 'text-[rgb(239,252,118)]'
+                  : isCompleted
                     ? 'text-gray-400'
                     : 'text-gray-500'
-                }`}
+                  }`}
               >
                 {stepName}
               </span>
@@ -116,6 +114,7 @@ export function BrandbookForm() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1); // Step state
   const [loading, setLoading] = useState(false);
+  const [enhanceLoading, setEnhanceLoading] = useState(false); // Loading state for enhance prompt button
   const [error, setError] = useState<string | null>(null);
   const [stepError, setStepError] = useState<string | null>(null); // Error for current step validation
 
@@ -151,7 +150,7 @@ export function BrandbookForm() {
       },
     ],
   });
-  
+
   const [logoFile, setLogoFile] = useState<File | null>(null);
   // const [referenceImageFiles, setReferenceImageFiles] = useState<File[]>([]); // Keep commented for now
   // --- End State ---
@@ -425,15 +424,104 @@ export function BrandbookForm() {
               <Label htmlFor="companyDescription" className="text-white/80">
                 Company Description *
               </Label>
-              <Textarea
-                id="companyDescription"
-                name="companyDescription"
-                value={formData.companyDescription}
-                onChange={handleInputChange}
-                required
-                placeholder="Briefly describe what your company does or offers."
-                className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
-              />
+              <div className="flex flex-col space-y-2">
+                <Textarea
+                  id="companyDescription"
+                  name="companyDescription"
+                  value={formData.companyDescription}
+                  onChange={handleInputChange}
+                  required
+                  placeholder="Briefly describe what your company does or offers."
+                  className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
+                />
+                <div className="flex justify-end">
+                  <Button
+                    type="button"
+                    size="sm"
+                    onClick={async () => {
+                      try {
+                        setEnhanceLoading(true);
+
+                        const response = await api.post(
+                          `/deepseek/make-prompt-better`,
+                          {
+                            text: formData.companyDescription,
+                          }
+                        );
+
+                        // Extract the enhanced text from the response
+                        let enhancedText = '';
+
+                        console.log(response.data);
+                        if (response.data && typeof response.data === 'string') {
+                          // First, try to extract text between quotes inside asterisks
+                          // Pattern: *"text"*
+                          const quoteMatch = response.data.match(/\*"([^"]*)"\*/);
+                          if (quoteMatch && quoteMatch[1]) {
+                            enhancedText = quoteMatch[1];
+                          } else {
+                            // Second, try to extract any text between asterisks
+                            // Pattern: *text*
+                            const asteriskMatch = response.data.match(/\*([^\*]*)\*/);
+                            if (asteriskMatch && asteriskMatch[1]) {
+                              // Check if there are quotes inside and extract from them
+                              if (asteriskMatch[1].startsWith('"') && asteriskMatch[1].endsWith('"')) {
+                                enhancedText = asteriskMatch[1].slice(1, -1).trim();
+                              } else {
+                                enhancedText = asteriskMatch[1].trim();
+                              }
+                            } else {
+                              // Last resort: strip all markdown formatting
+                              enhancedText = response.data
+                                .replace(/\*\*Enhanced Prompt:\*\*/g, '')
+                                .replace(/\*/g, '')
+                                .replace(/\"([^\"]*)\"/, '$1') // Extract text from quotes
+                                .replace(/\([^\)]*\)/g, '') // Remove parenthetical comments
+                                .trim();
+                            }
+                          }
+                        } else if (response.data && response.data.enhancedText) {
+                          // If the response is in the expected format with enhancedText property
+                          enhancedText = response.data.enhancedText;
+                        } else {
+                          throw new Error('Invalid response format');
+                        }
+
+                        if (enhancedText) {
+                          const e = {
+                            target: {
+                              name: 'companyDescription',
+                              value: enhancedText
+                            }
+                          } as React.ChangeEvent<HTMLTextAreaElement>;
+                          handleInputChange(e);
+                        }
+                      } catch (error) {
+                        console.error('Error enhancing prompt:', error);
+                        setError('Failed to enhance prompt. Please try again.');
+                      } finally {
+                        setEnhanceLoading(false);
+                      }
+                    }}
+                    className="bg-[rgb(239,252,118)] hover:bg-[rgb(220,232,108)] text-black text-xs py-1 px-2"
+                    disabled={!formData.companyDescription || enhanceLoading}
+                  >
+                    <span className="flex items-center">
+                      {enhanceLoading ? (
+                        <>
+                          <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                          <span>Enhancing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Wand2 className="w-4 h-4 mr-1" />
+                          <span>Enhance Prompt</span>
+                        </>
+                      )}
+                    </span>
+                  </Button>
+                </div>
+              </div>
             </div>
           </>
         );
@@ -617,15 +705,15 @@ export function BrandbookForm() {
                 ))}
                 {(!formData.brandColors ||
                   formData.brandColors.length < MAX_COLORS) && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={addColorField}
-                    className="w-full text-white/70 border-white/20 hover:bg-white/10"
-                  >
-                    + Add Color (up to {MAX_COLORS})
-                  </Button>
-                )}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={addColorField}
+                      className="w-full text-white/70 border-white/20 hover:bg-white/10"
+                    >
+                      + Add Color (up to {MAX_COLORS})
+                    </Button>
+                  )}
               </div>
             </div>
 
