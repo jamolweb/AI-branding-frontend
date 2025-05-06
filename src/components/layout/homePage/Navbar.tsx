@@ -39,7 +39,7 @@ const Navbar = () => {
 					className='text-[21px] text-white tracking-tight font-light hover:text-[rgb(239,252,118)] transition-colors duration-300'
 					style={{ fontFamily: 'var(--framer-font-family)' }}
 				>
-					Fluctus
+					Brandlly
 				</Link>
 
 				<div className='hidden lg:flex items-center gap-8'>

@@ -52,7 +52,7 @@ const PredictiveAnalytics = () => {
 					<div className='absolute top-0 right-0 flex items-center gap-4'>
 						<div className='flex items-center gap-2'>
 							<div className='w-2 h-2 rounded-full bg-[#90EE90]'></div>
-							<span className='text-white text-xs lg:text-sm'>Fluctus</span>
+							<span className='text-white text-xs lg:text-sm'>Brandlly</span>
 						</div>
 						<div className='flex items-center gap-2'>
 							<div className='w-2 h-2 rounded-full bg-[#4A4A4A]'></div>

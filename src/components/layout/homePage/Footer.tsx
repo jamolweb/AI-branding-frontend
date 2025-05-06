@@ -64,7 +64,7 @@ const Footer = () => {
 									/>
 								</svg>
 							</div>
-							<span className='text-3xl font-bold'>Fluctus</span>
+							<span className='text-3xl font-bold'>Brandlly</span>
 						</div>
 						<p className='text-gray-400 max-w-md'>
 							Empowering organizations to harness the full potential of
@@ -197,7 +197,7 @@ const Footer = () => {
 										transform: 'translateY(100px)',
 									}}
 								>
-									Fluctus
+									Brandlly
 								</p>
 							</foreignObject>
 						</svg>

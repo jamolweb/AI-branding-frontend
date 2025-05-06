@@ -22,7 +22,7 @@ const HeroSection = () => {
 
 						<div className='flex flex-col justify-center opacity-100 flex-shrink-0 will-change-transform'>
 							<p className='text-white/80 text-xl max-w-2xl mx-auto'>
-								Fluctus is a flexible and user-friendly template for AI startups
+								Brandlly is a flexible and user-friendly template for AI startups
 								to showcase their solutions and drive business growth.
 							</p>
 						</div>

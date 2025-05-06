@@ -13,7 +13,7 @@ const OurServices = () => {
 			<SectionName name='service' title='Our Services' />
 			<SectionTitle
 				title='How we help you shape your future'
-				description={`Fluctus is a flexible and user-friendly template for AI startups to showcase their solutions and drive business growth.`}
+				description={`Brandlly is a flexible and user-friendly template for AI startups to showcase their solutions and drive business growth.`}
 			/>
 			<div className='grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-3 gap-4 w-full max-w-[1500px] mx-auto lg:h-[850px] auto-rows-auto'>
 				<div className='lg:col-span-1 lg:row-span-2'>

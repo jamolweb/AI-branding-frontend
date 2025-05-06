@@ -96,8 +96,8 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
           }
         }}
         className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${isItemActive
-            ? 'bg-[rgb(239,252,118)]'
-            : 'hover:bg-[rgba(255,255,255,0.1)]'
+          ? 'bg-[rgb(239,252,118)]'
+          : 'hover:bg-[rgba(255,255,255,0.1)]'
           }`}
       >
         {item.icon && (
@@ -138,22 +138,22 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
                   }
                 }}
                 className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${isActive(child.href)
-                    ? 'bg-[rgb(239,252,118)]'
-                    : 'hover:bg-[rgba(255,255,255,0.1)]'
+                  ? 'bg-[rgb(239,252,118)]'
+                  : 'hover:bg-[rgba(255,255,255,0.1)]'
                   }`}
               >
                 {child.icon && (
                   <child.icon
                     className={`w-4 h-4 ${isActive(child.href)
-                        ? 'text-black'
-                        : 'text-[rgba(255,255,255,0.8)]'
+                      ? 'text-black'
+                      : 'text-[rgba(255,255,255,0.8)]'
                       }`}
                   />
                 )}
                 <span
                   className={`text-sm font-medium whitespace-nowrap ${isActive(child.href)
-                      ? 'text-black'
-                      : 'text-[rgba(255,255,255,0.8)]'
+                    ? 'text-black'
+                    : 'text-[rgba(255,255,255,0.8)]'
                     }`}
                 >
                   {child.label}
@@ -165,8 +165,8 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
                   >
                     <ChevronDown
                       className={`w-4 h-4 ${isActive(child.href)
-                          ? 'text-black'
-                          : 'text-[rgba(255,255,255,0.8)]'
+                        ? 'text-black'
+                        : 'text-[rgba(255,255,255,0.8)]'
                         }`}
                     />
                   </div>
@@ -179,22 +179,22 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
                       key={grandChild.href}
                       onClick={() => onNavigate(grandChild.href)}
                       className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${isActive(grandChild.href)
-                          ? 'bg-[rgb(239,252,118)]'
-                          : 'hover:bg-[rgba(255,255,255,0.1)]'
+                        ? 'bg-[rgb(239,252,118)]'
+                        : 'hover:bg-[rgba(255,255,255,0.1)]'
                         }`}
                     >
                       {grandChild.icon && (
                         <grandChild.icon
                           className={`w-4 h-4 ${isActive(grandChild.href)
-                              ? 'text-black'
-                              : 'text-[rgba(255,255,255,0.8)]'
+                            ? 'text-black'
+                            : 'text-[rgba(255,255,255,0.8)]'
                             }`}
                         />
                       )}
                       <span
                         className={`text-sm font-medium whitespace-nowrap ${isActive(grandChild.href)
-                            ? 'text-black'
-                            : 'text-[rgba(255,255,255,0.8)]'
+                          ? 'text-black'
+                          : 'text-[rgba(255,255,255,0.8)]'
                           }`}
                       >
                         {grandChild.label}
@@ -462,7 +462,7 @@ export default function DashboardLayout({
         <div className="p-3 sm:p-4 border-b border-[rgba(255,255,255,0.1)] flex items-center justify-between">
           <h1 className="text-lg sm:text-xl font-semibold flex items-center gap-2 text-white">
             <Logo />
-            <span className="whitespace-nowrap">Fluctus</span>
+            <span className="whitespace-nowrap">Brandlly</span>
           </h1>
           <button
             className="lg:hidden text-white hover:text-[rgb(239,252,118)] transition-colors p-1"
