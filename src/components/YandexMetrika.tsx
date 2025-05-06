@@ -1,9 +1,13 @@
 'use client'
 
-import Script from 'next/script'
-import Image from 'next/image'
+import Script from 'next/script';
+import Image from 'next/image';
 
 export default function YandexMetrika() {
+  if (process.env.NODE_ENV !== 'production') {
+    return null;
+  }
+
   return (
     <>
       <Script id="yandex-metrika" strategy="afterInteractive">
@@ -23,13 +27,13 @@ export default function YandexMetrika() {
       </Script>
       <noscript>
         <div>
-          <Image 
-            src="https://mc.yandex.ru/watch/101578668" 
-            width={1} 
-            height={1} 
-            alt="Yandex Metrika" 
-            style={{ position: 'absolute', left: '-9999px' }} 
-            unoptimized 
+          <Image
+            src="https://mc.yandex.ru/watch/101578668"
+            width={1}
+            height={1}
+            alt="Yandex Metrika"
+            style={{ position: 'absolute', left: '-9999px' }}
+            unoptimized
           />
         </div>
       </noscript>
