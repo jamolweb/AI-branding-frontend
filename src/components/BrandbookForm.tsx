@@ -2,11 +2,11 @@
 
 import { Button } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -158,7 +158,7 @@ export function BrandbookForm() {
   // --- End State ---
 
   // --- Input Handlers ---
-  const handleInputChange = (
+	const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
@@ -207,8 +207,8 @@ export function BrandbookForm() {
     });
   };
 
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
+	const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files?.[0]) {
       const file = e.target.files[0];
       if (file.size > 5 * 1024 * 1024) {
         setStepError('Logo file size cannot exceed 5MB.');
@@ -313,7 +313,7 @@ export function BrandbookForm() {
     setError(null);
     setStepError(null);
 
-    if (!logoFile) {
+			if (!logoFile) {
       setError('Logo file is missing.');
       setLoading(false);
       setCurrentStep(3); // Go back to visuals step
@@ -327,7 +327,7 @@ export function BrandbookForm() {
       );
 
       // Construct final request data, ensuring required fields are present
-      const requestData: CreateBrandbookRequest = {
+			const requestData: CreateBrandbookRequest = {
         companyName: formData.companyName || '',
         tagline: formData.tagline,
         industry: formData.industry,
@@ -369,16 +369,16 @@ export function BrandbookForm() {
       const result = await brandbookService.create(backendFormData); // Pass FormData
 
       router.push(`/dashboard/brandbook/view/${result.id}`);
-    } catch (err) {
+		} catch (err) {
       console.error('Submission error:', err);
       setError(
         err instanceof Error
           ? err.message
           : 'Failed to create brandbook. Please try again.',
       );
-    } finally {
+		} finally {
       setLoading(false);
-    }
+		}
   };
   // --- End Form Submission ---
 
@@ -386,18 +386,18 @@ export function BrandbookForm() {
   const renderStepContent = () => {
     switch (currentStep) {
       case 1: // Core Info
-        return (
+	return (
           <>
             <div className="space-y-2">
               <Label htmlFor="companyName" className="text-white/80">
-                Company Name *
-              </Label>
-              <Input
+							Company Name *
+						</Label>
+						<Input
                 id="companyName"
                 name="companyName"
-                value={formData.companyName}
-                onChange={handleInputChange}
-                required
+							value={formData.companyName}
+							onChange={handleInputChange}
+							required
                 className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
               />
             </div>
@@ -411,33 +411,33 @@ export function BrandbookForm() {
                 value={formData.tagline}
                 onChange={handleInputChange}
                 className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
-              />
-            </div>
+						/>
+					</div>
             <div className="space-y-2">
               <Label htmlFor="industry" className="text-white/80">
-                Industry *
-              </Label>
-              <Input
+							Industry *
+						</Label>
+						<Input
                 id="industry"
                 name="industry"
-                value={formData.industry}
-                onChange={handleInputChange}
-                required
+							value={formData.industry}
+							onChange={handleInputChange}
+							required
                 placeholder="e.g., Technology, Fashion, Finance"
                 className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
-              />
-            </div>
+						/>
+					</div>
             <div className="space-y-2">
               <Label htmlFor="companyDescription" className="text-white/80">
                 Company Description *
-              </Label>
+						</Label>
               <div className="flex flex-col space-y-2">
-                <Textarea
+						<Textarea
                   id="companyDescription"
                   name="companyDescription"
                   value={formData.companyDescription}
-                  onChange={handleInputChange}
-                  required
+							onChange={handleInputChange}
+							required
                   placeholder="Briefly describe what your company does or offers."
                   className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
                 />
@@ -529,7 +529,7 @@ export function BrandbookForm() {
                   </Button>
                 </div>
               </div>
-            </div>
+					</div>
           </>
         );
       case 2: // AI Guidance
@@ -538,89 +538,89 @@ export function BrandbookForm() {
             <div className="space-y-2">
               <Label htmlFor="targetAudience" className="text-white/80">
                 Target Audience *
-              </Label>
+							</Label>
               <Textarea
                 id="targetAudience"
                 name="targetAudience"
                 value={formData.targetAudience}
-                onChange={handleInputChange}
-                required
+								onChange={handleInputChange}
+								required
                 placeholder="Describe your ideal customer or audience."
                 className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
-              />
-            </div>
+							/>
+						</div>
             <div className="space-y-2">
               <Label
                 htmlFor="brandPersonalityKeywords"
                 className="text-white/80"
               >
                 Brand Personality Keywords *
-              </Label>
-              <Input
+							</Label>
+							<Input
                 id="brandPersonalityKeywords"
                 name="brandPersonalityKeywords"
                 value={formData.brandPersonalityKeywords}
-                onChange={handleInputChange}
-                required
+								onChange={handleInputChange}
+								required
                 placeholder="e.g., Modern, playful, luxurious, eco-friendly"
                 className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
-              />
-            </div>
+							/>
+						</div>
             <div className="space-y-2">
               <Label htmlFor="visualStyleKeywords" className="text-white/80">
                 Visual Style Keywords *
-              </Label>
-              <Input
+						</Label>
+						<Input
                 id="visualStyleKeywords"
                 name="visualStyleKeywords"
                 value={formData.visualStyleKeywords}
-                onChange={handleInputChange}
-                required
+							onChange={handleInputChange}
+							required
                 placeholder="e.g., Minimalist, geometric, photographic, dark"
                 className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
-              />
-            </div>
+						/>
+					</div>
             <div className="space-y-2">
               <Label htmlFor="toneOfVoice" className="text-white/80">
                 Tone of Voice *
-              </Label>
+						</Label>
               {/* TODO: Consider changing to Select/Radio if predefined options exist */}
-              <Input
+						<Input
                 id="toneOfVoice"
                 name="toneOfVoice"
                 value={formData.toneOfVoice}
-                onChange={handleInputChange}
+							onChange={handleInputChange}
                 required
                 placeholder="e.g., Professional, friendly, witty, authoritative"
                 className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
-              />
-            </div>
+						/>
+					</div>
             <div className="space-y-2">
               <Label htmlFor="missionStatement" className="text-white/80">
                 Mission Statement (Optional)
-              </Label>
+							</Label>
               <Textarea
                 id="missionStatement"
                 name="missionStatement"
                 value={formData.missionStatement}
-                onChange={handleInputChange}
+								onChange={handleInputChange}
                 placeholder="Enter if defined, otherwise AI will generate."
                 className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
-              />
-            </div>
+							/>
+						</div>
             <div className="space-y-2">
               <Label htmlFor="visionStatement" className="text-white/80">
                 Vision Statement (Optional)
-              </Label>
+							</Label>
               <Textarea
                 id="visionStatement"
                 name="visionStatement"
                 value={formData.visionStatement}
-                onChange={handleInputChange}
+								onChange={handleInputChange}
                 placeholder="Enter if defined, otherwise AI will generate."
                 className="bg-[#1a1a1a] border-gray-800 text-white focus:ring-[rgb(239,252,118)] focus:border-[rgb(239,252,118)]"
-              />
-            </div>
+							/>
+						</div>
           </>
         );
       case 3: // Visual Identity
@@ -629,15 +629,15 @@ export function BrandbookForm() {
             <div className="space-y-2">
               <Label className="text-white/80">Logo *</Label>
               <div className="flex items-center gap-4 p-4 border border-dashed border-gray-600 rounded-md bg-[#1a1a1a]">
-                <input
+							<input
                   id="logo"
                   name="logo"
                   type="file"
                   accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
-                  onChange={handleLogoChange}
+							onChange={handleLogoChange}
                   className="hidden"
-                  required
-                />
+							required
+						/>
                 <Button
                   type="button"
                   variant="outline"
@@ -647,7 +647,7 @@ export function BrandbookForm() {
                   <Upload className="w-4 h-4 mr-2" />
                   {logoFile ? 'Change Logo' : 'Choose Logo'}
                 </Button>
-                {logoFile && (
+							{logoFile && (
                   <p className="text-sm text-gray-400">
                     Selected: {logoFile.name}
                   </p>
@@ -655,10 +655,10 @@ export function BrandbookForm() {
                 {!logoFile && (
                   <p className="text-sm text-gray-500">
                     Max 5MB (PNG, JPG, GIF, WEBP)
-                  </p>
-                )}
-              </div>
-            </div>
+								</p>
+							)}
+						</div>
+					</div>
 
             <div className="space-y-2">
               <Label className="text-white/80">Brand Colors *</Label>
@@ -926,7 +926,7 @@ export function BrandbookForm() {
             </div>
           )}
           {renderStepContent()}
-        </CardContent>
+				</CardContent>
         <CardFooter className="flex justify-between gap-4 mt-6">
           {' '}
           {/* Added margin-top */}
@@ -942,14 +942,14 @@ export function BrandbookForm() {
           </Button>
           {/* Next Button */}
           {currentStep < TOTAL_STEPS && (
-            <Button
+					<Button
               type="button"
               onClick={nextStep}
               disabled={loading}
               className="bg-[rgb(239,252,118)] hover:bg-[rgb(220,232,108)] text-black"
             >
               Next <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+					</Button>
           )}
           {/* Submit Button */}
           {currentStep === TOTAL_STEPS && (
@@ -961,10 +961,10 @@ export function BrandbookForm() {
             >
               {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}{' '}
               {loading ? 'Generating Brandbook...' : 'Generate Brandbook'}
-            </Button>
+					</Button>
           )}
-        </CardFooter>
+				</CardFooter>
       </div>
-    </Card>
+		</Card>
   );
 }
