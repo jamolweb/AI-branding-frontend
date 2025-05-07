@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import YandexMetrika from '@/components/YandexMetrika'
+import { TailwindIndicator } from '@/components/tailwind-indicator'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -28,6 +29,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
 			>
+				<TailwindIndicator />
 				<YandexMetrika />
 				{children}
 			</body>
