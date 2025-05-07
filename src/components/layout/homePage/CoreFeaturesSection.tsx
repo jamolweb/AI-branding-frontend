@@ -25,7 +25,7 @@ const CoreFeaturesSection = () => {
       description: "Live sites on your own subdomain"
     },
     {
-      icon: <Image className="w-6 h-6" />,
+      icon: <Image className="w-6 h-6" aria-label="Marketing Visuals Icon" />,
       emoji: "🖼️",
       title: "Marketing Visuals",
       description: "AI-generated images and banners"
@@ -70,6 +70,8 @@ const CoreFeaturesSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className="bg-white/5 backdrop-blur-sm p-6 rounded-xl hover:bg-white/10 transition-all duration-300"
+            role="article"
+            aria-label={`${feature.title} feature`}
           >
             <div className="flex items-center mb-4">
               <span className="text-3xl mr-3">{feature.emoji}</span>

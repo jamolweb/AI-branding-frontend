@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Rocket, Paintbrush, Globe, Clock } from 'lucide-react'
+import { Paintbrush, Globe, Clock } from 'lucide-react'
 
 const WhyBrandllySection = () => {
   const features = [
