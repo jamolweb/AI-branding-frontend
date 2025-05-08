@@ -1,7 +1,7 @@
 import ContactSection from '@/components/layout/homePage/ContactSection'
 import CoreFeaturesSection from '@/components/layout/homePage/CoreFeaturesSection'
 import FaqSection from '@/components/layout/homePage/FaqSection'
-import FeaturesSection from '@/components/layout/homePage/FeaturesSection'
+// import FeaturesSection from '@/components/layout/homePage/FeaturesSection'
 import Footer from '@/components/layout/homePage/Footer'
 import HeroSection from '@/components/layout/homePage/HeroSection'
 import Navbar from '@/components/layout/homePage/Navbar'
@@ -35,7 +35,7 @@ const HomePage = () => {
 					{/* <TrustedBySection /> */}
 					<WhyBrandllySection />
 					<CoreFeaturesSection />
-					<FeaturesSection />
+					{/* <FeaturesSection /> */}
 					<OurServices />
 					<ProcessSection />
 					<TestimonialWithStars />
