@@ -5,7 +5,7 @@ import { authService } from '@/services/auth.service';
 import axios from 'axios';
 import { MessageCircle, Plus, Send } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 interface Message {

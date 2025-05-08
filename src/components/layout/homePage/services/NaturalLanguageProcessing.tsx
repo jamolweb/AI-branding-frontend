@@ -1,6 +1,5 @@
 import ChatInterface from './ChatInterface'
 import ServiceList from './ServiceList'
-import TranslationDemo from './TranslationDemo'
 
 const NaturalLanguageProcessing = () => {
 	return (

@@ -1,12 +1,10 @@
-import { useState } from 'react'
-
 const ChatInterface = () => {
 	return (
 		<div
 			style={{
 				width: '100%',
 				maxWidth: '500px',
-				backgroundColor: '#1e2330',
+				backgroundColor: '#000',
 				borderRadius: '16px',
 				boxShadow: '0 15.4px 34.1px #0003',
 				transform: 'none',
@@ -60,7 +58,7 @@ const ChatInterface = () => {
 				{/* User's question about what they're working on */}
 				<div className='flex flex-col'>
 					<div className='bg-[#2d3748] text-white p-3 rounded-lg self-start max-w-[80%]'>
-						<p className='text-sm'>Tell me more about what you're working on.</p>
+						<p className='text-sm'>Tell me more about what you&apos;re working on.</p>
 					</div>
 					<span className='text-xs text-gray-500 mt-1'>May 8, 03:45 PM</span>
 				</div>
@@ -68,7 +66,7 @@ const ChatInterface = () => {
 				{/* User's message about fashion brand */}
 				<div className='flex flex-col items-end'>
 					<div className='bg-[#effc76] text-[#1e2330] p-3 rounded-lg self-end max-w-[80%]'>
-						<p className='text-sm'>I'd like to get recommendation for my fashion brand</p>
+						<p className='text-sm'>I&apos;d like to get recommendation for my fashion brand</p>
 					</div>
 					<span className='text-xs text-gray-500 mt-1'>May 8, 03:46 PM</span>
 				</div>
@@ -76,14 +74,14 @@ const ChatInterface = () => {
 				{/* AI response with brand identity questions */}
 				<div className='flex flex-col'>
 					<div className='bg-[#2d3748] text-white p-3 rounded-lg self-start max-w-[80%]'>
-						<p className='text-sm mb-2'>That's great! To give you tailored recommendations, I'd love to learn more about your fashion brand. Here are a few key questions to help guide the conversation:</p>
+						<p className='text-sm mb-2'>That&apos;s great! To give you tailored recommendations, I&apos;d love to learn more about your fashion brand. Here are a few key questions to help guide the conversation:</p>
 						<ol className='list-decimal pl-5 space-y-2'>
 							<li className='text-sm'>
 								<span className='font-bold text-[#effc76]'>Brand Identity</span>:
 								<ul className='list-disc pl-5 mt-1 space-y-1'>
-									<li className='text-sm'>What's your brand's name, and what does it stand for?</li>
+									<li className='text-sm'>What&apos;s your brand&apos;s name, and what does it stand for?</li>
 									<li className='text-sm'>Who is your target audience (age, gender, lifestyle, values)?</li>
-									<li className='text-sm'>How would you describe your brand's aesthetic (e.g., minimalist, luxury, streetwear...)?</li>
+									<li className='text-sm'>How would you describe your brand&apos;s aesthetic (e.g., minimalist, luxury, streetwear...)?</li>
 								</ul>
 							</li>
 						</ol>
