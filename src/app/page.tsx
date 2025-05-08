@@ -9,7 +9,7 @@ import OurServices from '@/components/layout/homePage/OurServices'
 import PlansSection from '@/components/layout/homePage/PlansSection'
 import ProcessSection from '@/components/layout/homePage/ProcessSection'
 import TestimonialWithStars from '@/components/layout/homePage/Testimonials'
-import TrustedBySection from '@/components/layout/homePage/TrustedBySection'
+// import TrustedBySection from '@/components/layout/homePage/TrustedBySection'
 import WhyBrandllySection from '@/components/layout/homePage/WhyBrandllySection'
 
 const HomePage = () => {
@@ -32,7 +32,7 @@ const HomePage = () => {
 				<div className='container mx-auto px-4 max-w-6xl'>
 					<Navbar />
 					<HeroSection />
-					<TrustedBySection />
+					{/* <TrustedBySection /> */}
 					<WhyBrandllySection />
 					<CoreFeaturesSection />
 					<FeaturesSection />
