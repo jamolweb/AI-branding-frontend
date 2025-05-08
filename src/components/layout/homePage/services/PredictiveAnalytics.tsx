@@ -4,14 +4,14 @@ const PredictiveAnalytics = () => {
 	return (
 		<div className='bg-black rounded-lg p-4 lg:p-6 shadow-md flex flex-col gap-3 h-full overflow-hidden'>
 			<h3 className='text-2xl lg:text-3xl font-manrope font-semibold tracking-tight text-white'>
-				Predictive Analytics
+				Start Your Startup
 			</h3>
 
 			<ServiceList
 				items={[
-					'demand forecasting',
-					'risk assessment',
-					'time series forecasting',
+					'Branding',
+					'Ads creatives',
+					'Banners Images Many More',
 				]}
 			/>
 
