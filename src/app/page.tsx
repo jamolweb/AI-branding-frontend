@@ -7,8 +7,8 @@ import HeroSection from '@/components/layout/homePage/HeroSection'
 import Navbar from '@/components/layout/homePage/Navbar'
 import OurServices from '@/components/layout/homePage/OurServices'
 import PlansSection from '@/components/layout/homePage/PlansSection'
-import ProcessSection from '@/components/layout/homePage/ProcessSection'
-import TestimonialWithStars from '@/components/layout/homePage/Testimonials'
+// import ProcessSection from '@/components/layout/homePage/ProcessSection'
+// import TestimonialWithStars from '@/components/layout/homePage/Testimonials'
 // import TrustedBySection from '@/components/layout/homePage/TrustedBySection'
 import WhyBrandllySection from '@/components/layout/homePage/WhyBrandllySection'
 
@@ -37,8 +37,8 @@ const HomePage = () => {
 					<CoreFeaturesSection />
 					{/* <FeaturesSection /> */}
 					<OurServices />
-					<ProcessSection />
-					<TestimonialWithStars />
+					{/* <ProcessSection /> */}
+					{/* <TestimonialWithStars /> */}
 					<PlansSection />
 					<FaqSection />
 					<ContactSection />

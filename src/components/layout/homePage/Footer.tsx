@@ -17,8 +17,7 @@ const Footer = () => {
 								Ready to unlock the <br /> power of AI?
 							</h2>
 							<p className='text-xl' style={{ color: 'rgba(0, 0, 0, 0.6)' }}>
-								Transform your business with cutting-edge solutions <br />{' '}
-								tailored to your unique challenges.
+								Your Branding Partner is Here, Create Your Brand By Using AI
 							</p>
 							<div className='mt-4'>
 								<a
