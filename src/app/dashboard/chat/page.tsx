@@ -5,7 +5,7 @@ import { authService } from '@/services/auth.service';
 import axios from 'axios';
 import { MessageCircle, Plus, Send } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 interface Message {
@@ -36,7 +36,7 @@ export default function ChatPage() {
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [streamingContent, setStreamingContent] = useState('');
-  
+
 
   useEffect(() => {
     fetchSessions();
@@ -123,14 +123,14 @@ export default function ChatPage() {
       try {
         while (true) {
           const { done, value } = await reader.read();
-          
+
           if (value) {
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split('\n');
-            
+
             // Process all complete lines
             buffer = lines.pop() || ''; // Keep the last incomplete line in buffer
-            
+
             for (const line of lines) {
               if (line.trim() && line.startsWith('data: ')) {
                 try {
@@ -150,7 +150,7 @@ export default function ChatPage() {
             // Process any remaining data
             const remaining = decoder.decode();
             if (remaining) buffer += remaining;
-            
+
             if (buffer.trim() && buffer.startsWith('data: ')) {
               try {
                 const data = JSON.parse(buffer.slice(6));
@@ -240,8 +240,8 @@ export default function ChatPage() {
               {isHistoryView
                 ? 'Chat History'
                 : currentSessionId
-                ? 'Chat Session'
-                : 'New Chat'}
+                  ? 'Chat Session'
+                  : 'New Chat'}
             </h2>
           </div>
           {!isHistoryView && (
@@ -324,23 +324,21 @@ export default function ChatPage() {
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex ${
-                    message.role === 'USER' ? 'justify-end' : 'justify-start'
-                  }`}
+                  className={`flex ${message.role === 'USER' ? 'justify-end' : 'justify-start'
+                    }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl p-5 shadow-lg ${
-                      message.role === 'USER'
-                        ? 'bg-[rgb(239,252,118)] text-gray-900'
-                        : 'bg-gray-800 text-gray-100'
-                    }`}
+                    className={`max-w-[80%] rounded-xl p-3 shadow-lg ${message.role === 'USER'
+                      ? 'bg-[rgb(239,252,118)] text-gray-900'
+                      : 'bg-gray-800 text-gray-100'
+                      }`}
                   >
                     <div className="prose prose-lg prose-invert max-w-none">
                       <ReactMarkdown
                         components={{
                           h1: (props) => (
                             <h1
-                              className="text-2xl font-bold mb-4"
+                              className="text-2xl font-bold mb-1"
                               {...props}
                             />
                           ),
@@ -357,17 +355,17 @@ export default function ChatPage() {
                             />
                           ),
                           p: (props) => (
-                            <p className="mb-4 leading-relaxed" {...props} />
+                            <p className="mb-1 leading-relaxed" {...props} />
                           ),
                           ul: (props) => (
                             <ul
-                              className="list-disc pl-6 mb-4 space-y-2"
+                              className="list-disc pl-6 mb-1 space-y-2"
                               {...props}
                             />
                           ),
                           ol: (props) => (
                             <ol
-                              className="list-decimal pl-6 mb-4 space-y-2"
+                              className="list-decimal pl-6 mb-1 space-y-2"
                               {...props}
                             />
                           ),
@@ -386,7 +384,7 @@ export default function ChatPage() {
                         {message.content}
                       </ReactMarkdown>
                     </div>
-                    <div className="text-xs mt-3 opacity-60">
+                    <div className="text-xs opacity-60">
                       {formatDate(message.createdAt)}
                     </div>
                   </div>
@@ -418,10 +416,15 @@ export default function ChatPage() {
       {!isHistoryView && (
         <div className="flex-none border-t border-gray-800 p-6">
           <div className="max-w-4xl mx-auto">
-            <div className="flex gap-3">
+            <div className="flex items-end gap-2 relative">
               <textarea
                 value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
+                onChange={(e) => {
+                  setInputMessage(e.target.value);
+                  // Auto-resize textarea
+                  e.target.style.height = 'auto';
+                  e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
+                }}
                 onKeyPress={(e) =>
                   e.key === 'Enter' &&
                   !e.shiftKey &&
@@ -429,20 +432,36 @@ export default function ChatPage() {
                   handleSendMessage()
                 }
                 placeholder="Type your message..."
-                className="flex-1 p-4 bg-gray-800 border-2 border-gray-700 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:border-[rgb(239,252,118)] focus:ring-1 focus:ring-[rgb(239,252,118)] transition-all duration-200 resize-none"
-                rows={1}
+                className="flex-1 p-4 bg-gray-800 border-2 border-gray-700 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:border-[rgb(239,252,118)] focus:ring-1 focus:ring-[rgb(239,252,118)] transition-all duration-200 min-h-[50px] max-h-[200px] overflow-y-auto"
+                style={{ resize: 'none', height: '50px' }}
                 disabled={isLoading}
               />
               <button
                 onClick={handleSendMessage}
                 disabled={isLoading}
-                className="p-4 bg-[rgb(239,252,118)] rounded-xl hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 group relative"
+                className="p-2.5 bg-[rgb(239,252,118)] rounded-full hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 group relative flex-shrink-0 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[rgb(239,252,118)] focus:ring-opacity-50"
+                aria-label="Send message"
               >
-                <Send
-                  className={`w-5 h-5 ${isLoading ? 'animate-pulse' : ''}`}
-                />
-                <div className="absolute inset-0 bg-[rgb(239,252,118)] rounded-xl opacity-25 group-hover:scale-110 transition-transform duration-200"></div>
+                <Send className={`w-4 h-4 ${isLoading ? 'animate-pulse' : ''}`} />
+                <span className="absolute -top-1 -right-1 -left-1 -bottom-1 rounded-full bg-[rgb(239,252,118)] opacity-0 group-hover:opacity-25 scale-0 group-hover:scale-100 transition-all duration-300"></span>
               </button>
+
+              {/* Animated typing indicator */}
+              {isLoading && (
+                <div className="absolute -top-7 left-4 text-xs text-gray-400 flex items-center gap-1 animate-fadeIn bg-gray-800 px-3 py-1.5 rounded-full shadow-md">
+                  <span className="italic">AI is typing</span>
+                  <span className="flex ml-1">
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce mx-0.5" style={{ animationDelay: '150ms' }}></span>
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Character hint */}
+            <div className="mt-2 text-xs text-gray-500 text-right pr-2">
+              <span>Press <kbd className="px-1.5 py-0.5 bg-gray-700 rounded text-gray-300 text-xs">Shift + Enter</kbd> for new line</span>
             </div>
           </div>
         </div>
