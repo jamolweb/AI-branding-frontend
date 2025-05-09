@@ -118,4 +118,21 @@ export const brandbookService = {
     });
     return data;
   },
+
+  async generateLogoWithAI(prompt: string): Promise<{ logoUrl: string }> {
+    const accessToken = authService.getAccessToken();
+
+    const { data } = await api.post(
+      '/brandbook/generate-logo',
+      { prompt },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    return data;
+  },
 };

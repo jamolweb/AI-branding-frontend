@@ -17,9 +17,16 @@ import { brandbookService } from '@/services/brandbook';
 import { popularFonts } from '@/data/brandbook';
 import { CreateBrandbookRequest } from '@/types/brandbook';
 import { NODE_ENV } from '@/env';
-import { Loader2, Upload, ArrowLeft, ArrowRight, Trash2, Wand2 } from 'lucide-react';
+import {
+  Loader2,
+  Upload,
+  ArrowLeft,
+  ArrowRight,
+  Trash2,
+  Wand2,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Define total number of steps and their names
 const TOTAL_STEPS = 5;
@@ -68,10 +75,11 @@ const Stepper: React.FC<StepperProps> = ({
             {/* Connecting line (adjust vertical alignment if needed) */}
             {stepNumber > 1 && (
               <div
-                className={`flex-1 h-0.5 mt-4 transition-colors duration-300 ${isCompleted || isActive
-                  ? 'bg-[rgb(239,252,118)]'
-                  : 'bg-gray-600'
-                  }`}
+                className={`flex-1 h-0.5 mt-4 transition-colors duration-300 ${
+                  isCompleted || isActive
+                    ? 'bg-[rgb(239,252,118)]'
+                    : 'bg-gray-600'
+                }`}
                 style={{ minWidth: '20px' }} // Ensure line has some width
               />
             )}
@@ -84,23 +92,25 @@ const Stepper: React.FC<StepperProps> = ({
               {/* Added container with fixed width */}
               {/* Step Circle */}
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 mb-1 ${isActive
-                  ? 'bg-[rgb(239,252,118)] text-black'
-                  : isCompleted
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 mb-1 ${
+                  isActive
+                    ? 'bg-[rgb(239,252,118)] text-black'
+                    : isCompleted
                     ? 'bg-[rgba(239,252,118,0.5)] text-gray-800'
                     : 'bg-gray-600 text-gray-400'
-                  }`}
+                }`}
               >
                 <span className="font-semibold text-sm">{stepNumber}</span>
               </div>
               {/* Step Label */}
               <span
-                className={`text-xs text-center transition-colors duration-300 ${isActive
-                  ? 'text-[rgb(239,252,118)]'
-                  : isCompleted
+                className={`text-xs text-center transition-colors duration-300 ${
+                  isActive
+                    ? 'text-[rgb(239,252,118)]'
+                    : isCompleted
                     ? 'text-gray-400'
                     : 'text-gray-500'
-                  }`}
+                }`}
               >
                 {stepName}
               </span>
@@ -125,66 +135,91 @@ export function BrandbookForm() {
   const [formData, setFormData] = useState<Partial<CreateBrandbookRequest>>(
     NODE_ENV === 'development'
       ? {
-        // Initialize with default data in development environment
-        companyName: 'LuminoTech',
-        tagline: 'Empowering Tomorrow Through Intelligent, Sustainable Energy Solutions',
-        industry: 'Technology',
-        companyDescription: 'LuminoTech stands at the forefront of the global movement toward sustainable energy, offering state-of-the-art smart technologies designed to reduce carbon emissions, optimize energy consumption, and reshape how the world powers its future. Our solutions combine advanced data analytics, renewable energy integration, and IoT-enabled systems to empower businesses and communities with cleaner, smarter energy choices.',
-        targetAudience: 'Businesses, communities, and individuals interested in adopting smart, sustainable energy solutions, reducing their carbon footprint, and integrating renewable energy systems and IoT technologies.',
-        brandPersonalityKeywords: 'Innovative, sustainable, intelligent, eco-friendly, forward-thinking',
-        visualStyleKeywords: 'Minimalist, modern, clean, geometric, tech-focused',
-        toneOfVoice: 'Professional, authoritative, empowering, visionary',
-        missionStatement: 'Our mission is to drive the global transition to sustainable energy by delivering innovative, intelligent, and accessible technology solutions that enhance efficiency, reduce environmental impact, and promote energy independence for all.',
-        visionStatement: 'We envision a future where every home, business, and city is powered by intelligent energy systems that are clean, efficient, and resilient—creating a healthier planet and a more sustainable tomorrow.',
-        primaryFontName: 'Poppins',
-        secondaryFontName: 'Roboto',
-        contactEmail: 'maya.chen@luminotech.io',
-        contactWebsite: 'https://www.luminotech.io',
-        contactPhone: '',
-        contactAddress: '',
-        brandColors: [
-          {
-            name: 'Primary',
-            value: '#00A86B',
-            usageNote: 'Main call-to-action color',
-          },
-          {
-            name: 'Secondary',
-            value: '#1A1A1A',
-            usageNote: 'Backgrounds, dark text',
-          },
-        ],
-      }
+          // Initialize with default data in development environment
+          companyName: 'LuminoTech',
+          tagline:
+            'Empowering Tomorrow Through Intelligent, Sustainable Energy Solutions',
+          industry: 'Technology',
+          companyDescription:
+            'LuminoTech stands at the forefront of the global movement toward sustainable energy, offering state-of-the-art smart technologies designed to reduce carbon emissions, optimize energy consumption, and reshape how the world powers its future. Our solutions combine advanced data analytics, renewable energy integration, and IoT-enabled systems to empower businesses and communities with cleaner, smarter energy choices.',
+          targetAudience:
+            'Businesses, communities, and individuals interested in adopting smart, sustainable energy solutions, reducing their carbon footprint, and integrating renewable energy systems and IoT technologies.',
+          brandPersonalityKeywords:
+            'Innovative, sustainable, intelligent, eco-friendly, forward-thinking',
+          visualStyleKeywords:
+            'Minimalist, modern, clean, geometric, tech-focused',
+          toneOfVoice: 'Professional, authoritative, empowering, visionary',
+          missionStatement:
+            'Our mission is to drive the global transition to sustainable energy by delivering innovative, intelligent, and accessible technology solutions that enhance efficiency, reduce environmental impact, and promote energy independence for all.',
+          visionStatement:
+            'We envision a future where every home, business, and city is powered by intelligent energy systems that are clean, efficient, and resilient—creating a healthier planet and a more sustainable tomorrow.',
+          primaryFontName: 'Poppins',
+          secondaryFontName: 'Roboto',
+          contactEmail: 'maya.chen@luminotech.io',
+          contactWebsite: 'https://www.luminotech.io',
+          contactPhone: '',
+          contactAddress: '',
+          brandColors: [
+            {
+              name: 'Primary',
+              value: '#00A86B',
+              usageNote: 'Main call-to-action color',
+            },
+            {
+              name: 'Secondary',
+              value: '#1A1A1A',
+              usageNote: 'Backgrounds, dark text',
+            },
+          ],
+        }
       : {
-        companyName: '',
-        tagline: '',
-        industry: '',
-        companyDescription: '',
-        targetAudience: '',
-        brandPersonalityKeywords: '',
-        visualStyleKeywords: '',
-        toneOfVoice: '',
-        missionStatement: '',
-        visionStatement: '',
-        primaryFontName: '',
-        secondaryFontName: '',
-        contactEmail: '',
-        contactWebsite: '',
-        contactPhone: '',
-        contactAddress: '',
-        brandColors: [
-          {
-            name: '',
-            value: '#000000',
-            usageNote: '',
-          },
-        ],
-      }
+          companyName: '',
+          tagline: '',
+          industry: '',
+          companyDescription: '',
+          targetAudience: '',
+          brandPersonalityKeywords: '',
+          visualStyleKeywords: '',
+          toneOfVoice: '',
+          missionStatement: '',
+          visionStatement: '',
+          primaryFontName: '',
+          secondaryFontName: '',
+          contactEmail: '',
+          contactWebsite: '',
+          contactPhone: '',
+          contactAddress: '',
+          brandColors: [
+            {
+              name: '',
+              value: '#000000',
+              usageNote: '',
+            },
+          ],
+        },
   );
 
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [isGeneratingLogo, setIsGeneratingLogo] = useState(false);
+  const [generatedLogoUrl, setGeneratedLogoUrl] = useState<string | null>(null);
+  const [logoPreviewUrl, setLogoPreviewUrl] = useState<string | null>(null);
   // const [referenceImageFiles, setReferenceImageFiles] = useState<File[]>([]); // Keep commented for now
   // --- End State ---
+
+  // Clean up any object URLs when component unmounts or when logo changes
+  useEffect(() => {
+    if (logoFile) {
+      // Create a new object URL from the file
+      const objectUrl = URL.createObjectURL(logoFile);
+      setLogoPreviewUrl(objectUrl);
+
+      // Clean up function to revoke the URL when it's no longer needed
+      return () => {
+        URL.revokeObjectURL(objectUrl);
+      };
+    }
+    return undefined;
+  }, [logoFile]);
 
   // --- Input Handlers ---
   const handleInputChange = (
@@ -262,6 +297,64 @@ export function BrandbookForm() {
       }
       setLogoFile(file);
       setStepError(null);
+    }
+  };
+
+  // Function to handle AI logo generation
+  const handleGenerateLogo = async () => {
+    if (!formData.companyName || !formData.industry) {
+      setStepError(
+        'Please provide Company Name and Industry to generate a relevant logo.',
+      );
+      return;
+    }
+
+    try {
+      setIsGeneratingLogo(true);
+      setStepError(null);
+
+      // Create a prompt using available company information
+      const prompt = `Create a professional logo for ${
+        formData.companyName
+      }, a company in the ${formData.industry} industry. ${
+        formData.tagline ? `Tagline: "${formData.tagline}". ` : ''
+      }${
+        formData.brandPersonalityKeywords
+          ? `Brand personality: ${formData.brandPersonalityKeywords}. `
+          : ''
+      }${
+        formData.visualStyleKeywords
+          ? `Visual style: ${formData.visualStyleKeywords}.`
+          : ''
+      }`;
+
+      const result = await brandbookService.generateLogoWithAI(prompt);
+
+      if (result.logoUrl) {
+        setGeneratedLogoUrl(result.logoUrl);
+
+        // Convert data URL to File object
+        const fetchResponse = await fetch(result.logoUrl);
+        const blob = await fetchResponse.blob();
+        const file = new File(
+          [blob],
+          `${formData.companyName.replace(/\s+/g, '_')}_AI_Logo.png`,
+          { type: 'image/png' },
+        );
+
+        setLogoFile(file);
+      } else {
+        setStepError(
+          'Failed to generate logo. Please try again or upload one manually.',
+        );
+      }
+    } catch (error) {
+      console.error('Logo generation error:', error);
+      setStepError(
+        'Error generating logo. Please try again or upload one manually.',
+      );
+    } finally {
+      setIsGeneratingLogo(false);
     }
   };
   // --- End Input Handlers ---
@@ -482,27 +575,37 @@ export function BrandbookForm() {
                           `/deepseek/make-prompt-better`,
                           {
                             text: formData.companyDescription,
-                          }
+                          },
                         );
 
                         // Extract the enhanced text from the response
                         let enhancedText = '';
 
                         console.log(response.data);
-                        if (response.data && typeof response.data === 'string') {
+                        if (
+                          response.data &&
+                          typeof response.data === 'string'
+                        ) {
                           // First, try to extract text between quotes inside asterisks
                           // Pattern: *"text"*
-                          const quoteMatch = response.data.match(/\*"([^"]*)"\*/);
+                          const quoteMatch =
+                            response.data.match(/\*"([^"]*)"\*/);
                           if (quoteMatch && quoteMatch[1]) {
                             enhancedText = quoteMatch[1];
                           } else {
                             // Second, try to extract any text between asterisks
                             // Pattern: *text*
-                            const asteriskMatch = response.data.match(/\*([^\*]*)\*/);
+                            const asteriskMatch =
+                              response.data.match(/\*([^\*]*)\*/);
                             if (asteriskMatch && asteriskMatch[1]) {
                               // Check if there are quotes inside and extract from them
-                              if (asteriskMatch[1].startsWith('"') && asteriskMatch[1].endsWith('"')) {
-                                enhancedText = asteriskMatch[1].slice(1, -1).trim();
+                              if (
+                                asteriskMatch[1].startsWith('"') &&
+                                asteriskMatch[1].endsWith('"')
+                              ) {
+                                enhancedText = asteriskMatch[1]
+                                  .slice(1, -1)
+                                  .trim();
                               } else {
                                 enhancedText = asteriskMatch[1].trim();
                               }
@@ -516,7 +619,10 @@ export function BrandbookForm() {
                                 .trim();
                             }
                           }
-                        } else if (response.data && response.data.enhancedText) {
+                        } else if (
+                          response.data &&
+                          response.data.enhancedText
+                        ) {
                           // If the response is in the expected format with enhancedText property
                           enhancedText = response.data.enhancedText;
                         } else {
@@ -527,8 +633,8 @@ export function BrandbookForm() {
                           const e = {
                             target: {
                               name: 'companyDescription',
-                              value: enhancedText
-                            }
+                              value: enhancedText,
+                            },
                           } as React.ChangeEvent<HTMLTextAreaElement>;
                           handleInputChange(e);
                         }
@@ -657,33 +763,70 @@ export function BrandbookForm() {
           <>
             <div className="space-y-2">
               <Label className="text-white/80">Logo *</Label>
-              <div className="flex items-center gap-4 p-4 border border-dashed border-gray-600 rounded-md bg-[#1a1a1a]">
-                <input
-                  id="logo"
-                  name="logo"
-                  type="file"
-                  accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
-                  onChange={handleLogoChange}
-                  className="hidden"
-                  required
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => document.getElementById('logo')?.click()}
-                  className="text-white border-white/30 hover:bg-white/10"
-                >
-                  <Upload className="w-4 h-4 mr-2" />
-                  {logoFile ? 'Change Logo' : 'Choose Logo'}
-                </Button>
+              <div className="flex flex-col gap-3">
+                {/* Logo preview if generated or uploaded */}
+                {(logoPreviewUrl || generatedLogoUrl) && (
+                  <div className="w-full flex justify-center mb-4 p-4 bg-[#1a1a1a] rounded-md">
+                    <img
+                      src={generatedLogoUrl || logoPreviewUrl || ''}
+                      alt="Logo preview"
+                      className="max-w-full max-h-40 object-contain"
+                    />
+                  </div>
+                )}
+
+                <div className="flex flex-col md:flex-row items-center gap-4 p-4 border border-dashed border-gray-600 rounded-md bg-[#1a1a1a]">
+                  <input
+                    id="logo"
+                    name="logo"
+                    type="file"
+                    accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+                    onChange={handleLogoChange}
+                    className="hidden"
+                    required
+                  />
+                  <div className="flex flex-col sm:flex-row gap-2 w-full">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => document.getElementById('logo')?.click()}
+                      className="text-white border-white/30 hover:bg-white/10 flex-1"
+                    >
+                      <Upload className="w-4 h-4 mr-2" />
+                      {logoFile ? 'Change Logo' : 'Upload Logo'}
+                    </Button>
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleGenerateLogo}
+                      disabled={isGeneratingLogo}
+                      className="text-white border-white/30 hover:bg-white/10 flex-1"
+                    >
+                      {isGeneratingLogo ? (
+                        <>
+                          <div className="w-4 h-4 mr-2 animate-spin rounded-full border-b-2 border-white"></div>
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <Wand2 className="w-4 h-4 mr-2" />
+                          Generate with AI
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+
+                {!logoFile && !isGeneratingLogo && (
+                  <p className="text-sm text-gray-500">
+                    Upload a logo (Max 5MB: PNG, JPG, GIF, WEBP) or generate one
+                    with AI.
+                  </p>
+                )}
                 {logoFile && (
                   <p className="text-sm text-gray-400">
                     Selected: {logoFile.name}
-                  </p>
-                )}
-                {!logoFile && (
-                  <p className="text-sm text-gray-500">
-                    Max 5MB (PNG, JPG, GIF, WEBP)
                   </p>
                 )}
               </div>
@@ -741,15 +884,15 @@ export function BrandbookForm() {
                 ))}
                 {(!formData.brandColors ||
                   formData.brandColors.length < MAX_COLORS) && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={addColorField}
-                      className="w-full text-white/70 border-white/20 hover:bg-white/10"
-                    >
-                      + Add Color (up to {MAX_COLORS})
-                    </Button>
-                  )}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={addColorField}
+                    className="w-full text-white/70 border-white/20 hover:bg-white/10"
+                  >
+                    + Add Color (up to {MAX_COLORS})
+                  </Button>
+                )}
               </div>
             </div>
 
@@ -761,7 +904,9 @@ export function BrandbookForm() {
                 <SearchableSelect
                   options={popularFonts}
                   value={formData.primaryFontName || ''}
-                  onChange={(value) => handleFontChange('primaryFontName', value)}
+                  onChange={(value) =>
+                    handleFontChange('primaryFontName', value)
+                  }
                   placeholder="Select primary font"
                   searchPlaceholder="Search fonts..."
                   emptyMessage="No matching fonts found"
@@ -774,7 +919,9 @@ export function BrandbookForm() {
                 <SearchableSelect
                   options={popularFonts}
                   value={formData.secondaryFontName || ''}
-                  onChange={(value) => handleFontChange('secondaryFontName', value)}
+                  onChange={(value) =>
+                    handleFontChange('secondaryFontName', value)
+                  }
                   placeholder="Select secondary font"
                   searchPlaceholder="Search fonts..."
                   emptyMessage="No matching fonts found"
