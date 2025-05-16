@@ -38,7 +38,6 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [streamingContent, setStreamingContent] = useState('');
 
-
   useEffect(() => {
     fetchSessions();
   }, []);
@@ -50,10 +49,8 @@ export default function ChatPage() {
   }, [currentSessionId]);
 
   const fetchSessions = async () => {
-
     try {
-      const response = await api.get(`${API_URL}/chat/sessions`, {
-      });
+      const response = await api.get(`${API_URL}/chat/sessions`);
       setSessions(response.data);
     } catch (error) {
       console.error('Error fetching sessions:', error);
@@ -86,16 +83,28 @@ export default function ChatPage() {
     setInputMessage('');
     setStreamingContent('');
 
-
     try {
-      const response = await api.post(`${API_URL}/chat/send`, {
-        sessionId: currentSessionId,
-        message: inputMessage,
+      const response = await fetch(`${API_URL}/chat/send`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          sessionId: currentSessionId,
+          message: inputMessage,
+        }),
       });
 
-      const reader = response.data.body?.getReader();
-      if (!reader) throw new Error('No reader available');
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
 
+      if (!response.body) {
+        throw new Error('No response body available');
+      }
+
+      const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let fullContent = '';
       let buffer = '';
@@ -108,8 +117,7 @@ export default function ChatPage() {
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split('\n');
 
-            // Process all complete lines
-            buffer = lines.pop() || ''; // Keep the last incomplete line in buffer
+            buffer = lines.pop() || '';
 
             for (const line of lines) {
               if (line.trim() && line.startsWith('data: ')) {
@@ -127,7 +135,6 @@ export default function ChatPage() {
           }
 
           if (done) {
-            // Process any remaining data
             const remaining = decoder.decode();
             if (remaining) buffer += remaining;
 
@@ -145,32 +152,43 @@ export default function ChatPage() {
             break;
           }
         }
-      } catch (streamError) {
-        console.warn('Stream processing error:', streamError);
-        // Don't rethrow - we want to continue with what we have
+
+        const assistantMessage: Message = {
+          id: Date.now().toString(),
+          sessionId: currentSessionId || '',
+          role: 'ASSISTANT',
+          content: fullContent || 'Sorry, I couldn\'t process your request.',
+          tokensUsed: null,
+          createdAt: new Date().toISOString(),
+        };
+
+        setMessages((prev) => [...prev, assistantMessage]);
+        setStreamingContent('');
       } finally {
         reader.releaseLock();
       }
 
-      const assistantMessage: Message = {
-        id: Date.now().toString(),
-        sessionId: currentSessionId || '',
-        role: 'ASSISTANT',
-        content: fullContent,
-        tokensUsed: null,
-        createdAt: new Date().toISOString(),
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
-      setStreamingContent('');
-
       if (!currentSessionId) {
-        const sessionResponse = await api.get(`${API_URL}/chat/sessions`);
-        const newSession = sessionResponse.data[0];
-        setCurrentSessionId(newSession.id);
+        try {
+          const sessionResponse = await api.get(`${API_URL}/chat/sessions`);
+          if (sessionResponse.data && sessionResponse.data[0]) {
+            setCurrentSessionId(sessionResponse.data[0].id);
+          }
+        } catch (sessionError) {
+          console.error('Error fetching session:', sessionError);
+        }
       }
     } catch (error) {
       console.error('Error sending message:', error);
+      const errorMessage: Message = {
+        id: Date.now().toString(),
+        sessionId: currentSessionId || '',
+        role: 'ASSISTANT',
+        content: 'Sorry, there was an error processing your request.',
+        tokensUsed: null,
+        createdAt: new Date().toISOString(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
     }
@@ -388,7 +406,6 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Input area - Only show when not in history view */}
       {!isHistoryView && (
         <div className="flex-none border-t border-gray-800 p-6">
           <div className="max-w-4xl mx-auto">
@@ -397,7 +414,6 @@ export default function ChatPage() {
                 value={inputMessage}
                 onChange={(e) => {
                   setInputMessage(e.target.value);
-                  // Auto-resize textarea
                   e.target.style.height = 'auto';
                   e.target.style.height = `${Math.min(e.target.scrollHeight, 200)}px`;
                 }}
