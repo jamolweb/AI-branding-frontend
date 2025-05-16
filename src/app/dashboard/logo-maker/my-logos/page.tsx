@@ -54,7 +54,6 @@ export default function MyLogosPage() {
 				)
 			}
 
-			// Update favorite status
 			setFavoriteStatus(prev => ({
 				...prev,
 				[logoId]: !prev[logoId],
@@ -84,7 +83,6 @@ export default function MyLogosPage() {
 	const handleDelete = async (logoId: string) => {
 		try {
 			await api.delete(`${API_URL}/logo/${logoId}`)
-			// Remove from state
 			setMyLogos(prev => prev.filter(logo => logo.id !== logoId))
 		} catch (error) {
 			console.error('Error deleting logo:', error)

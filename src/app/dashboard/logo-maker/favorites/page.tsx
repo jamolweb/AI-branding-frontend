@@ -29,7 +29,6 @@ export default function FavoritesPage() {
 	const removeFavorite = async (logoId: string) => {
 		try {
 			await api.delete(`${API_URL}/logo/favorites/${logoId}`)
-			// Remove from state
 			setFavoriteLogos(prev => prev.filter(item => item.logo.id !== logoId))
 		} catch (error) {
 			console.error('Error removing favorite:', error)
@@ -39,7 +38,6 @@ export default function FavoritesPage() {
 	const handleDelete = async (logoId: string) => {
 		try {
 			await api.delete(`${API_URL}/logo/${logoId}`)
-			// Remove from state
 			setFavoriteLogos(prev => prev.filter(item => item.logo.id !== logoId))
 		} catch (error) {
 			console.error('Error deleting logo:', error)

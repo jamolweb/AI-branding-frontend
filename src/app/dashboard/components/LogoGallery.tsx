@@ -53,7 +53,6 @@ export default function LogoGallery() {
 				)
 			}
 
-			// Update favorite status
 			setFavoriteStatus(prev => ({
 				...prev,
 				[logoId]: !prev[logoId],

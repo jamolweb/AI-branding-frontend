@@ -22,13 +22,12 @@ export default function ViewBrandbookPage() {
   const [pdfError, setPdfError] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
 
-  // Fetch main brandbook data
   useEffect(() => {
     async function loadBrandbook() {
       if (!id) return;
       setLoading(true);
       setError(null);
-      setPdfBlobUrl(null); // Reset PDF URL on ID change
+      setPdfBlobUrl(null);
       setPdfError(null);
 
       try {
@@ -46,22 +45,18 @@ export default function ViewBrandbookPage() {
     loadBrandbook();
   }, [id]);
 
-  // Fetch PDF blob when brandbook data is available
   useEffect(() => {
-    // Store the current object URL to revoke it in cleanup
     let currentObjectUrl: string | null = null;
 
     async function loadPdf() {
       if (!brandbook?.pdfUrl) {
-        // If there's no PDF URL, don't try to load it.
-        // We might set an error or just show nothing for the PDF section.
         setLoadingPdf(false);
         return;
       }
 
       setLoadingPdf(true);
       setPdfError(null);
-      setPdfBlobUrl(null); // Reset before fetching
+      setPdfBlobUrl(null);
 
       try {
         const token = authService.getAccessToken();
@@ -69,9 +64,8 @@ export default function ViewBrandbookPage() {
           throw new Error('Authentication token not found.');
         }
 
-        const response = await fetch( brandbook.pdfUrl, {
+        const response = await fetch(brandbook.pdfUrl, {
           headers: {
-            // Authorization: `Bearer ${token}`,
           },
         });
 
@@ -85,7 +79,6 @@ export default function ViewBrandbookPage() {
 
         const blob = await response.blob();
 
-        // Check if the blob is actually a PDF
         if (blob.type !== 'application/pdf') {
           console.error('Fetched content is not PDF:', blob.type);
           throw new Error('Downloaded file is not a PDF.');
@@ -96,7 +89,6 @@ export default function ViewBrandbookPage() {
       } catch (err) {
         console.error('Failed to load PDF:', err);
         setPdfError(err instanceof Error ? err.message : 'Failed to load PDF.');
-        // Revoke URL if created before error
         if (currentObjectUrl) {
           URL.revokeObjectURL(currentObjectUrl);
           currentObjectUrl = null;
@@ -110,14 +102,13 @@ export default function ViewBrandbookPage() {
       loadPdf();
     }
 
-    // Cleanup function to revoke the object URL
     return () => {
       if (currentObjectUrl) {
         URL.revokeObjectURL(currentObjectUrl);
         console.log('Revoked Object URL:', currentObjectUrl);
       }
     };
-  }, [brandbook]); // Re-run when brandbook data changes
+  }, [brandbook]);
 
   const handleDownloadPDF = () => {
     if (!pdfBlobUrl || !brandbook) return;
@@ -126,13 +117,12 @@ export default function ViewBrandbookPage() {
     try {
       const link = document.createElement('a');
       link.href = pdfBlobUrl;
-      link.download = `${brandbook.companyName}-brandbook.pdf`; // Set desired filename
+      link.download = `${brandbook.companyName}-brandbook.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (err) {
       console.error('Download failed:', err);
-      // Optionally show an error to the user
     } finally {
       setDownloading(false);
     }
@@ -164,7 +154,6 @@ export default function ViewBrandbookPage() {
   return (
     <div className="min-h-screen  text-white w-full p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header with Back Button and Download Button */}
         <div className="flex justify-between items-center mb-6">
           <Button
             variant="ghost"
@@ -177,7 +166,7 @@ export default function ViewBrandbookPage() {
           <Button
             onClick={handleDownloadPDF}
             disabled={downloading || loadingPdf || !pdfBlobUrl}
-            className="bg-[rgb(239,252,118)] hover:bg-[rgb(220,232,108)] text-black" // Use primary button style
+            className="bg-[rgb(239,252,118)] hover:bg-[rgb(220,232,108)] text-black"
           >
             {downloading ? (
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -188,12 +177,10 @@ export default function ViewBrandbookPage() {
           </Button>
         </div>
 
-        {/* Company Name Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-8">
           {brandbook.companyName}
         </h1>
 
-        {/* PDF Viewer Section */}
         <div className="pdf-container aspect-[8.5/11] w-full max-w-4xl mx-auto border border-gray-700 rounded-lg overflow-hidden shadow-lg">
           {loadingPdf && (
             <div className="flex items-center justify-center h-full bg-gray-900">

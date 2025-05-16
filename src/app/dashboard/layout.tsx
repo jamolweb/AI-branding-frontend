@@ -44,15 +44,12 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 			const itemParams = new URLSearchParams(href.split('?')[1] || '')
 			const currentParams = searchParams
 
-			// Special handling for chat routes
 			if (href.startsWith('/dashboard/chat')) {
 				const isHistory = currentParams.get('view') === 'history'
 				const isHistoryRoute = href.includes('view=history')
-				// Only return true if both are history or both are not history
 				return isHistory === isHistoryRoute
 			}
 
-			// For other routes, check all params match
 			for (const [key, value] of itemParams) {
 				if (currentParams.get(key) !== value) return false
 			}
@@ -88,36 +85,31 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 						onNavigate(item.href)
 					}
 				}}
-				className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
-					isItemActive
-						? 'bg-[rgb(239,252,118)]'
-						: 'hover:bg-[rgba(255,255,255,0.1)]'
-				}`}
+				className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${isItemActive
+					? 'bg-[rgb(239,252,118)]'
+					: 'hover:bg-[rgba(255,255,255,0.1)]'
+					}`}
 			>
 				{item.icon && (
 					<item.icon
-						className={`w-4 h-4 ${
-							isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
-						}`}
+						className={`w-4 h-4 ${isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+							}`}
 					/>
 				)}
 				<span
-					className={`text-sm font-medium flex-1 text-left whitespace-nowrap ${
-						isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
-					}`}
+					className={`text-sm font-medium flex-1 text-left whitespace-nowrap ${isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+						}`}
 				>
 					{item.label}
 				</span>
 				{hasChildren && (
 					<div
-						className={`transition-transform duration-200 ${
-							isOpen ? 'rotate-180' : ''
-						}`}
+						className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
+							}`}
 					>
 						<ChevronDown
-							className={`w-4 h-4 ${
-								isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
-							}`}
+							className={`w-4 h-4 ${isItemActive ? 'text-black' : 'text-[rgba(255,255,255,0.8)]'
+								}`}
 						/>
 					</div>
 				)}
@@ -135,42 +127,37 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 										onNavigate(child.href)
 									}
 								}}
-								className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
-									isActive(child.href)
-										? 'bg-[rgb(239,252,118)]'
-										: 'hover:bg-[rgba(255,255,255,0.1)]'
-								}`}
+								className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${isActive(child.href)
+									? 'bg-[rgb(239,252,118)]'
+									: 'hover:bg-[rgba(255,255,255,0.1)]'
+									}`}
 							>
 								{child.icon && (
 									<child.icon
-										className={`w-4 h-4 ${
-											isActive(child.href)
-												? 'text-black'
-												: 'text-[rgba(255,255,255,0.8)]'
-										}`}
+										className={`w-4 h-4 ${isActive(child.href)
+											? 'text-black'
+											: 'text-[rgba(255,255,255,0.8)]'
+											}`}
 									/>
 								)}
 								<span
-									className={`text-sm font-medium whitespace-nowrap ${
-										isActive(child.href)
-											? 'text-black'
-											: 'text-[rgba(255,255,255,0.8)]'
-									}`}
+									className={`text-sm font-medium whitespace-nowrap ${isActive(child.href)
+										? 'text-black'
+										: 'text-[rgba(255,255,255,0.8)]'
+										}`}
 								>
 									{child.label}
 								</span>
 								{child.children && (
 									<div
-										className={`transition-transform duration-200 ${
-											isOpen ? 'rotate-180' : ''
-										}`}
+										className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
+											}`}
 									>
 										<ChevronDown
-											className={`w-4 h-4 ${
-												isActive(child.href)
-													? 'text-black'
-													: 'text-[rgba(255,255,255,0.8)]'
-											}`}
+											className={`w-4 h-4 ${isActive(child.href)
+												? 'text-black'
+												: 'text-[rgba(255,255,255,0.8)]'
+												}`}
 										/>
 									</div>
 								)}
@@ -181,27 +168,24 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 										<button
 											key={grandChild.href}
 											onClick={() => onNavigate(grandChild.href)}
-											className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${
-												isActive(grandChild.href)
-													? 'bg-[rgb(239,252,118)]'
-													: 'hover:bg-[rgba(255,255,255,0.1)]'
-											}`}
+											className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-2 rounded-lg transition-all duration-200 ${isActive(grandChild.href)
+												? 'bg-[rgb(239,252,118)]'
+												: 'hover:bg-[rgba(255,255,255,0.1)]'
+												}`}
 										>
 											{grandChild.icon && (
 												<grandChild.icon
-													className={`w-4 h-4 ${
-														isActive(grandChild.href)
-															? 'text-black'
-															: 'text-[rgba(255,255,255,0.8)]'
-													}`}
+													className={`w-4 h-4 ${isActive(grandChild.href)
+														? 'text-black'
+														: 'text-[rgba(255,255,255,0.8)]'
+														}`}
 												/>
 											)}
 											<span
-												className={`text-sm font-medium whitespace-nowrap ${
-													isActive(grandChild.href)
-														? 'text-black'
-														: 'text-[rgba(255,255,255,0.8)]'
-												}`}
+												className={`text-sm font-medium whitespace-nowrap ${isActive(grandChild.href)
+													? 'text-black'
+													: 'text-[rgba(255,255,255,0.8)]'
+													}`}
 											>
 												{grandChild.label}
 											</span>
@@ -217,7 +201,6 @@ const AccordionItem = ({ item, pathname, onNavigate }: AccordionItemProps) => {
 	)
 }
 
-// Define type based on sidebarItems structure
 type SidebarItemType = {
 	label: string
 	href: string
@@ -226,18 +209,15 @@ type SidebarItemType = {
 	children?: SidebarItemType[]
 }
 
-// Type for flattened navigation items
 interface FlattenedNavItem {
 	label: string
 	href: string
 	icon?: React.ElementType
 }
 
-// Helper function to flatten sidebar items (Ensure this is robust)
 const flattenNavItems = (items: SidebarItemType[]): FlattenedNavItem[] => {
 	let flattened: FlattenedNavItem[] = []
 	const processItem = (item: SidebarItemType) => {
-		// Add the item itself if it's directly navigable
 		if (item.href) {
 			flattened.push({
 				label: item.label,
@@ -245,13 +225,11 @@ const flattenNavItems = (items: SidebarItemType[]): FlattenedNavItem[] => {
 				icon: item.icon as React.ElementType | undefined,
 			})
 		}
-		// Process children recursively
 		if (item.children) {
 			item.children.forEach(processItem)
 		}
 	}
 	items.forEach(processItem)
-	// Manually add items not in sidebarItems if needed
 	flattened.push({
 		label: 'Settings',
 		href: '/dashboard/settings',
@@ -267,7 +245,6 @@ const flattenNavItems = (items: SidebarItemType[]): FlattenedNavItem[] => {
 		href: '/dashboard/profile',
 		icon: User as React.ElementType,
 	})
-	// Remove duplicates by href if necessary (e.g., Settings might be in both places)
 	flattened = flattened.filter(
 		(v, i, a) => a.findIndex(t => t.href === v.href) === i
 	)
@@ -285,7 +262,6 @@ export default function DashboardLayout({
 	const [isLoading, setIsLoading] = useState(true)
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
-	// --- Search State & Refs ---
 	const [searchQuery, setSearchQuery] = useState('')
 	const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false)
 	const [filteredResults, setFilteredResults] = useState<FlattenedNavItem[]>([])
@@ -293,23 +269,19 @@ export default function DashboardLayout({
 		() => flattenNavItems(sidebarItems as SidebarItemType[]),
 		[]
 	)
-	const modalContainerRef = useRef<HTMLDivElement>(null) // Ref for the modal container
-	const modalInputRef = useRef<HTMLInputElement>(null) // Ref for the input inside the modal
-	// --- End Search State & Refs ---
+	const modalContainerRef = useRef<HTMLDivElement>(null)
+	const modalInputRef = useRef<HTMLInputElement>(null)
 
-	// --- Search Logic ---
 	useEffect(() => {
-		// Filter results based on query
 		const results =
 			searchQuery.trim() === ''
-				? flattenedNavItems // <-- Show all items when query is empty
+				? flattenedNavItems
 				: flattenedNavItems.filter(item =>
-						item.label.toLowerCase().includes(searchQuery.toLowerCase())
-				  )
+					item.label.toLowerCase().includes(searchQuery.toLowerCase())
+				)
 		setFilteredResults(results)
 	}, [searchQuery, flattenedNavItems])
 
-	// Handle closing modal on outside click
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
@@ -329,10 +301,8 @@ export default function DashboardLayout({
 		}
 	}, [isSearchDropdownOpen])
 
-	// Focus input when modal opens
 	useEffect(() => {
 		if (isSearchDropdownOpen) {
-			// Timeout needed to allow modal to render before focusing
 			setTimeout(() => modalInputRef.current?.focus(), 50)
 		}
 	}, [isSearchDropdownOpen])
@@ -347,52 +317,78 @@ export default function DashboardLayout({
 
 	const closeSearchModal = () => {
 		setIsSearchDropdownOpen(false)
-		setSearchQuery('') // Reset query on close
+		setSearchQuery('')
 	}
 
-	// Navigate and close dropdown/modal
 	const handleResultClick = (href: string) => {
 		router.push(href)
 		closeSearchModal()
-		setIsSidebarOpen(false) // Close sidebar if open (mobile)
+		setIsSidebarOpen(false)
 	}
-	// --- End Search Logic ---
 
 	const handleLogout = async () => {
 		try {
-			// The logout endpoint will clear cookies on the server side
 			await authService.logout()
-			// No need to call authService.logout() again as it's already handled
 			router.push('/auth/signin')
 		} catch (error) {
 			console.error('Logout error:', error)
-			// Force redirect to signin page even if logout fails
-			window.location.href = '/auth/signin' // Use direct navigation instead of router
+			window.location.href = '/auth/signin'
 		}
 	}
 
 	useEffect(() => {
-		// Initialize authentication and verify user session
 		const initializeAuth = async () => {
+			const isGoogleCallback = window.location.pathname.includes('/dashboard') &&
+				(localStorage.getItem('googleLoginAttempt') === 'true' ||
+					window.location.search.includes('auth_success=true'));
+
+			if (isGoogleCallback) {
+				console.log('Detected Google authentication callback');
+				authService.handleGoogleCallback();
+
+				if (window.location.search) {
+					window.history.replaceState({}, document.title, window.location.pathname);
+				}
+			}
+
+			await new Promise(resolve => setTimeout(resolve, 1000));
+
 			try {
-				// Try to get the user profile which will validate the session
-				await authService.getProfile()
-				// If we get here without errors, authentication succeeded
-				authService.setAuthenticated(true)
-			} catch (error) {
-				console.warn('Error fetching profile:', error)
-				// If there was an error even after token refresh attempts
-				// (handled in the auth service), redirect to login
-				if (window.location.pathname !== '/auth/signin') {
-					window.location.href = '/auth/signin'
+				authService.setAuthenticated(null);
+
+				const isAuthenticated = authService.isAuthenticated();
+				console.log('Authentication check after delay:', isAuthenticated);
+
+				if (!isAuthenticated) {
+					console.log('No authentication found, redirecting to login');
+					window.location.href = '/auth/signin';
+					return;
+				}
+
+				try {
+					await authService.getProfile();
+					authService.setAuthenticated(true);
+					console.log('Authentication validated with profile');
+				} catch (profileError) {
+					console.warn('Error fetching profile:', profileError);
+
+					try {
+						console.log('Attempting token refresh...');
+						await authService.refreshToken();
+						await authService.getProfile();
+						authService.setAuthenticated(true);
+						console.log('Token refresh successful');
+					} catch (refreshError) {
+						console.error('Token refresh failed:', refreshError);
+						window.location.href = '/auth/signin';
+					}
 				}
 			} finally {
-				// Always set loading to false
-				setIsLoading(false)
+				setIsLoading(false);
 			}
-		}
+		};
 
-		initializeAuth()
+		initializeAuth();
 	}, [])
 
 	const handleNavigation = (href: string) => {
@@ -424,9 +420,8 @@ export default function DashboardLayout({
 			)}
 
 			<aside
-				className={`fixed lg:static inset-y-0 left-0 w-[280px] sm:w-64 border-r border-[rgba(255,255,255,0.1)] flex flex-col transform transition-transform duration-300 ease-in-out z-30 ${
-					isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-				}`}
+				className={`fixed lg:static inset-y-0 left-0 w-[280px] sm:w-64 border-r border-[rgba(255,255,255,0.1)] flex flex-col transform transition-transform duration-300 ease-in-out z-30 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+					}`}
 			>
 				<div className='p-3 sm:p-4 border-b border-[rgba(255,255,255,0.1)] flex items-center justify-between'>
 					<h1 className='text-lg sm:text-xl font-semibold flex items-center gap-2 text-white'>
@@ -498,7 +493,6 @@ export default function DashboardLayout({
 						>
 							<Menu className='w-5 h-5' />
 						</button>
-						{/* --- Header Search Trigger Button --- */}
 						<button
 							onClick={openSearchModal}
 							className='flex items-center gap-2 sm:gap-3 h-8 sm:h-9 px-2 sm:px-3 text-left w-full max-w-xs bg-transparent border border-[rgba(255,255,255,0.1)] rounded-md text-xs text-[rgba(255,255,255,0.5)] hover:border-[rgba(255,255,255,0.2)] transition-colors'
@@ -517,7 +511,6 @@ export default function DashboardLayout({
 								<span className='text-xs font-medium'>+ F</span>
 							</div>
 						</button>
-						{/* --- End Header Search Trigger Button --- */}
 					</div>
 
 					<div className='flex items-center gap-1 sm:gap-4 ml-2'>
@@ -562,21 +555,17 @@ export default function DashboardLayout({
 					</div>
 				</header>
 
-				{/* --- Centered Search Modal --- */}
 				{isSearchDropdownOpen && (
 					<>
-						{/* Overlay */}
 						<div
 							className='fixed inset-0 bg-black/60 backdrop-blur-sm z-40'
 							onClick={closeSearchModal}
 						/>
-						{/* Modal Container */}
 						<div
 							ref={modalContainerRef}
 							className='fixed top-[15%] left-1/2 -translate-x-1/2 w-[90vw] max-w-xl bg-[rgb(28,28,28)] border border-[rgba(255,255,255,0.15)] rounded-lg shadow-2xl z-50 flex flex-col'
-							style={{ maxHeight: '70vh' }} // Limit height
+							style={{ maxHeight: '70vh' }}
 						>
-							{/* Input inside Modal */}
 							<div className='flex items-center gap-2 p-3 border-b border-[rgba(255,255,255,0.1)]'>
 								<Search className='w-4 h-4 flex-shrink-0 text-[rgba(255,255,255,0.5)]' />
 								<input
@@ -589,7 +578,6 @@ export default function DashboardLayout({
 								/>
 							</div>
 
-							{/* Results List */}
 							<div className='overflow-y-auto flex-1'>
 								{filteredResults.length > 0 && (
 									<ul className='p-2'>
@@ -622,7 +610,6 @@ export default function DashboardLayout({
 						</div>
 					</>
 				)}
-				{/* --- End Centered Search Modal --- */}
 
 				<main>{children}</main>
 			</div>

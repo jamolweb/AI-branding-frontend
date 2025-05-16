@@ -28,7 +28,6 @@ import {
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 
-// Define total number of steps and their names
 const TOTAL_STEPS = 5;
 const STEP_NAMES = [
   'Core Info',
@@ -38,15 +37,13 @@ const STEP_NAMES = [
   'Review & Submit',
 ];
 
-// Default color structure
 const defaultColor = { name: '', value: '#000000', usageNote: '' };
 const MAX_COLORS = 5;
 
-// --- Stepper Component ---
 interface StepperProps {
   totalSteps: number;
   currentStep: number;
-  stepNames: string[]; // Added prop for names
+  stepNames: string[];
 }
 
 const Stepper: React.FC<StepperProps> = ({
@@ -54,63 +51,52 @@ const Stepper: React.FC<StepperProps> = ({
   currentStep,
   stepNames,
 }) => {
-  // Ensure stepNames array has the correct length
   if (stepNames.length !== totalSteps) {
     console.warn('Stepper: stepNames length does not match totalSteps.');
-    // Optionally return null or a default state
   }
 
   return (
     <div className="flex items-start justify-center w-full px-4 py-4">
       {' '}
-      {/* Align items start */}
       {Array.from({ length: totalSteps }).map((_, index) => {
         const stepNumber = index + 1;
         const isActive = stepNumber === currentStep;
         const isCompleted = stepNumber < currentStep;
-        const stepName = stepNames[index] || `Step ${stepNumber}`; // Fallback name
+        const stepName = stepNames[index] || `Step ${stepNumber}`;
 
         return (
           <React.Fragment key={stepNumber}>
-            {/* Connecting line (adjust vertical alignment if needed) */}
             {stepNumber > 1 && (
               <div
-                className={`flex-1 h-0.5 mt-4 transition-colors duration-300 ${
-                  isCompleted || isActive
-                    ? 'bg-[rgb(239,252,118)]'
-                    : 'bg-gray-600'
-                }`}
-                style={{ minWidth: '20px' }} // Ensure line has some width
+                className={`flex-1 h-0.5 mt-4 transition-colors duration-300 ${isCompleted || isActive
+                  ? 'bg-[rgb(239,252,118)]'
+                  : 'bg-gray-600'
+                  }`}
+                style={{ minWidth: '20px' }}
               />
             )}
-            {/* Step Container (Circle + Label) */}
             <div
               className="flex flex-col items-center mx-1"
               style={{ width: '80px' }}
             >
               {' '}
-              {/* Added container with fixed width */}
-              {/* Step Circle */}
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 mb-1 ${
-                  isActive
-                    ? 'bg-[rgb(239,252,118)] text-black'
-                    : isCompleted
+                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-300 mb-1 ${isActive
+                  ? 'bg-[rgb(239,252,118)] text-black'
+                  : isCompleted
                     ? 'bg-[rgba(239,252,118,0.5)] text-gray-800'
                     : 'bg-gray-600 text-gray-400'
-                }`}
+                  }`}
               >
                 <span className="font-semibold text-sm">{stepNumber}</span>
               </div>
-              {/* Step Label */}
               <span
-                className={`text-xs text-center transition-colors duration-300 ${
-                  isActive
-                    ? 'text-[rgb(239,252,118)]'
-                    : isCompleted
+                className={`text-xs text-center transition-colors duration-300 ${isActive
+                  ? 'text-[rgb(239,252,118)]'
+                  : isCompleted
                     ? 'text-gray-400'
                     : 'text-gray-500'
-                }`}
+                  }`}
               >
                 {stepName}
               </span>
@@ -121,99 +107,90 @@ const Stepper: React.FC<StepperProps> = ({
     </div>
   );
 };
-// --- End Stepper Component ---
 
 export function BrandbookForm() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(1); // Step state
+  const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [enhanceLoading, setEnhanceLoading] = useState(false); // Loading state for enhance prompt button
+  const [enhanceLoading, setEnhanceLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [stepError, setStepError] = useState<string | null>(null); // Error for current step validation
-
-  // --- State for Enhanced Form Data ---
+  const [stepError, setStepError] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<CreateBrandbookRequest>>(
     NODE_ENV === 'development'
       ? {
-          // Initialize with default data in development environment
-          companyName: 'LuminoTech',
-          tagline:
-            'Empowering Tomorrow Through Intelligent, Sustainable Energy Solutions',
-          industry: 'Technology',
-          companyDescription:
-            'LuminoTech stands at the forefront of the global movement toward sustainable energy, offering state-of-the-art smart technologies designed to reduce carbon emissions, optimize energy consumption, and reshape how the world powers its future. Our solutions combine advanced data analytics, renewable energy integration, and IoT-enabled systems to empower businesses and communities with cleaner, smarter energy choices.',
-          targetAudience:
-            'Businesses, communities, and individuals interested in adopting smart, sustainable energy solutions, reducing their carbon footprint, and integrating renewable energy systems and IoT technologies.',
-          brandPersonalityKeywords:
-            'Innovative, sustainable, intelligent, eco-friendly, forward-thinking',
-          visualStyleKeywords:
-            'Minimalist, modern, clean, geometric, tech-focused',
-          toneOfVoice: 'Professional, authoritative, empowering, visionary',
-          missionStatement:
-            'Our mission is to drive the global transition to sustainable energy by delivering innovative, intelligent, and accessible technology solutions that enhance efficiency, reduce environmental impact, and promote energy independence for all.',
-          visionStatement:
-            'We envision a future where every home, business, and city is powered by intelligent energy systems that are clean, efficient, and resilient—creating a healthier planet and a more sustainable tomorrow.',
-          primaryFontName: 'Poppins',
-          secondaryFontName: 'Roboto',
-          contactEmail: 'maya.chen@luminotech.io',
-          contactWebsite: 'https://www.luminotech.io',
-          contactPhone: '',
-          contactAddress: '',
-          brandColors: [
-            {
-              name: 'Primary',
-              value: '#00A86B',
-              usageNote: 'Main call-to-action color',
-            },
-            {
-              name: 'Secondary',
-              value: '#1A1A1A',
-              usageNote: 'Backgrounds, dark text',
-            },
-          ],
-        }
+        companyName: 'LuminoTech',
+        tagline:
+          'Empowering Tomorrow Through Intelligent, Sustainable Energy Solutions',
+        industry: 'Technology',
+        companyDescription:
+          'LuminoTech stands at the forefront of the global movement toward sustainable energy, offering state-of-the-art smart technologies designed to reduce carbon emissions, optimize energy consumption, and reshape how the world powers its future. Our solutions combine advanced data analytics, renewable energy integration, and IoT-enabled systems to empower businesses and communities with cleaner, smarter energy choices.',
+        targetAudience:
+          'Businesses, communities, and individuals interested in adopting smart, sustainable energy solutions, reducing their carbon footprint, and integrating renewable energy systems and IoT technologies.',
+        brandPersonalityKeywords:
+          'Innovative, sustainable, intelligent, eco-friendly, forward-thinking',
+        visualStyleKeywords:
+          'Minimalist, modern, clean, geometric, tech-focused',
+        toneOfVoice: 'Professional, authoritative, empowering, visionary',
+        missionStatement:
+          'Our mission is to drive the global transition to sustainable energy by delivering innovative, intelligent, and accessible technology solutions that enhance efficiency, reduce environmental impact, and promote energy independence for all.',
+        visionStatement:
+          'We envision a future where every home, business, and city is powered by intelligent energy systems that are clean, efficient, and resilient—creating a healthier planet and a more sustainable tomorrow.',
+        primaryFontName: 'Poppins',
+        secondaryFontName: 'Roboto',
+        contactEmail: 'maya.chen@luminotech.io',
+        contactWebsite: 'https://www.luminotech.io',
+        contactPhone: '',
+        contactAddress: '',
+        brandColors: [
+          {
+            name: 'Primary',
+            value: '#00A86B',
+            usageNote: 'Main call-to-action color',
+          },
+          {
+            name: 'Secondary',
+            value: '#1A1A1A',
+            usageNote: 'Backgrounds, dark text',
+          },
+        ],
+      }
       : {
-          companyName: '',
-          tagline: '',
-          industry: '',
-          companyDescription: '',
-          targetAudience: '',
-          brandPersonalityKeywords: '',
-          visualStyleKeywords: '',
-          toneOfVoice: '',
-          missionStatement: '',
-          visionStatement: '',
-          primaryFontName: '',
-          secondaryFontName: '',
-          contactEmail: '',
-          contactWebsite: '',
-          contactPhone: '',
-          contactAddress: '',
-          brandColors: [
-            {
-              name: '',
-              value: '#000000',
-              usageNote: '',
-            },
-          ],
-        },
+        companyName: '',
+        tagline: '',
+        industry: '',
+        companyDescription: '',
+        targetAudience: '',
+        brandPersonalityKeywords: '',
+        visualStyleKeywords: '',
+        toneOfVoice: '',
+        missionStatement: '',
+        visionStatement: '',
+        primaryFontName: '',
+        secondaryFontName: '',
+        contactEmail: '',
+        contactWebsite: '',
+        contactPhone: '',
+        contactAddress: '',
+        brandColors: [
+          {
+            name: '',
+            value: '#000000',
+            usageNote: '',
+          },
+        ],
+      },
   );
 
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [isGeneratingLogo, setIsGeneratingLogo] = useState(false);
   const [generatedLogoUrl, setGeneratedLogoUrl] = useState<string | null>(null);
   const [logoPreviewUrl, setLogoPreviewUrl] = useState<string | null>(null);
-  // const [referenceImageFiles, setReferenceImageFiles] = useState<File[]>([]); // Keep commented for now
-  // --- End State ---
 
-  // Clean up any object URLs when component unmounts or when logo changes
   useEffect(() => {
     if (logoFile) {
-      // Create a new object URL from the file
       const objectUrl = URL.createObjectURL(logoFile);
       setLogoPreviewUrl(objectUrl);
 
-      // Clean up function to revoke the URL when it's no longer needed
       return () => {
         URL.revokeObjectURL(objectUrl);
       };
@@ -221,7 +198,6 @@ export function BrandbookForm() {
     return undefined;
   }, [logoFile]);
 
-  // --- Input Handlers ---
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -241,7 +217,7 @@ export function BrandbookForm() {
     value: string,
   ) => {
     setFormData((prev) => {
-      if (!prev || !prev.brandColors) return prev; // Type guard
+      if (!prev || !prev.brandColors) return prev;
       const newColors = [...prev.brandColors];
       if (newColors[index]) {
         newColors[index] = { ...newColors[index], [field]: value };
@@ -265,7 +241,7 @@ export function BrandbookForm() {
   const removeColorField = (index: number) => {
     setFormData((prev) => {
       if (!prev || !prev.brandColors || prev.brandColors.length <= 1)
-        return prev; // Keep at least one
+        return prev;
       const newColors = prev.brandColors.filter((_, i) => i !== index);
       return { ...prev, brandColors: newColors };
     });
@@ -300,7 +276,6 @@ export function BrandbookForm() {
     }
   };
 
-  // Function to handle AI logo generation
   const handleGenerateLogo = async () => {
     if (!formData.companyName || !formData.industry) {
       setStepError(
@@ -313,27 +288,21 @@ export function BrandbookForm() {
       setIsGeneratingLogo(true);
       setStepError(null);
 
-      // Create a prompt using available company information
-      const prompt = `Create a professional logo for ${
-        formData.companyName
-      }, a company in the ${formData.industry} industry. ${
-        formData.tagline ? `Tagline: "${formData.tagline}". ` : ''
-      }${
-        formData.brandPersonalityKeywords
+      const prompt = `Create a professional logo for ${formData.companyName
+        }, a company in the ${formData.industry} industry. ${formData.tagline ? `Tagline: "${formData.tagline}". ` : ''
+        }${formData.brandPersonalityKeywords
           ? `Brand personality: ${formData.brandPersonalityKeywords}. `
           : ''
-      }${
-        formData.visualStyleKeywords
+        }${formData.visualStyleKeywords
           ? `Visual style: ${formData.visualStyleKeywords}.`
           : ''
-      }`;
+        }`;
 
       const result = await brandbookService.generateLogoWithAI(prompt);
 
       if (result.logoUrl) {
         setGeneratedLogoUrl(result.logoUrl);
 
-        // Convert data URL to File object
         const fetchResponse = await fetch(result.logoUrl);
         const blob = await fetchResponse.blob();
         const file = new File(
@@ -357,14 +326,11 @@ export function BrandbookForm() {
       setIsGeneratingLogo(false);
     }
   };
-  // --- End Input Handlers ---
 
-  // --- Step Navigation & Validation ---
   const nextStep = () => {
     setStepError(null);
     let isValid = true;
 
-    // Validate current step before proceeding
     if (currentStep === 1) {
       if (
         !formData.companyName ||
@@ -406,7 +372,6 @@ export function BrandbookForm() {
     }
     if (currentStep === 4) {
       if (!formData.contactEmail || !formData.contactWebsite) {
-        // Example: require email and website
         setStepError('Please provide at least Contact Email and Website.');
         isValid = false;
       }
@@ -423,14 +388,10 @@ export function BrandbookForm() {
       setCurrentStep(currentStep - 1);
     }
   };
-  // --- End Step Navigation ---
 
-  // --- Form Submission ---
-  const handleSubmit = async (/* e: React.FormEvent */) => {
-    // No event needed if using button onClick
+  const handleSubmit = async () => {
     if (currentStep !== TOTAL_STEPS) return;
 
-    // e.preventDefault(); // Not needed if not using <form> onSubmit
     setLoading(true);
     setError(null);
     setStepError(null);
@@ -438,17 +399,15 @@ export function BrandbookForm() {
     if (!logoFile) {
       setError('Logo file is missing.');
       setLoading(false);
-      setCurrentStep(3); // Go back to visuals step
+      setCurrentStep(3);
       return;
     }
 
     try {
-      // Filter out empty color entries before submission
       const finalBrandColors = formData.brandColors?.filter(
         (c) => c.name.trim() && c.value.trim(),
       );
 
-      // Construct final request data, ensuring required fields are present
       const requestData: CreateBrandbookRequest = {
         companyName: formData.companyName || '',
         tagline: formData.tagline,
@@ -460,7 +419,7 @@ export function BrandbookForm() {
         toneOfVoice: formData.toneOfVoice,
         missionStatement: formData.missionStatement,
         visionStatement: formData.visionStatement,
-        logo: logoFile, // Already validated
+        logo: logoFile,
         brandColors: finalBrandColors,
         primaryFontName: formData.primaryFontName,
         secondaryFontName: formData.secondaryFontName,
@@ -472,23 +431,19 @@ export function BrandbookForm() {
 
       console.log('Submitting Data:', requestData);
 
-      // --- Prepare FormData for Backend ---
       const backendFormData = new FormData();
 
       Object.entries(requestData).forEach(([key, value]) => {
         if (key === 'logo' && value instanceof File) {
           backendFormData.append(key, value);
         } else if (key === 'brandColors' && Array.isArray(value)) {
-          // Stringify complex objects/arrays if backend expects it with FormData
           backendFormData.append(key, JSON.stringify(value));
         } else if (value !== undefined && value !== null) {
           backendFormData.append(key, String(value));
         }
       });
-      // TODO: Handle referenceImageFiles append if implemented
 
-      // Replace requestData with backendFormData in the service call
-      const result = await brandbookService.create(backendFormData); // Pass FormData
+      const result = await brandbookService.create(backendFormData);
 
       router.push(`/dashboard/brandbook/view/${result.id}`);
     } catch (err) {
@@ -502,12 +457,10 @@ export function BrandbookForm() {
       setLoading(false);
     }
   };
-  // --- End Form Submission ---
 
-  // --- Step Rendering Logic ---
   const renderStepContent = () => {
     switch (currentStep) {
-      case 1: // Core Info
+      case 1:
         return (
           <>
             <div className="space-y-2">
@@ -578,7 +531,6 @@ export function BrandbookForm() {
                           },
                         );
 
-                        // Extract the enhanced text from the response
                         let enhancedText = '';
 
                         console.log(response.data);
@@ -586,19 +538,14 @@ export function BrandbookForm() {
                           response.data &&
                           typeof response.data === 'string'
                         ) {
-                          // First, try to extract text between quotes inside asterisks
-                          // Pattern: *"text"*
                           const quoteMatch =
                             response.data.match(/\*"([^"]*)"\*/);
                           if (quoteMatch && quoteMatch[1]) {
                             enhancedText = quoteMatch[1];
                           } else {
-                            // Second, try to extract any text between asterisks
-                            // Pattern: *text*
                             const asteriskMatch =
                               response.data.match(/\*([^\*]*)\*/);
                             if (asteriskMatch && asteriskMatch[1]) {
-                              // Check if there are quotes inside and extract from them
                               if (
                                 asteriskMatch[1].startsWith('"') &&
                                 asteriskMatch[1].endsWith('"')
@@ -610,12 +557,11 @@ export function BrandbookForm() {
                                 enhancedText = asteriskMatch[1].trim();
                               }
                             } else {
-                              // Last resort: strip all markdown formatting
                               enhancedText = response.data
                                 .replace(/\*\*Enhanced Prompt:\*\*/g, '')
                                 .replace(/\*/g, '')
-                                .replace(/\"([^\"]*)\"/, '$1') // Extract text from quotes
-                                .replace(/\([^\)]*\)/g, '') // Remove parenthetical comments
+                                .replace(/\"([^\"]*)\"/, '$1')
+                                .replace(/\([^\)]*\)/g, '')
                                 .trim();
                             }
                           }
@@ -623,7 +569,6 @@ export function BrandbookForm() {
                           response.data &&
                           response.data.enhancedText
                         ) {
-                          // If the response is in the expected format with enhancedText property
                           enhancedText = response.data.enhancedText;
                         } else {
                           throw new Error('Invalid response format');
@@ -667,7 +612,7 @@ export function BrandbookForm() {
             </div>
           </>
         );
-      case 2: // AI Guidance
+      case 2:
         return (
           <>
             <div className="space-y-2">
@@ -719,7 +664,6 @@ export function BrandbookForm() {
               <Label htmlFor="toneOfVoice" className="text-white/80">
                 Tone of Voice *
               </Label>
-              {/* TODO: Consider changing to Select/Radio if predefined options exist */}
               <Input
                 id="toneOfVoice"
                 name="toneOfVoice"
@@ -758,13 +702,12 @@ export function BrandbookForm() {
             </div>
           </>
         );
-      case 3: // Visual Identity
+      case 3:
         return (
           <>
             <div className="space-y-2">
               <Label className="text-white/80">Logo *</Label>
               <div className="flex flex-col gap-3">
-                {/* Logo preview if generated or uploaded */}
                 {(logoPreviewUrl || generatedLogoUrl) && (
                   <div className="w-full flex justify-center mb-4 p-4 bg-[#1a1a1a] rounded-md">
                     <img
@@ -848,7 +791,7 @@ export function BrandbookForm() {
                         handleColorChange(index, 'name', e.target.value)
                       }
                       className="flex-1 bg-[#2a2a2a] border-gray-600"
-                      required={index < 1} // Require at least one color name
+                      required={index < 1}
                     />
                     <Input
                       type="color"
@@ -857,7 +800,7 @@ export function BrandbookForm() {
                         handleColorChange(index, 'value', e.target.value)
                       }
                       className="p-1 h-10 w-14 bg-input"
-                      required={index < 1} // Require at least one color value
+                      required={index < 1}
                     />
                     <Input
                       type="text"
@@ -884,15 +827,15 @@ export function BrandbookForm() {
                 ))}
                 {(!formData.brandColors ||
                   formData.brandColors.length < MAX_COLORS) && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={addColorField}
-                    className="w-full text-white/70 border-white/20 hover:bg-white/10"
-                  >
-                    + Add Color (up to {MAX_COLORS})
-                  </Button>
-                )}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={addColorField}
+                      className="w-full text-white/70 border-white/20 hover:bg-white/10"
+                    >
+                      + Add Color (up to {MAX_COLORS})
+                    </Button>
+                  )}
               </div>
             </div>
 
@@ -928,10 +871,9 @@ export function BrandbookForm() {
                 />
               </div>
             </div>
-            {/* TODO: Add optional reference image upload UI */}
           </>
         );
-      case 4: // Contact Info
+      case 4:
         return (
           <>
             <div className="space-y-2">
@@ -993,14 +935,13 @@ export function BrandbookForm() {
             </div>
           </>
         );
-      case 5: // Review & Submit
+      case 5:
         return (
           <div className="space-y-4 text-white">
             <h3 className="text-xl font-semibold border-b border-gray-700 pb-2">
               Review Your Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-sm">
-              {/* Display user-provided info only */}
               <div>
                 <strong>Company:</strong> {formData.companyName}
               </div>
@@ -1074,11 +1015,10 @@ export function BrandbookForm() {
         return null;
     }
   };
-  // --- End Step Rendering ---
 
   return (
     <Card
-      className="w-full max-w-3xl mx-auto border border-gray-800" // Increased max-width
+      className="w-full max-w-3xl mx-auto border border-gray-800"
       style={{ backgroundColor: '#141414' }}
     >
       <CardHeader className="pb-2">
@@ -1091,11 +1031,9 @@ export function BrandbookForm() {
           stepNames={STEP_NAMES}
         />
       </CardHeader>
-      {/* Use div wrapper, handle submit via button onClick */}
       <div>
         <CardContent className="space-y-6 pt-4 min-h-[300px]">
           {' '}
-          {/* Added min-height */}
           {stepError && (
             <div className="bg-yellow-900/30 text-yellow-400 p-3 rounded-md border border-yellow-900/50">
               {stepError}
@@ -1105,8 +1043,6 @@ export function BrandbookForm() {
         </CardContent>
         <CardFooter className="flex justify-between gap-4 mt-6">
           {' '}
-          {/* Added margin-top */}
-          {/* Back Button */}
           <Button
             type="button"
             variant="outline"
@@ -1116,7 +1052,6 @@ export function BrandbookForm() {
           >
             <ArrowLeft className="w-4 h-4 mr-2" /> Back
           </Button>
-          {/* Next Button */}
           {currentStep < TOTAL_STEPS && (
             <Button
               type="button"
@@ -1127,7 +1062,6 @@ export function BrandbookForm() {
               Next <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           )}
-          {/* Submit Button */}
           {currentStep === TOTAL_STEPS && (
             <Button
               type="button"

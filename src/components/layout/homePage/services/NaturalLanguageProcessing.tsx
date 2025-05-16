@@ -27,7 +27,6 @@ const NaturalLanguageProcessing = () => {
 
 			<div className='relative w-full overflow-hidden px-4 lg:px-16 py-4 lg:py-8'>
 				<div className='flex flex-col lg:flex-row items-center justify-center gap-8'>
-					{/* <TranslationDemo /> */}
 					<ChatInterface />
 				</div>
 			</div>

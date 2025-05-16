@@ -22,7 +22,6 @@ interface BrandbookCardProps {
   onDelete: (id: string) => void;
 }
 
-// Define the common card style used in the dashboard
 const cardStyle = {
   background:
     'radial-gradient(79.58% 79.58% at 50% 20.42%, rgb(32, 32, 32) 0%, rgb(16, 16, 16) 100%)',

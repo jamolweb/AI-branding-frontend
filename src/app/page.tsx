@@ -1,15 +1,11 @@
 import ContactSection from '@/components/layout/homePage/ContactSection'
 import CoreFeaturesSection from '@/components/layout/homePage/CoreFeaturesSection'
 import FaqSection from '@/components/layout/homePage/FaqSection'
-// import FeaturesSection from '@/components/layout/homePage/FeaturesSection'
 import Footer from '@/components/layout/homePage/Footer'
 import HeroSection from '@/components/layout/homePage/HeroSection'
 import Navbar from '@/components/layout/homePage/Navbar'
 import OurServices from '@/components/layout/homePage/OurServices'
 import PlansSection from '@/components/layout/homePage/PlansSection'
-// import ProcessSection from '@/components/layout/homePage/ProcessSection'
-// import TestimonialWithStars from '@/components/layout/homePage/Testimonials'
-// import TrustedBySection from '@/components/layout/homePage/TrustedBySection'
 import WhyBrandllySection from '@/components/layout/homePage/WhyBrandllySection'
 
 const HomePage = () => {
@@ -32,13 +28,9 @@ const HomePage = () => {
 				<div className='container mx-auto px-4 max-w-6xl'>
 					<Navbar />
 					<HeroSection />
-					{/* <TrustedBySection /> */}
 					<WhyBrandllySection />
 					<CoreFeaturesSection />
-					{/* <FeaturesSection /> */}
 					<OurServices />
-					{/* <ProcessSection /> */}
-					{/* <TestimonialWithStars /> */}
 					<PlansSection />
 					<FaqSection />
 					<ContactSection />

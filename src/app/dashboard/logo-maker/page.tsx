@@ -1,11 +1,8 @@
 'use client'
 
 import { API_URL } from '@/env'
-import { authService } from '@/services/auth.service'
-import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 
-// Import components
 import StyleSelector from './components/StyleSelector'
 import DescriptionInput from './components/DescriptionInput'
 import CompanyInput from './components/CompanyInput'
@@ -13,7 +10,6 @@ import LogoResults from './components/LogoResults'
 import NavigationButtons from './components/NavigationButtons'
 import ImageModal from './components/ImageModal'
 
-// Import types
 import { Message } from './types'
 import { api } from '@/services/api'
 
@@ -196,7 +192,6 @@ export default function LogoMaker() {
 	}
 
 	const handleCreateNew = () => {
-		// Reset all state to initial values
 		setSelectedImage(null)
 		setMessages([])
 		setCurrentStep(1)
@@ -213,7 +208,6 @@ export default function LogoMaker() {
 	return (
 		<div
 			className="flex flex-col h-[calc(100vh-4rem)]"
-		// style={{ backgroundColor: 'rgb(12, 12, 18)' }}
 		>
 			<div className="flex flex-col h-full">
 				<div className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6 sm:space-y-8">

@@ -18,7 +18,6 @@ const ChatInterface = () => {
 			}}
 			className='lg:transform lg:rotate-5 lg:-translate-y-5'
 		>
-			{/* Header */}
 			<div className='flex items-center justify-between p-4 border-b border-gray-700'>
 				<div className='flex items-center gap-2'>
 					<svg
@@ -53,9 +52,7 @@ const ChatInterface = () => {
 				</button>
 			</div>
 
-			{/* Chat Messages */}
 			<div className='flex-1 p-4 overflow-y-auto space-y-4'>
-				{/* User's question about what they're working on */}
 				<div className='flex flex-col'>
 					<div className='bg-[#2d3748] text-white p-3 rounded-lg self-start max-w-[80%]'>
 						<p className='text-sm'>Tell me more about what you&apos;re working on.</p>
@@ -63,7 +60,6 @@ const ChatInterface = () => {
 					<span className='text-xs text-gray-500 mt-1'>May 8, 03:45 PM</span>
 				</div>
 
-				{/* User's message about fashion brand */}
 				<div className='flex flex-col items-end'>
 					<div className='bg-[#effc76] text-[#1e2330] p-3 rounded-lg self-end max-w-[80%]'>
 						<p className='text-sm'>I&apos;d like to get recommendation for my fashion brand</p>
@@ -71,7 +67,6 @@ const ChatInterface = () => {
 					<span className='text-xs text-gray-500 mt-1'>May 8, 03:46 PM</span>
 				</div>
 
-				{/* AI response with brand identity questions */}
 				<div className='flex flex-col'>
 					<div className='bg-[#2d3748] text-white p-3 rounded-lg self-start max-w-[80%]'>
 						<p className='text-sm mb-2'>That&apos;s great! To give you tailored recommendations, I&apos;d love to learn more about your fashion brand. Here are a few key questions to help guide the conversation:</p>
@@ -89,7 +84,6 @@ const ChatInterface = () => {
 				</div>
 			</div>
 
-			{/* Message Input */}
 			<div className='p-4 border-t border-gray-700'>
 				<div className='relative'>
 					<input

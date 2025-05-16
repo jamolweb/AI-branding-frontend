@@ -43,12 +43,10 @@ export const brandbookService = {
   async update(id: string, data: UpdateBrandbookRequest): Promise<Brandbook> {
     const formData = new FormData();
 
-    // Handle logo upload
     if (data.logo) {
       formData.append('logo', data.logo);
     }
 
-    // Append other form data
     Object.entries(data).forEach(([key, value]) => {
       if (value !== undefined && key !== 'logo') {
         formData.append(key, value.toString());

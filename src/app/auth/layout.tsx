@@ -9,14 +9,26 @@ export default function AuthLayout({
 	children: React.ReactNode
 }) {
 	useEffect(() => {
-		console.log(
-			'from layout of auth, isAuthenticated:',
-			authService.isAuthenticated()
-		)
-
-		if (authService.isAuthenticated()) {
-			// redirect('/dashboard')
+		if (window.location.search.includes('auth_success=true')) {
+			console.log('Auth layout detected Google callback');
+			authService.handleGoogleCallback();
+			window.location.href = '/dashboard';
+			return;
 		}
+
+		const checkAuth = setTimeout(() => {
+			authService.setAuthenticated(null);
+
+			const isAuthenticated = authService.isAuthenticated();
+			console.log('Auth layout - isAuthenticated:', isAuthenticated);
+
+			if (isAuthenticated) {
+				console.log('User is authenticated, redirecting to dashboard');
+				window.location.href = '/dashboard';
+			}
+		}, 500);
+
+		return () => clearTimeout(checkAuth);
 	}, [])
 
 	return (

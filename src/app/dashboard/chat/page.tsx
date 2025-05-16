@@ -225,7 +225,6 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)]">
-      {/* Chat header */}
       <div className="flex-none border-b border-gray-800 p-6">
         <div className="flex items-center justify-between max-w-4xl mx-auto">
           <div className="flex items-center gap-3">
@@ -250,7 +249,6 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Messages area */}
       <div className="flex-1 overflow-y-auto p-6">
         <div className="max-w-4xl mx-auto">
           {isHistoryView ? (
@@ -438,7 +436,6 @@ export default function ChatPage() {
                 <span className="absolute -top-1 -right-1 -left-1 -bottom-1 rounded-full bg-[rgb(239,252,118)] opacity-0 group-hover:opacity-25 scale-0 group-hover:scale-100 transition-all duration-300"></span>
               </button>
 
-              {/* Animated typing indicator */}
               {isLoading && (
                 <div className="absolute -top-7 left-4 text-xs text-gray-400 flex items-center gap-1 animate-fadeIn bg-gray-800 px-3 py-1.5 rounded-full shadow-md">
                   <span className="italic">AI is typing</span>
@@ -451,7 +448,6 @@ export default function ChatPage() {
               )}
             </div>
 
-            {/* Character hint */}
             <div className="mt-2 text-xs text-gray-500 text-right pr-2">
               <span>Press <kbd className="px-1.5 py-0.5 bg-gray-700 rounded text-gray-300 text-xs">Shift + Enter</kbd> for new line</span>
             </div>

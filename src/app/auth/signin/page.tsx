@@ -40,8 +40,6 @@ export default function LoginPage() {
 
     try {
       const response = await authService.login(formData);
-      // After successful login, just redirect to dashboard
-      // The middleware will handle the authentication check
       window.location.href = '/dashboard';
     } catch (error) {
       if (error instanceof AxiosError) {
