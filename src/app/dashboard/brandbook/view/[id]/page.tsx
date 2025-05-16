@@ -59,14 +59,12 @@ export default function ViewBrandbookPage() {
       setPdfBlobUrl(null);
 
       try {
-        const token = authService.getAccessToken();
-        if (!token) {
-          throw new Error('Authentication token not found.');
+        if (!authService.isAuthenticated()) {
+          throw new Error('User is not authenticated.');
         }
 
         const response = await fetch(brandbook.pdfUrl, {
-          headers: {
-          },
+          credentials: 'include',
         });
 
         if (!response.ok) {
