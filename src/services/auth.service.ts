@@ -1,221 +1,136 @@
 import { API_URL } from '@/env'
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 
-declare module 'axios' {
-	export interface InternalAxiosRequestConfig {
-		_retry?: boolean
-	}
-}
-
-export interface LoginCredentials {
+interface LoginCredentials {
 	email: string
 	password: string
 }
 
-export interface RegisterCredentials extends LoginCredentials {
+interface RegisterCredentials extends LoginCredentials {
 	name: string
 }
 
-export interface AuthTokens {
-	accessToken: string
-	refreshToken: string
+interface AuthResponse {
+	message: string
 }
 
-export interface UserProfile {
+interface UserProfile {
 	id: string
 	email: string
 	name: string
 	role: string
+	googleId: string | null
+	createdAt: string
+	updatedAt: string
 }
 
 class AuthService {
-	private storage = typeof window !== 'undefined' ? window.localStorage : null
-	private readonly ACCESS_TOKEN_KEY = 'access_token'
-	private readonly REFRESH_TOKEN_KEY = 'refresh_token'
-	private refreshPromise: Promise<AuthTokens> | null = null
+	constructor() {}
 
-	private api = axios.create({
-		baseURL: API_URL,
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-
-	constructor() {
-		this.api.interceptors.request.use(
-			config => {
-				const token = this.getAccessToken()
-				if (token) {
-					config.headers.Authorization = `Bearer ${token}`
-				}
-				return config
-			},
-			error => {
-				return Promise.reject(error)
-			}
-		)
-
-		this.api.interceptors.response.use(
-			response => response,
-			async (error: AxiosError) => {
-				const originalRequest = error.config
-				const status = error.response?.status
-
-				if (status === 401 && originalRequest && !originalRequest._retry) {
-					originalRequest._retry = true
-
-					try {
-						await this.refreshToken()
-
-						const newToken = this.getAccessToken()
-						if (newToken) {
-							originalRequest.headers.Authorization = `Bearer ${newToken}`
-							return axios(originalRequest)
-						}
-
-						this.logout()
-						throw new Error('No access token after refresh')
-					} catch (refreshError) {
-						if (refreshError instanceof AxiosError) {
-							const refreshStatus = refreshError.response?.status
-							if (refreshStatus === 401 || refreshStatus === 500) {
-								this.logout()
-							}
-						}
-						return Promise.reject(refreshError)
-					}
-				}
-
-				return Promise.reject(error)
-			}
-		)
-	}
-
-	async login(credentials: LoginCredentials): Promise<AuthTokens> {
+	async login(credentials: LoginCredentials): Promise<AuthResponse> {
 		try {
-			const response = await this.api.post<AuthTokens>(
-				'/auth/login',
-				credentials
+			const response = await axios.post<AuthResponse>(
+				`${API_URL}/auth/login`,
+				credentials,
+				{ withCredentials: true }
 			)
-			this.setTokens(response.data)
+			this.setAuthenticated(true)
 			return response.data
 		} catch (error) {
-			if (error instanceof AxiosError) {
-				if (error.response?.status === 500) {
-					throw new Error('Server error occurred. Please try again later.')
-				}
-			}
+			console.error('Login error:', error)
 			throw error
 		}
 	}
 
-	async register(credentials: RegisterCredentials): Promise<AuthTokens> {
+	async register(credentials: RegisterCredentials): Promise<AuthResponse> {
 		try {
-			const response = await this.api.post<AuthTokens>(
-				'/auth/register',
-				credentials
+			const response = await axios.post<AuthResponse>(
+				`${API_URL}/auth/register`,
+				credentials,
+				{ withCredentials: true }
 			)
-			this.setTokens(response.data)
+			this.setAuthenticated(true)
 			return response.data
 		} catch (error) {
-			if (error instanceof AxiosError) {
-				if (error.response?.status === 500) {
-					throw new Error('Server error occurred. Please try again later.')
-				}
-			}
+			console.error('Register error:', error)
 			throw error
 		}
 	}
 
-	async refreshToken(): Promise<AuthTokens> {
-		if (this.refreshPromise) {
-			return this.refreshPromise
+	async refreshToken(): Promise<AuthResponse> {
+		try {
+			const response = await axios.post<AuthResponse>(
+				`${API_URL}/auth/refresh`,
+				{},
+				{ withCredentials: true }
+			)
+			return response.data
+		} catch (error) {
+			console.error('Token refresh error:', error)
+			this.setAuthenticated(false)
+			throw error
 		}
-
-		const refreshToken = this.getRefreshToken()
-		if (!refreshToken) {
-			throw new Error('No refresh token available')
-		}
-
-		this.refreshPromise = (async () => {
-			try {
-				const response = await axios.post<AuthTokens>(
-					`${API_URL}/auth/refresh`,
-					{},
-					{
-						headers: {
-							Authorization: `Bearer ${refreshToken}`,
-							'Content-Type': 'application/json',
-						},
-					}
-				)
-
-				if (response.data.accessToken && response.data.refreshToken) {
-					this.setTokens(response.data)
-					return response.data
-				}
-				throw new Error('Invalid token response')
-			} catch (error) {
-				if (error instanceof AxiosError) {
-					const status = error.response?.status
-					if (status === 401 || status === 500) {
-						this.clearTokens()
-					}
-				}
-				throw error
-			} finally {
-				this.refreshPromise = null
-			}
-		})()
-
-		return this.refreshPromise
 	}
 
 	async getProfile(): Promise<UserProfile> {
 		try {
-			const response = await this.api.get<UserProfile>('/auth/profile')
+			const response = await axios.get<UserProfile>(`${API_URL}/auth/profile`, {
+				withCredentials: true,
+			})
+			this.setAuthenticated(true)
 			return response.data
 		} catch (error) {
-			if (error instanceof AxiosError && error.response?.status === 500) {
-				throw new Error('Server error occurred. Please try again later.')
+			console.error('Error getting profile:', error)
+			if (axios.isAxiosError(error) && error.response?.status === 401) {
+				// Try to refresh the token
+				try {
+					await this.refreshToken()
+					// Try the original request again
+					return await this.getProfile()
+				} catch (refreshError) {
+					// If refresh fails, redirect to login
+					this.setAuthenticated(false)
+					window.location.href = '/auth/signin'
+					throw error
+				}
 			}
 			throw error
 		}
 	}
 
-	initiateGoogleLogin(): void {
-		window.location.href = `${API_URL}/auth/google`
-	}
-
-	setTokens(tokens: AuthTokens): void {
-		if (this.storage && tokens.accessToken && tokens.refreshToken) {
-			this.storage.setItem(this.ACCESS_TOKEN_KEY, tokens.accessToken)
-			this.storage.setItem(this.REFRESH_TOKEN_KEY, tokens.refreshToken)
+	async logout() {
+		try {
+			await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true })
+			this.setAuthenticated(false)
+			// Redirect to login page
+			window.location.href = '/auth/signin'
+		} catch (error) {
+			console.error('Logout error:', error)
+			// Even if server-side logout fails, we'll redirect to login
+			this.setAuthenticated(false)
+			window.location.href = '/auth/signin'
 		}
 	}
 
-	getAccessToken(): string | null {
-		return this.storage ? this.storage.getItem(this.ACCESS_TOKEN_KEY) : null
-	}
-
-	getRefreshToken(): string | null {
-		return this.storage ? this.storage.getItem(this.REFRESH_TOKEN_KEY) : null
-	}
-
-	private clearTokens(): void {
-		if (this.storage) {
-			this.storage.removeItem(this.ACCESS_TOKEN_KEY)
-			this.storage.removeItem(this.REFRESH_TOKEN_KEY)
-		}
-	}
+	private authenticated: boolean | null = null
 
 	isAuthenticated(): boolean {
-		return !!this.getAccessToken()
+		// If we have a cached value, return it
+		if (this.authenticated !== null) {
+			return this.authenticated
+		}
+
+		// Default to false and let the API interceptor handle redirects if needed
+		return false
 	}
 
-	logout(): void {
-		this.clearTokens()
-		window.location.href = '/auth/signin'
+	// Call this method to explicitly set authentication state
+	setAuthenticated(value: boolean): void {
+		this.authenticated = value
+	}
+
+	initiateGoogleLogin(): void {
+		window.location.href = `${API_URL}/auth/google`
 	}
 }
 

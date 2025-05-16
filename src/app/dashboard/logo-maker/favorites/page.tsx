@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import LogoCard from '../components/LogoCard'
 import ImageModal from '../components/ImageModal'
+import { api } from '@/services/api'
 
 export default function FavoritesPage() {
 	const [favoriteLogos, setFavoriteLogos] = useState<FavoriteLogo[]>([])
@@ -18,12 +19,7 @@ export default function FavoritesPage() {
 
 	const fetchFavoriteLogos = async () => {
 		try {
-			const accessToken = authService.getAccessToken()
-			const response = await axios.get(`${API_URL}/logo/favorites`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
+			const response = await api.get(`${API_URL}/logo/favorites`)
 			setFavoriteLogos(response.data)
 		} catch (error) {
 			console.error('Error fetching favorite logos:', error)
@@ -32,10 +28,7 @@ export default function FavoritesPage() {
 
 	const removeFavorite = async (logoId: string) => {
 		try {
-			const accessToken = authService.getAccessToken()
-			await axios.delete(`${API_URL}/logo/favorites/${logoId}`, {
-				headers: { Authorization: `Bearer ${accessToken}` },
-			})
+			await api.delete(`${API_URL}/logo/favorites/${logoId}`)
 			// Remove from state
 			setFavoriteLogos(prev => prev.filter(item => item.logo.id !== logoId))
 		} catch (error) {
@@ -45,12 +38,7 @@ export default function FavoritesPage() {
 
 	const handleDelete = async (logoId: string) => {
 		try {
-			const accessToken = authService.getAccessToken()
-			await axios.delete(`${API_URL}/logo/${logoId}`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
+			await api.delete(`${API_URL}/logo/${logoId}`)
 			// Remove from state
 			setFavoriteLogos(prev => prev.filter(item => item.logo.id !== logoId))
 		} catch (error) {

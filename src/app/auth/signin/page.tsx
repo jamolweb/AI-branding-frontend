@@ -39,8 +39,10 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      await authService.login(formData);
-      router.push('/dashboard');
+      const response = await authService.login(formData);
+      // After successful login, just redirect to dashboard
+      // The middleware will handle the authentication check
+      window.location.href = '/dashboard';
     } catch (error) {
       if (error instanceof AxiosError) {
         setError(

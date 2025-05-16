@@ -1,6 +1,7 @@
 'use client'
 
 import { API_URL } from '@/env'
+import { api } from '@/services/api'
 import { authService } from '@/services/auth.service'
 import axios from 'axios'
 import { Bell, Lock, Moon, Palette, Sun, User } from 'lucide-react'
@@ -31,12 +32,7 @@ export default function SettingsPage() {
 
 	const fetchProfile = async () => {
 		try {
-			const accessToken = authService.getAccessToken()
-			const response = await axios.get(`${API_URL}/auth/profile`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
+			const response = await api.get(`${API_URL}/auth/profile`)
 			setProfile(response.data)
 		} catch (error) {
 			console.error('Error fetching profile:', error)
@@ -101,8 +97,8 @@ export default function SettingsPage() {
 											{key === 'push'
 												? 'Push Notifications'
 												: `${key.charAt(0).toUpperCase()}${key.slice(
-														1
-												  )} Notifications`}
+													1
+												)} Notifications`}
 										</h3>
 										<p className='text-sm text-[rgba(255,255,255,0.6)]'>
 											Receive notifications about{' '}
@@ -143,22 +139,20 @@ export default function SettingsPage() {
 							<div className='grid grid-cols-2 gap-4'>
 								<button
 									onClick={() => setTheme('light')}
-									className={`p-4 rounded-lg border ${
-										theme === 'light'
+									className={`p-4 rounded-lg border ${theme === 'light'
 											? 'border-[rgb(239,252,118)] bg-[rgba(239,252,118,0.1)]'
 											: 'border-[rgba(255,255,255,0.1)] hover:border-[rgba(239,252,118,0.5)]'
-									} flex items-center gap-3`}
+										} flex items-center gap-3`}
 								>
 									<Sun className='w-5 h-5 text-[rgba(255,255,255,0.8)]' />
 									<span className='text-[rgba(255,255,255,0.8)]'>Light</span>
 								</button>
 								<button
 									onClick={() => setTheme('dark')}
-									className={`p-4 rounded-lg border ${
-										theme === 'dark'
+									className={`p-4 rounded-lg border ${theme === 'dark'
 											? 'border-[rgb(239,252,118)] bg-[rgba(239,252,118,0.1)]'
 											: 'border-[rgba(255,255,255,0.1)] hover:border-[rgba(239,252,118,0.5)]'
-									} flex items-center gap-3`}
+										} flex items-center gap-3`}
 								>
 									<Moon className='w-5 h-5 text-[rgba(255,255,255,0.8)]' />
 									<span className='text-[rgba(255,255,255,0.8)]'>Dark</span>
@@ -247,11 +241,10 @@ export default function SettingsPage() {
 						<button
 							key={tab.id}
 							onClick={() => setActiveTab(tab.id)}
-							className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
-								activeTab === tab.id
+							className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${activeTab === tab.id
 									? 'bg-[rgb(239,252,118)] text-black'
 									: 'hover:bg-[rgba(255,255,255,0.1)] text-[rgba(255,255,255,0.8)]'
-							}`}
+								}`}
 						>
 							<tab.icon className='w-4 h-4' />
 							<span>{tab.label}</span>

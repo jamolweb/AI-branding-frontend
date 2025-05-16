@@ -1,6 +1,7 @@
 'use client'
 
 import { API_URL } from '@/env'
+import { api } from '@/services/api'
 import { authService } from '@/services/auth.service'
 import { Logo } from '@/types/logo'
 import axios from 'axios'
@@ -21,12 +22,7 @@ export default function LogoGallery() {
 
 	const fetchMyLogos = async () => {
 		try {
-			const accessToken = authService.getAccessToken()
-			const response = await axios.get(`${API_URL}/logo/my-logos`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
+			const response = await api.get(`${API_URL}/logo/my-logos`)
 			setMyLogos(response.data)
 		} catch (error) {
 			console.error('Error fetching my logos:', error)
@@ -35,12 +31,7 @@ export default function LogoGallery() {
 
 	const fetchFavoriteStatuses = async () => {
 		try {
-			const accessToken = authService.getAccessToken()
-			const response = await axios.get(`${API_URL}/logo/favorites`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
+			const response = await api.get(`${API_URL}/logo/favorites`)
 			const statusMap: Record<string, boolean> = {}
 			response.data.forEach((item: { logo: Logo }) => {
 				statusMap[item.logo.id] = true
@@ -53,16 +44,12 @@ export default function LogoGallery() {
 
 	const toggleFavorite = async (logoId: string) => {
 		try {
-			const accessToken = authService.getAccessToken()
 			if (favoriteStatus[logoId]) {
-				await axios.delete(`${API_URL}/logo/favorites/${logoId}`, {
-					headers: { Authorization: `Bearer ${accessToken}` },
-				})
+				await api.delete(`${API_URL}/logo/favorites/${logoId}`)
 			} else {
-				await axios.post(
+				await api.post(
 					`${API_URL}/logo/favorites`,
 					{ logoId },
-					{ headers: { Authorization: `Bearer ${accessToken}` } }
 				)
 			}
 
@@ -103,11 +90,10 @@ export default function LogoGallery() {
 						<div className='absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center'>
 							<button
 								onClick={() => toggleFavorite(logo.id)}
-								className={`p-2 rounded-full transition-colors ${
-									favoriteStatus[logo.id]
-										? 'bg-[rgb(239,252,118)] text-black'
-										: 'bg-white text-black hover:bg-[rgb(239,252,118)]'
-								}`}
+								className={`p-2 rounded-full transition-colors ${favoriteStatus[logo.id]
+									? 'bg-[rgb(239,252,118)] text-black'
+									: 'bg-white text-black hover:bg-[rgb(239,252,118)]'
+									}`}
 							>
 								<Heart
 									className='w-5 h-5'

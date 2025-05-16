@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import LogoCard from '../components/LogoCard'
 import ImageModal from '../components/ImageModal'
+import { api } from '@/services/api'
 
 export default function MyLogosPage() {
 	const [myLogos, setMyLogos] = useState<Logo[]>([])
@@ -22,12 +23,7 @@ export default function MyLogosPage() {
 
 	const fetchMyLogos = async () => {
 		try {
-			const accessToken = authService.getAccessToken()
-			const response = await axios.get(`${API_URL}/logo/my-logos`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
+			const response = await api.get(`${API_URL}/logo/my-logos`)
 			setMyLogos(response.data)
 		} catch (error) {
 			console.error('Error fetching my logos:', error)
@@ -36,12 +32,7 @@ export default function MyLogosPage() {
 
 	const fetchFavoriteStatuses = async () => {
 		try {
-			const accessToken = authService.getAccessToken()
-			const response = await axios.get(`${API_URL}/logo/favorites`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
+			const response = await api.get(`${API_URL}/logo/favorites`)
 			const statusMap: Record<string, boolean> = {}
 			response.data.forEach((item: { logo: Logo }) => {
 				statusMap[item.logo.id] = true
@@ -54,16 +45,12 @@ export default function MyLogosPage() {
 
 	const toggleFavorite = async (logoId: string) => {
 		try {
-			const accessToken = authService.getAccessToken()
 			if (favoriteStatus[logoId]) {
-				await axios.delete(`${API_URL}/logo/favorites/${logoId}`, {
-					headers: { Authorization: `Bearer ${accessToken}` },
-				})
+				await api.delete(`${API_URL}/logo/favorites/${logoId}`)
 			} else {
-				await axios.post(
+				await api.post(
 					`${API_URL}/logo/favorites`,
-					{ logoId },
-					{ headers: { Authorization: `Bearer ${accessToken}` } }
+					{ logoId }
 				)
 			}
 
@@ -96,12 +83,7 @@ export default function MyLogosPage() {
 
 	const handleDelete = async (logoId: string) => {
 		try {
-			const accessToken = authService.getAccessToken()
-			await axios.delete(`${API_URL}/logo/${logoId}`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
+			await api.delete(`${API_URL}/logo/${logoId}`)
 			// Remove from state
 			setMyLogos(prev => prev.filter(logo => logo.id !== logoId))
 		} catch (error) {

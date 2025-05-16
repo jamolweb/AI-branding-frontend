@@ -68,20 +68,13 @@ export default function LogoMaker() {
 
 		setMessages(prev => [...prev, userMessage])
 		setIsLoading(true)
-		const accessToken = authService.getAccessToken()
 
 		try {
-			const response = await axios.post(
+			const response = await api.post(
 				`${API_URL}/logo/generate`,
 				{
 					prompt: fullPrompt,
-					count: 3,
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${accessToken}`,
-					},
+					count: 6,
 				}
 			)
 
@@ -110,20 +103,13 @@ export default function LogoMaker() {
 
 	const handleRegenerate = async (prompt: string, jobId?: string) => {
 		setIsLoading(true)
-		const accessToken = authService.getAccessToken()
 		try {
-			const response = await axios.post(
+			const response = await api.post(
 				`${API_URL}/logo/generate`,
 				{
 					prompt,
 					count: 3,
 					jobId,
-				},
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: `Bearer ${accessToken}`,
-					},
 				}
 			)
 
@@ -176,12 +162,7 @@ export default function LogoMaker() {
 
 	const handleDelete = async (logoId: string) => {
 		try {
-			const accessToken = authService.getAccessToken()
-			await axios.delete(`${API_URL}/logo/${logoId}`, {
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			})
+			await api.delete(`${API_URL}/logo/${logoId}`)
 
 			setMessages(prevMessages => {
 				return prevMessages.map(msg => {

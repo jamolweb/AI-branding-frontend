@@ -1,9 +1,7 @@
 'use client'
 
 import { API_URL } from '@/env'
-import { authService } from '@/services/auth.service'
 import { FavoriteLogo, Logo } from '@/types/logo'
-import axios from 'axios'
 import {
 	CategoryScale,
 	Chart as ChartJS,
@@ -19,6 +17,7 @@ import { Box, Clock, Heart, ImageIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
 import LogoGallery from './components/LogoGallery'
+import { api } from '@/services/api'
 
 ChartJS.register(
 	CategoryScale,
@@ -111,14 +110,9 @@ export default function DashboardPage() {
 
 	const fetchLogoMetrics = async () => {
 		try {
-			const accessToken = authService.getAccessToken()
 			const [myLogosRes, favoritesRes] = await Promise.all([
-				axios.get(`${API_URL}/logo/my-logos`, {
-					headers: { Authorization: `Bearer ${accessToken}` },
-				}),
-				axios.get(`${API_URL}/logo/favorites`, {
-					headers: { Authorization: `Bearer ${accessToken}` },
-				}),
+				api.get(`${API_URL}/logo/my-logos`),
+				api.get(`${API_URL}/logo/favorites`),
 			])
 			setMyLogos(myLogosRes.data)
 			setFavoriteLogos(favoritesRes.data)
@@ -205,11 +199,10 @@ export default function DashboardPage() {
 										{service.latency}
 									</span>
 									<span
-										className={`px-2 py-1 text-xs rounded ${
-											service.status === 'Operational'
-												? 'bg-[rgba(239,252,118,0.1)] text-[rgb(239,252,118)]'
-												: 'bg-[rgba(255,189,89,0.1)] text-[rgb(255,189,89)]'
-										}`}
+										className={`px-2 py-1 text-xs rounded ${service.status === 'Operational'
+											? 'bg-[rgba(239,252,118,0.1)] text-[rgb(239,252,118)]'
+											: 'bg-[rgba(255,189,89,0.1)] text-[rgb(255,189,89)]'
+											}`}
 									>
 										{service.status}
 									</span>

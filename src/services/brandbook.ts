@@ -4,36 +4,20 @@ import {
   UpdateBrandbookRequest,
 } from '@/types/brandbook';
 import { api } from './api';
-import { authService } from './auth.service';
 
 export const brandbookService = {
   async list(): Promise<Brandbook[]> {
-    const accessToken = authService.getAccessToken();
-    const { data } = await api.get(`/brandbook`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const { data } = await api.get(`/brandbook`);
     return data;
   },
 
   async get(id: string): Promise<Brandbook> {
-    const accessToken = authService.getAccessToken();
-    const { data } = await api.get(`/brandbook/${id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const { data } = await api.get(`/brandbook/${id}`);
     return data;
   },
 
   async generateLogo(data: GenerateLogoRequest): Promise<{ logoUrl: string }> {
-    const accessToken = authService.getAccessToken();
-    const { data: responseData } = await api.post(`/generate-logo`, data, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const { data: responseData } = await api.post(`/generate-logo`, data);
     return responseData;
   },
 
@@ -57,7 +41,6 @@ export const brandbookService = {
   },
 
   async update(id: string, data: UpdateBrandbookRequest): Promise<Brandbook> {
-    const accessToken = authService.getAccessToken();
     const formData = new FormData();
 
     // Handle logo upload
@@ -78,7 +61,6 @@ export const brandbookService = {
       {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${accessToken}`,
         },
       },
     );
@@ -87,51 +69,24 @@ export const brandbookService = {
   },
 
   async delete(id: string): Promise<void> {
-    const accessToken = authService.getAccessToken();
-    await api.delete(`/brandbook/${id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    await api.delete(`/brandbook/${id}`);
   },
 
   async regenerate(id: string): Promise<Brandbook> {
-    const accessToken = authService.getAccessToken();
     const response = await api.post<Brandbook>(
       `/brandbook/${id}/regenerate`,
-      null,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
+      null
     );
     return response.data;
   },
 
   async getPdf(id: string): Promise<{ pdfUrl: string }> {
-    const accessToken = authService.getAccessToken();
-    const { data } = await api.get(`/brandbook/${id}/pdf`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const { data } = await api.get(`/brandbook/${id}/pdf`);
     return data;
   },
 
   async generateLogoWithAI(prompt: string): Promise<{ logoUrl: string }> {
-    const accessToken = authService.getAccessToken();
-
-    const { data } = await api.post(
-      '/brandbook/generate-logo',
-      { prompt },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
+    const { data } = await api.post('/brandbook/generate-logo', { prompt });
 
     return data;
   },

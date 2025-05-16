@@ -1,6 +1,7 @@
 'use client';
 
 import { API_URL } from '@/env';
+import { api } from '@/services/api';
 import { authService } from '@/services/auth.service';
 import axios from 'axios';
 import { MessageCircle, Plus, Send } from 'lucide-react';
@@ -49,13 +50,9 @@ export default function ChatPage() {
   }, [currentSessionId]);
 
   const fetchSessions = async () => {
-    const accessToken = authService.getAccessToken();
 
     try {
-      const response = await axios.get(`${API_URL}/chat/sessions`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+      const response = await api.get(`${API_URL}/chat/sessions`, {
       });
       setSessions(response.data);
     } catch (error) {
@@ -64,13 +61,8 @@ export default function ChatPage() {
   };
 
   const fetchChatHistory = async (sessionId: string) => {
-    const accessToken = authService.getAccessToken();
     try {
-      const response = await axios.get(`${API_URL}/chat/history/${sessionId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await api.get(`${API_URL}/chat/history/${sessionId}`);
       setMessages(response.data);
     } catch (error) {
       console.error('Error fetching chat history:', error);
@@ -94,26 +86,14 @@ export default function ChatPage() {
     setInputMessage('');
     setStreamingContent('');
 
-    const accessToken = authService.getAccessToken();
 
     try {
-      const response = await fetch(`${API_URL}/chat/send`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          sessionId: currentSessionId,
-          message: inputMessage,
-        }),
+      const response = await api.post(`${API_URL}/chat/send`, {
+        sessionId: currentSessionId,
+        message: inputMessage,
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
-
-      const reader = response.body?.getReader();
+      const reader = response.data.body?.getReader();
       if (!reader) throw new Error('No reader available');
 
       const decoder = new TextDecoder();
@@ -185,11 +165,7 @@ export default function ChatPage() {
       setStreamingContent('');
 
       if (!currentSessionId) {
-        const sessionResponse = await axios.get(`${API_URL}/chat/sessions`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const sessionResponse = await api.get(`${API_URL}/chat/sessions`);
         const newSession = sessionResponse.data[0];
         setCurrentSessionId(newSession.id);
       }
